@@ -32,7 +32,7 @@ namespace Miniclip.UI
             _gameManager = gameManager;
             _mainMenuController.Init(this);
             _tutorialController.Init(this);
-           //_highScoreController.Init(this);
+            _highScoreController.Init(this);
             _activePanel = _mainMenuController;
         }
         
