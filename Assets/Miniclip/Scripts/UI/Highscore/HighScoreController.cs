@@ -43,7 +43,7 @@ namespace Miniclip.UI.HighScore
             asd8.score = 100;
             
             AttemptData asd9 = new AttemptData();
-            asd9.name = "asd";
+            asd9.name = "as1212121d";
             asd9.score = 100;
 
             List<IPoolData> asds = new List<IPoolData>();
@@ -53,9 +53,12 @@ namespace Miniclip.UI.HighScore
             asds.Add(asd4);
             asds.Add(asd5);
             asds.Add(asd6);
-            asds.Add(asd7);
+            asds.Add(asd7);asds.Add(asd7);
             asds.Add(asd8);
-            asds.Add(asd9);
+            asds.Add(asd9);asds.Add(asd8);
+            asds.Add(asd9);asds.Add(asd8);
+            asds.Add(asd9);asds.Add(asd8);
+            asds.Add(asd9);asds.Add(asd9);asds.Add(asd9);asds.Add(asd9);asds.Add(asd7);asds.Add(asd7);asds.Add(asd7);asds.Add(asd7);
 
             _view.UpdateScrollView(asds);
         }
