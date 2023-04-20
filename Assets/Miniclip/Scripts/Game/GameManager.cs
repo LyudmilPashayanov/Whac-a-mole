@@ -25,6 +25,10 @@ namespace Miniclip.Game
             _gameData = _playfabManager.GameData;
             gameManagerLoaded?.Invoke();
         }
-        
+
+        public void StartGame()
+        {
+            _uiManager.SwitchPanel(Panel.MainMenu);
+        }
     }
 }

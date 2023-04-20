@@ -12,7 +12,7 @@ namespace Miniclip
         
         private PlayfabManager _playfabManager;
         private GameplayManager _gameplayManager;
-        
+        private GameManager _gameManager;
         private void Start()
         {
              _uiManager.ShowLoadingScreen(true);
@@ -23,16 +23,16 @@ namespace Miniclip
 
         private void InitPlayfab()
         {
-            _playfabManager.Init(OnPlayfabFinished, OnPlayfabError);
+            _playfabManager.Init(OnPlayfabInitiated, OnPlayfabError);
         }
             
-        private void OnPlayfabFinished()
+        private void OnPlayfabInitiated()
         {
-            GameManager gameManager = new GameManager(_playfabManager, _uiManager, _gameplayManager);
-            gameManager.Init(OnGameManagerInit);
+            _gameManager = new GameManager(_playfabManager, _uiManager, _gameplayManager);
+            _gameManager.Init(OnGameManagerInitiated);
         }
 
-        private void OnGameManagerInit()
+        private void OnGameManagerInitiated()
         {
             GameBooted();
         }
@@ -40,6 +40,7 @@ namespace Miniclip
         private void GameBooted()
         {
              _uiManager.ShowLoadingScreen(false);
+             _gameManager.StartGame();
         }
         
         private void OnPlayfabError()
