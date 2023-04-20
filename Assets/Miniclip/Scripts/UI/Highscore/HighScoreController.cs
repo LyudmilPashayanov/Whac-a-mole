@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using Miniclip.Pooler;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Miniclip.UI.HighScore
 {
-    public class HighScoreController : MonoBehaviour
+    public class HighScoreController : UIPanel
     {
         [SerializeField] public HighScoreView _view;
 

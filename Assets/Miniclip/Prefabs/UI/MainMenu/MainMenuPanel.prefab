@@ -759,6 +759,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NameInputField
       objectReference: {fileID: 0}
+    - target: {fileID: 8102981087603101367, guid: 816a0987877cf6741bf3adedf16accb7, type: 3}
+      propertyPath: m_text
+      value: 'Enter Player Name:'
+      objectReference: {fileID: 0}
     - target: {fileID: 8242128255224764572, guid: 816a0987877cf6741bf3adedf16accb7, type: 3}
       propertyPath: m_Pivot.x
       value: 1

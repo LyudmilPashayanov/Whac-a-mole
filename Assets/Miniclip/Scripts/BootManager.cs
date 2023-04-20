@@ -29,6 +29,7 @@ namespace Miniclip
         private void OnPlayfabInitiated()
         {
             _gameManager = new GameManager(_playfabManager, _uiManager, _gameplayManager);
+            _uiManager.Init(_gameManager);
             _gameManager.Init(OnGameManagerInitiated);
         }
 

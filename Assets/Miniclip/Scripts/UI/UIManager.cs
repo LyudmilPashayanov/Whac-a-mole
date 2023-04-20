@@ -1,6 +1,9 @@
 using System;
+using Miniclip.Game;
+using Miniclip.UI.HighScore;
 using Miniclip.UI.MainMenu;
 using Miniclip.UI.Tutorial;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -19,16 +22,21 @@ namespace Miniclip.UI
         [SerializeField] private RectTransform playfabErrorPanel;
         [SerializeField] private MainMenuController _mainMenuController;
         [SerializeField] private TutorialController _tutorialController;
-        private UIPanel _activePanel;
+        [SerializeField] private HighScoreController _highScoreController;
         
-        private void Awake()
+        private UIPanel _activePanel;
+        private GameManager _gameManager;
+        
+        public void Init(GameManager gameManager)
         {
+            _gameManager = gameManager;
             _mainMenuController.Init(this);
             _tutorialController.Init(this);
+           //_highScoreController.Init(this);
             _activePanel = _mainMenuController;
         }
-
-        public void SwitchPanel(Panel panel)
+        
+        public void SwitchPanel(Panel panel)  // TODO: Check if you can remove the checks for the activePanel as they are always NOT null.
         {
             switch (panel)
             {
