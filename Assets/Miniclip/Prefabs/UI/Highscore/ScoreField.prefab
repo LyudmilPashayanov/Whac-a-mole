@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8463467028439654151}
   - component: {fileID: 8463467028439654153}
+  - component: {fileID: 7322807853399100292}
   - component: {fileID: 8463467028439654152}
   m_Layer: 5
   m_Name: ScoreField
@@ -48,6 +49,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8463467028439654150}
   m_CullTransparentMesh: 1
+--- !u!114 &7322807853399100292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8463467028439654150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a4e48c03ddbd88498804a6865dce0f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: {fileID: 8463467028566170745}
+  _score: {fileID: 8463467029205257988}
+  RectTransform: {fileID: 8463467028439654151}
 --- !u!114 &8463467028439654152
 MonoBehaviour:
   m_ObjectHideFlags: 0
