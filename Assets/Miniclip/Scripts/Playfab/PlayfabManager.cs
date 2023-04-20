@@ -70,7 +70,7 @@ namespace Miniclip.Playfab
                         // Get data from title data and save it to memory
                         if (result.Data.ContainsKey("gameplay_rules"))
                         {
-                            GameData = PlayFabSimpleJson.DeserializeObject<GameData>(result.Data["myContacts"]);
+                            GameData = PlayFabSimpleJson.DeserializeObject<GameData>(result.Data["gameplay_rules"]);
                         }
 
                         GetPlayerData();
