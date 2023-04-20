@@ -1,4 +1,5 @@
 using System;
+using Miniclip.Entities;
 using Miniclip.Game.Gameplay;
 using Miniclip.Playfab;
 using Miniclip.UI;
@@ -11,6 +12,7 @@ namespace Miniclip.Game
         private UIManager _uiManager;
         private GameplayManager _gameplayManager;
         private GameData _gameData;
+        
         public GameManager(PlayfabManager playfabManager, UIManager uiManager, GameplayManager gameplayManager)
         {
             _playfabManager = playfabManager;

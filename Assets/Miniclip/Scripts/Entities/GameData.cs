@@ -1,17 +1,20 @@
-public struct GameData
+namespace Miniclip.Entities
 {
-    private int timer;
-    private int pointsPerHit;
-    private int comboX2;
-    private int comboX3;
-    private int extraHitPoints;
-
-    public GameData(int timer, int pointsPerHit, int comboX2, int comboX3, int extraHitPoints)
+    public struct GameData
     {
-        this.timer = timer;
-        this.pointsPerHit = pointsPerHit;
-        this.comboX2 = comboX2;
-        this.comboX3 = comboX3;
-        this.extraHitPoints = extraHitPoints;
+        public int Timer;
+        public int PointsPerHit;
+        public int ComboX2;
+        public int ComboX3;
+        public int ExtraHitPoints;
+
+        public GameData(int timer, int pointsPerHit, int comboX2, int comboX3, int extraHitPoints)
+        {
+            Timer = timer;
+            PointsPerHit = pointsPerHit;
+            ComboX2 = comboX2;
+            ComboX3 = comboX3;
+            ExtraHitPoints = extraHitPoints;
+        }
     }
 }

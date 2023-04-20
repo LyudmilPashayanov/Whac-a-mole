@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Miniclip.Entities;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
