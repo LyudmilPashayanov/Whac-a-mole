@@ -1,28 +1,26 @@
+using System;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
+using PlayFab.Json;
 
 namespace Miniclip.Playfab
 {
-    public class PlayfabManager : MonoBehaviour
+    public class PlayfabManager
     {
-        private static PlayfabManager _instance;
-
-        public static PlayfabManager Instance
-        {
-            get { return _instance; }
-        }
-
         private readonly string _titleId = "C9050";
         private string _playerPlayfabID = "";
+        
+        private Action _loadingFinished;
+        private Action _errorOccured; // TODO: make it an event?
 
-        void Awake()
-        {
-            _instance = this;
-        }
+        public GameData GameData;
 
-        private void Start()
+        public void Init(Action loadingFinished, Action errorOccured)
         {
+            _loadingFinished = loadingFinished;
+            _errorOccured = errorOccured;
+            GameData = new GameData();
             PlayFabSettings.TitleId = _titleId;
             Login();
         }
@@ -62,13 +60,18 @@ namespace Miniclip.Playfab
         /// </summary>
         private void GetTitleData()
         {
+            
             PlayFabClientAPI.GetTitleData(new GetTitleDataRequest(),
                 result =>
                 {
-                   
+
                     if (result.Data != null)
                     {
                         // Get data from title data and save it to memory
+                        if (result.Data.ContainsKey("gameplay_rules"))
+                        {
+                            GameData = PlayFabSimpleJson.DeserializeObject<GameData>(result.Data["myContacts"]);
+                        }
 
                         GetPlayerData();
                     }
@@ -86,31 +89,33 @@ namespace Miniclip.Playfab
                 PlayFabId = _playerPlayfabID
             }, result =>
             {
-              
+
                 // Get data from the player data and save it to memory
-                
+
                 DoneLoading();
-                
+
             }, OnPlayFabError);
         }
 
         /// <summary>
         /// Marks the game as loaded and starts it
         /// </summary>
-        public void DoneLoading()
+        private void DoneLoading()
         {
-          // Start the game.
+            Debug.Log("DoneLoading");
+            _loadingFinished?.Invoke(); 
         }
 
         /// <summary>
         /// Failed call or to the server, stops the app and prompts a restart. 
         /// </summary>
         /// <param name="error"></param>
-        public void OnPlayFabError(PlayFabError error)  //TODO: Better handling could be done here for example: retrying, saving locally, etc.
+        private void OnPlayFabError(PlayFabError error) //TODO: Better handling could be done here for example: retrying, saving locally, etc.
         {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-        Debug.Log("ON PLAYFAB ERROR:  " + error.ErrorMessage);
+            Debug.Log("ON PLAYFAB ERROR:  " + error.ErrorMessage);
 #endif
+            _errorOccured?.Invoke();
             // Set pop up message to the player that something is wrong. For example: UIManager.SetNoConnectionError();
         }
     }
