@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -20,7 +21,6 @@ namespace Miniclip.Playfab
         {
             _loadingFinished = loadingFinished;
             _errorOccured = errorOccured;
-            GameData = new GameData();
             PlayFabSettings.TitleId = _titleId;
             Login();
         }
@@ -60,17 +60,17 @@ namespace Miniclip.Playfab
         /// </summary>
         private void GetTitleData()
         {
-            
             PlayFabClientAPI.GetTitleData(new GetTitleDataRequest(),
                 result =>
                 {
-
                     if (result.Data != null)
                     {
                         // Get data from title data and save it to memory
                         if (result.Data.ContainsKey("gameplay_rules"))
                         {
-                            GameData = PlayFabSimpleJson.DeserializeObject<GameData>(result.Data["gameplay_rules"]);
+                            Dictionary<string,int> tempData = PlayFabSimpleJson.DeserializeObject<Dictionary<string,int>>(result.Data["gameplay_rules"]);
+                            GameData = new GameData(tempData["timer"], tempData["pointsPerHit"], tempData["comboX2"],
+                                tempData["comboX3"], tempData["extraHitPoints"]);
                         }
 
                         GetPlayerData();
