@@ -1,5 +1,6 @@
 using System;
 using Miniclip.Game;
+using Miniclip.UI.Gameplay;
 using Miniclip.UI.HighScore;
 using Miniclip.UI.MainMenu;
 using Miniclip.UI.Tutorial;
@@ -23,6 +24,7 @@ namespace Miniclip.UI
         [SerializeField] private MainMenuController _mainMenuController;
         [SerializeField] private TutorialController _tutorialController;
         [SerializeField] private HighScoreController _highScoreController;
+        [SerializeField] private GameplayController _gameplayController;
         
         private UIPanel _activePanel;
         private GameManager _gameManager;
@@ -33,6 +35,8 @@ namespace Miniclip.UI
             _mainMenuController.Init(this);
             _tutorialController.Init(this);
             _highScoreController.Init(this);
+            _gameplayController.Init(this);
+            
             _activePanel = _mainMenuController;
         }
         

@@ -41,7 +41,7 @@ namespace Miniclip
         private void GameBooted()
         {
              _uiManager.ShowLoadingScreen(false);
-             _gameManager.StartGame();
+             _gameManager.GameBooted();
         }
         
         private void OnPlayfabError()

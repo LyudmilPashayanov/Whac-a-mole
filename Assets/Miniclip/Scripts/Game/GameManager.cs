@@ -11,7 +11,7 @@ namespace Miniclip.Game
         private PlayfabManager _playfabManager;
         private UIManager _uiManager;
         private GameplayManager _gameplayManager;
-        private GameData _gameData;
+        private GameData _gameData; 
         
         public GameManager(PlayfabManager playfabManager, UIManager uiManager, GameplayManager gameplayManager)
         {
@@ -26,7 +26,7 @@ namespace Miniclip.Game
             gameManagerLoaded?.Invoke();
         }
 
-        public void StartGame()
+        public void GameBooted()
         {
             _uiManager.SwitchPanel(Panel.MainMenu);
         }
