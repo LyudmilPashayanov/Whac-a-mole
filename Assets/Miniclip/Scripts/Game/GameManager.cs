@@ -4,6 +4,7 @@ using Miniclip.Game.Gameplay;
 using Miniclip.Playfab;
 using Miniclip.UI;
 using UnityEngine;
+using UnityEngine.U2D;
 
 namespace Miniclip.Game
 {
@@ -11,6 +12,7 @@ namespace Miniclip.Game
     {
         [SerializeField] private UIManager _uiManager;
         [SerializeField] private MoleController _molePrefab;
+        [SerializeField] private SpriteAtlas _molesAtlas;
         
         private PlayfabManager _playfabManager;
         private GameplayManager _gameplayManager;
@@ -19,7 +21,7 @@ namespace Miniclip.Game
         public void Init(PlayfabManager playfabManager, Action gameManagerLoaded)
         {
             _playfabManager = playfabManager;
-            MoleFactory moleFactory = new MoleFactory(_molePrefab.gameObject);
+            MoleFactory moleFactory = new MoleFactory(_molePrefab.gameObject,_molesAtlas);
             _gameplayManager = new GameplayManager(_playfabManager.GameData, moleFactory);
             gameManagerLoaded?.Invoke();
         }

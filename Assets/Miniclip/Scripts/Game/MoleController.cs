@@ -9,15 +9,13 @@ namespace Miniclip.Game
         public MoleView _view;
 
         private int _requiredHits;
-        private MoleType _moleType;
-
         public Action OnMoleDie;
-        public void SetupMole(Mole mole, MoleType type)
+        
+        public void SetupMole(Mole mole, Sprite moleSprite)
         {
+            gameObject.SetActive(true);
             _requiredHits = mole.GetRequiredHitsToDie();
-            _moleType = type;
-            //Sprite spriteToSet = mole.GetSprite();
-            //_view.SetSprite(spriteToSet);
+            _view.SetSprite(moleSprite);
             _view.OnMoleClicked += OnHit;
         }
     
@@ -38,12 +36,8 @@ namespace Miniclip.Game
         public void ResetMole()
         {
             gameObject.SetActive(false);
+            OnMoleDie = null;
             // Reset all the fields so that they can be REUSED
-        }
-
-        public MoleType GetMoleType()
-        {
-            return _moleType;
         }
     }
 }

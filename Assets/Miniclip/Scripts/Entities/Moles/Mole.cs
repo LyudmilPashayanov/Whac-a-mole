@@ -9,7 +9,7 @@ namespace Miniclip.Entities.Moles
         protected int ComboModifier;
         protected string Sprite;
 
-        public string GetSprite()
+        public string GetSpriteName()
         {
             return Sprite;
         }

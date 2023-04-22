@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Miniclip.Entities.Moles;
 using UnityEngine;
+using UnityEngine.U2D;
 using Object = UnityEngine.Object;
 
 namespace Miniclip.Game
@@ -15,64 +16,59 @@ namespace Miniclip.Game
 
     public class MoleFactory
     {
-        private readonly Dictionary<MoleType, Type> _moleTypes = new Dictionary<MoleType, Type>()
+        private Queue<GameObject> _objectPool = new Queue<GameObject>();
+        private GameObject _molePrefab;
+        private SpriteAtlas _molesAtlas;
+        public MoleFactory(GameObject molePrefab,SpriteAtlas molesAtlas)
         {
-            { MoleType.Normal, typeof(NormalMole) },
-            { MoleType.Fortified, typeof(FortifiedMole) },
-            { MoleType.Bomb, typeof(BombMole) }
-        };
-
-        private Dictionary<MoleType, Queue<GameObject>> _objectPool = new Dictionary<MoleType, Queue<GameObject>>();
-        private readonly int _maxPoolSize = 8;
-
-        public MoleFactory(GameObject molePrefab)
+            _molePrefab = molePrefab;
+            _molesAtlas = molesAtlas;
+        }
+        
+        private Mole GetMoleData(MoleType moleType)
         {
-            foreach (MoleType moleType in Enum.GetValues(typeof(MoleType)))
+            switch (moleType)
             {
-                _objectPool[moleType] = new Queue<GameObject>();
-                for (int i = 0; i < _maxPoolSize; i++)
-                {
-                    GameObject newMole = CreateMole(moleType, molePrefab);
-                    newMole.SetActive(false);
-                    _objectPool[moleType].Enqueue(newMole);
-                }
+                case MoleType.Normal:
+                    return new NormalMole();
+                case MoleType.Fortified:
+                    return new FortifiedMole();
+                case MoleType.Bomb:
+                    return new BombMole();
+                default:
+                    throw new ArgumentException($"Invalid mole type: {moleType}");
             }
         }
 
         public GameObject GetMole(MoleType moleType)
         {
-            if (!_moleTypes.ContainsKey(moleType))
+            Mole mole = GetMoleData(moleType);
+            
+            if (_objectPool.Count == 0)
             {
-                throw new ArgumentException($"Invalid mole type: {moleType}");
+                CreateMole(mole);
             }
 
-            if (_objectPool[moleType].Count == 0)
-            {
-                return null; // pool is empty
-            }
-
-            GameObject mole = _objectPool[moleType].Dequeue();
-            mole.SetActive(true);
-            return mole;
+            GameObject moleGameObject = _objectPool.Dequeue();
+            MoleController moleController = moleGameObject.GetComponent<MoleController>();
+            Sprite moleSprite = _molesAtlas.GetSprite(mole.GetSpriteName());
+            moleController.SetupMole(mole, moleSprite);
+            
+            return moleGameObject;
         }
 
         public void ReturnMole(GameObject mole)
         {
             mole.SetActive(false);
-            MoleController moleController = mole.GetComponent<MoleController>();
-            moleController.ResetMole();
-            _objectPool[moleController.GetMoleType()].Enqueue(mole);
+            mole.transform.parent = null;
+            _objectPool.Enqueue(mole);
         }
 
-        private GameObject CreateMole(MoleType moleType, GameObject molePrefab)
+        private void CreateMole(Mole mole)
         {
-            Type type = _moleTypes[moleType];
-            Mole mole = Activator.CreateInstance(type) as Mole;
-            GameObject newMole = Object.Instantiate(molePrefab);
-            newMole.name = $"{moleType} Mole";
-            MoleController moleController = newMole.GetComponent<MoleController>();
-            moleController.SetupMole(mole, moleType);
-            return newMole;
+            GameObject newMole = Object.Instantiate(_molePrefab);
+            newMole.name = $"{mole.GetType().DeclaringType} Mole";
+            _objectPool.Enqueue(newMole);
         }
     }
 }
