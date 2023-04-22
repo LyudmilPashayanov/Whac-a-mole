@@ -4,9 +4,9 @@ namespace Miniclip.Entities.Moles
     {
         public BombMole()
         {
-            RequiredHitsToDie = 1;
-            ComboModifier = -1;
-            Sprite = "bombMole";
+            Bomb = true;
+            Helmet=false;
+            Sprite = "stupidMole";
         }
     }
 }

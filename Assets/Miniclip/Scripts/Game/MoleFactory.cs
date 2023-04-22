@@ -19,25 +19,11 @@ namespace Miniclip.Game
         private Queue<GameObject> _objectPool = new Queue<GameObject>();
         private GameObject _molePrefab;
         private SpriteAtlas _molesAtlas;
+        
         public MoleFactory(GameObject molePrefab,SpriteAtlas molesAtlas)
         {
             _molePrefab = molePrefab;
             _molesAtlas = molesAtlas;
-        }
-        
-        private Mole GetMoleData(MoleType moleType)
-        {
-            switch (moleType)
-            {
-                case MoleType.Normal:
-                    return new NormalMole();
-                case MoleType.Fortified:
-                    return new FortifiedMole();
-                case MoleType.Bomb:
-                    return new BombMole();
-                default:
-                    throw new ArgumentException($"Invalid mole type: {moleType}");
-            }
         }
 
         public GameObject GetMole(MoleType moleType)
@@ -56,7 +42,22 @@ namespace Miniclip.Game
             
             return moleGameObject;
         }
-
+        
+        private Mole GetMoleData(MoleType moleType)
+        {
+            switch (moleType)
+            {
+                case MoleType.Normal:
+                    return new NormalMole();
+                case MoleType.Fortified:
+                    return new FortifiedMole();
+                case MoleType.Bomb:
+                    return new BombMole();
+                default:
+                    throw new ArgumentException($"Invalid mole type: {moleType}");
+            }
+        }
+        
         public void ReturnMole(GameObject mole)
         {
             mole.SetActive(false);

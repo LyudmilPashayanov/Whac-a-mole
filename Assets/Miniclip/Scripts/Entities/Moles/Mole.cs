@@ -5,8 +5,8 @@ namespace Miniclip.Entities.Moles
 {
     public abstract class Mole : MonoBehaviour
     {
-        protected int RequiredHitsToDie;
-        protected int ComboModifier;
+        protected bool Helmet;
+        protected bool Bomb;
         protected string Sprite;
 
         public string GetSpriteName()
@@ -14,14 +14,14 @@ namespace Miniclip.Entities.Moles
             return Sprite;
         }
 
-        public int GetRequiredHitsToDie()
+        public bool HasHelment()
         {
-            return RequiredHitsToDie;
+            return Helmet;
         }
         
-        public int GetComboModifier()
+        public bool HasBomb()
         {
-            return ComboModifier;
+            return Bomb;
         }
     }
 }

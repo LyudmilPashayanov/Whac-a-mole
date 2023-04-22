@@ -4,8 +4,8 @@ namespace Miniclip.Entities.Moles
     {
         public NormalMole()
         {
-            RequiredHitsToDie = 1;
-            ComboModifier = 1;
+            Bomb = false;
+            Helmet = false;
             Sprite = "normalMole";
         }
     }

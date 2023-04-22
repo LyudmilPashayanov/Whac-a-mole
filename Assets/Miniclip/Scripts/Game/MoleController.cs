@@ -7,24 +7,32 @@ namespace Miniclip.Game
     public class MoleController : MonoBehaviour
     {
         public MoleView _view;
-
-        private int _requiredHits;
+        private bool _hasHelmet;
+        private bool _hasBomb;
         public Action OnMoleDie;
         
         public void SetupMole(Mole mole, Sprite moleSprite)
         {
             gameObject.SetActive(true);
-            _requiredHits = mole.GetRequiredHitsToDie();
+            _hasHelmet = mole.HasHelment();
+            _hasBomb = mole.HasBomb();
+            _view.EnableHelmet(_hasHelmet);
+            _view.EnableBomb(_hasBomb);
             _view.SetSprite(moleSprite);
             _view.OnMoleClicked += OnHit;
         }
-    
+
         private void OnHit()
         {
-            _requiredHits--;
-            if (_requiredHits == 0)
+            if (_hasHelmet)
             {
-                MoleDie();
+                _hasHelmet = false;
+                _view.EnableHelmet(_hasHelmet);
+                return;
+            }
+            if (_hasBomb)
+            {
+                OnMoleDie();
             }
         }
 
