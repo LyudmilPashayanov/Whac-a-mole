@@ -1,3 +1,4 @@
+using Miniclip.Game;
 using UnityEngine;
 
 namespace Miniclip.Entities.Moles

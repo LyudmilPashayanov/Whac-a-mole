@@ -3,27 +3,24 @@ using Miniclip.Entities;
 using Miniclip.Game.Gameplay;
 using Miniclip.Playfab;
 using Miniclip.UI;
+using UnityEngine;
 
 namespace Miniclip.Game
 {
-    public class GameManager
+    public class GameManager : MonoBehaviour
     {
-        private PlayfabManager _playfabManager;
-        private UIManager _uiManager;
-        private GameplayManager _gameplayManager;
-        private GameData _gameData; 
+        [SerializeField] private UIManager _uiManager;
+        [SerializeField] private MoleController _molePrefab;
         
-        public GameManager(PlayfabManager playfabManager, UIManager uiManager, GameplayManager gameplayManager)
+        private PlayfabManager _playfabManager;
+        private GameplayManager _gameplayManager;
+        private GameData _gameData;
+
+        public void Init(PlayfabManager playfabManager, Action gameManagerLoaded)
         {
             _playfabManager = playfabManager;
-            _uiManager = uiManager;
-            _gameplayManager = gameplayManager;
-        }
-
-        public void Init(Action gameManagerLoaded)
-        {
-            _gameData = _playfabManager.GameData; 
-            _gameplayManager.Init(_gameData);
+            MoleFactory moleFactory = new MoleFactory(_molePrefab.gameObject);
+            _gameplayManager = new GameplayManager(_playfabManager.GameData, moleFactory);
             gameManagerLoaded?.Invoke();
         }
 
@@ -39,7 +36,7 @@ namespace Miniclip.Game
 
         private void StartWhacAMole()
         {
-            _gameplayManager.GetRandomMole();
+            //_gameplayManager.GetRandomMole();
             _uiManager._gameplayController.StartTimerCountdown(_gameData.Timer,GameFinished);
         }
 

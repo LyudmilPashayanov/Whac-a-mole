@@ -11,13 +11,11 @@ namespace Miniclip
         [SerializeField] private UIManager _uiManager;
         
         private PlayfabManager _playfabManager;
-        private GameplayManager _gameplayManager;
         private GameManager _gameManager;
         private void Start()
         {
              _uiManager.ShowLoadingScreen(true);
             _playfabManager = new PlayfabManager();
-            _gameplayManager = new GameplayManager();
             InitPlayfab();
         }
 
@@ -28,9 +26,8 @@ namespace Miniclip
             
         private void OnPlayfabInitiated()
         {
-            _gameManager = new GameManager(_playfabManager, _uiManager, _gameplayManager);
             _uiManager.Init(_gameManager);
-            _gameManager.Init(OnGameManagerInitiated);
+            _gameManager.Init(_playfabManager, OnGameManagerInitiated);
         }
 
         private void OnGameManagerInitiated()
