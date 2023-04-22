@@ -15,7 +15,7 @@ namespace Miniclip.UI.MainMenu
         private void GoToTutorial()
         {
             AudioManager.Instance.PlayButtonClickSound();
-            //Owner.SwitchPanel(Panel.Tutorial);
+            Owner.SwitchPanel(Panel.Tutorial);
         }
         
         private void GoToGame()

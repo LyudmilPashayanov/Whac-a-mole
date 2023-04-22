@@ -20,14 +20,26 @@ SpriteAtlas:
       readable: 0
       crunchedCompression: 0
       sRGB: 1
-    platformSettings: []
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
     packingSettings:
       serializedVersion: 2
-      padding: 4
+      padding: 8
       blockOffset: 1
       allowAlphaSplitting: 0
       enableRotation: 1
-      enableTightPacking: 1
+      enableTightPacking: 0
       enableAlphaDilation: 0
     secondaryTextureSettings: {}
     variantMultiplier: 1
@@ -37,8 +49,16 @@ SpriteAtlas:
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 754c18106c2f16e4faccc051a3575dbd, type: 3}
+  - {fileID: 21300000, guid: 008677a0cc14f3e478a2a8b18a4d4254, type: 3}
+  - {fileID: 21300000, guid: 5704ddb174c6ca14fb1783d60aadb56b, type: 3}
+  - {fileID: 21300000, guid: 4912ced67bf58684b9a9f5b8b8faaa6e, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - normalMole
+  - pngaaa.com-3726405
+  - stupidMole
+  - pngimg.com - bomb_PNG26
   m_RenderDataMap: {}
   m_Tag: molesAtlas
   m_IsVariant: 0

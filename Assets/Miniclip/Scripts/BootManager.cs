@@ -9,9 +9,9 @@ namespace Miniclip
     public class BootManager : MonoBehaviour
     {
         [SerializeField] private UIManager _uiManager;
-        
+        [SerializeField] private GameManager _gameManager;
+
         private PlayfabManager _playfabManager;
-        private GameManager _gameManager;
         private void Start()
         {
              _uiManager.ShowLoadingScreen(true);
