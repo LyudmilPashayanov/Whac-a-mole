@@ -1,6 +1,9 @@
-using UnityEngine;
+using System.Collections.Generic;
 
-public class PlayerData : MonoBehaviour
+namespace Miniclip.Entities
 {
-
+    public class PlayerData
+    {
+        public List<AttemptData> PlayerAttempts = new List<AttemptData>();
+    }
 }

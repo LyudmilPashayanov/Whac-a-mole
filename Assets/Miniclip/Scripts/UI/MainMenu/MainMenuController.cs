@@ -1,3 +1,4 @@
+using Miniclip.Audio;
 using UnityEngine;
 
 namespace Miniclip.UI.MainMenu
@@ -13,11 +14,13 @@ namespace Miniclip.UI.MainMenu
 
         private void GoToTutorial()
         {
-            Owner.SwitchPanel(Panel.Tutorial);
+            AudioManager.Instance.PlayButtonClickSound();
+            //Owner.SwitchPanel(Panel.Tutorial);
         }
         
         private void GoToGame()
         {
+            AudioManager.Instance.PlayButtonClickSound();
             Owner.SwitchPanel(Panel.Gameplay);
         }
 

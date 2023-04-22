@@ -21,10 +21,10 @@ namespace Miniclip.UI
     public class UIManager : MonoBehaviour
     {
         [SerializeField] private RectTransform playfabErrorPanel;
-        [SerializeField] private MainMenuController _mainMenuController;
-        [SerializeField] private TutorialController _tutorialController;
-        [SerializeField] private HighScoreController _highScoreController;
-        [SerializeField] private GameplayController _gameplayController;
+        [SerializeField] public MainMenuController _mainMenuController;
+        [SerializeField] public TutorialController _tutorialController;
+        [SerializeField] public HighScoreController _highScoreController;
+        [SerializeField] public GameplayController _gameplayController;
         
         private UIPanel _activePanel;
         private GameManager _gameManager;
@@ -102,16 +102,18 @@ namespace Miniclip.UI
         
         private void ShowGameplay()
         {
-            //_gameplayController.ShowPanel();
+            _gameplayController.OnPresentComplete += _gameManager.PrepareWhacAMole;
+            _gameplayController.ShowPanel();
+            
             _activePanel.OnDismissComplete -= ShowGameplay;
-           // _activePanel = _gameplayController;
+            _activePanel = _gameplayController;
         }
         
         private void ShowHighScores()
         {
-            //_highScoreController.ShowPanel();
+            _highScoreController.ShowPanel();
             _activePanel.OnDismissComplete -= ShowHighScores;
-            //_activePanel = _highScoreController;
+            _activePanel = _highScoreController;
         }
         
         public void ShowLoadingScreen(bool enable)
