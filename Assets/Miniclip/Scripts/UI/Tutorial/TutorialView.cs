@@ -1,6 +1,7 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 namespace Miniclip.UI.Tutorial
 {
@@ -9,9 +10,16 @@ namespace Miniclip.UI.Tutorial
         [SerializeField] private RectTransform _normalMoleSprite;
         [SerializeField] private RectTransform _fortifiedMoleSprite;
         [SerializeField] private RectTransform _bombMoleSprite;
-        [SerializeField] private RadioButton _tutorialToggle;
+        [SerializeField] private Toggle _tutorialToggle;
+        [SerializeField] private Button _startButton;
         
         private Sequence _molesLoop;
+        
+        public void Subscribe(Action StartGameplay)
+        {
+            _startButton.onClick.AddListener(() => StartGameplay?.Invoke());
+        }
+        
         public void StartMolesAnimationLoop()
         {
             _molesLoop = DOTween.Sequence();
@@ -28,7 +36,7 @@ namespace Miniclip.UI.Tutorial
 
         public bool GetTutorialAgainCheck()
         {
-            return !_tutorialToggle.value;
+            return !_tutorialToggle.isOn;
         }
     }
 }

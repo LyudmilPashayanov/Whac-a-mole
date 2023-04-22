@@ -695,6 +695,8 @@ MonoBehaviour:
   _normalMoleSprite: {fileID: 5599919562217641151}
   _fortifiedMoleSprite: {fileID: 9052074279354808479}
   _bombMoleSprite: {fileID: 6966683597833219416}
+  _tutorialToggle: {fileID: 8696541193400054471}
+  _startButton: {fileID: 2115677645560554339}
 --- !u!1 &2115677645516768377
 GameObject:
   m_ObjectHideFlags: 0
