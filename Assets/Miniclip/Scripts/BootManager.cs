@@ -38,12 +38,12 @@ namespace Miniclip
         private void GameBooted()
         {
              _uiManager.ShowLoadingScreen(false);
-             _gameManager.GameBooted();
+             _uiManager.SwitchPanel(Panel.MainMenu);
         }
         
         private void OnPlayfabError()
         {
-            _uiManager.ShowPlayfabErrorMessage(true);
+            _uiManager.ShowPlayfabErrorMessage();
         }
     }
 }

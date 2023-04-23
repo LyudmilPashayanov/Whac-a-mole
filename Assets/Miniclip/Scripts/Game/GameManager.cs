@@ -8,6 +8,14 @@ using UnityEngine.U2D;
 
 namespace Miniclip.Game
 {
+    
+    /*
+    Instantiates the GameplayManager and UIManager
+    Handles game logic related to time, score, and game over conditions
+    Handles player input and updates the score accordingly    
+    Handles game over and high score management
+    Handles game restart
+    */
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private UIManager _uiManager;
@@ -25,20 +33,15 @@ namespace Miniclip.Game
             _gameplayManager = new GameplayManager(_playfabManager.GameData, moleFactory);
             gameManagerLoaded?.Invoke();
         }
-
-        public void GameBooted()
+         
+        public void StartWhacAMole()
         {
-            _uiManager.SwitchPanel(Panel.MainMenu);
-        }
-
-        public void PrepareWhacAMole()
-        {
-            _uiManager._gameplayController.ShowStartingTimer(3,StartWhacAMole);
-        }
-
-        private void StartWhacAMole()
-        {
+            _uiManager._gameplayController.ShowStartingTimer(OnStartAnimationFinished);
             //_gameplayManager.GetRandomMole();
+            void OnStartAnimationFinished()
+            {
+                
+            }
             _uiManager._gameplayController.StartTimerCountdown(_gameData.Timer,GameFinished);
         }
 
@@ -46,8 +49,11 @@ namespace Miniclip.Game
         {
             // save the results to playfab
             // update the current saved data
-            // reset and destroy everything that has to be destroyed
-            _uiManager.SwitchPanel(Panel.Highscores);
+            // reset and destroy everything that has to be destroyed 
+            _uiManager._gameplayController.StopGameplay(() =>
+            {
+                _uiManager.SwitchPanel(Panel.Highscores);
+            });
         }
     }
 }
