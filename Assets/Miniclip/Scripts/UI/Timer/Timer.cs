@@ -1,4 +1,5 @@
 using System;
+using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;
 
@@ -6,13 +7,13 @@ namespace Miniclip.UI.Timer
 {
     public class Timer : MonoBehaviour
     {
-       
         [SerializeField] private TMP_Text _timeText;
         
         private float _timer;
         private Action _timeFinished;
-        private bool _timerStopped;
+        private bool _timerStopped = true;
         private int _shownTime;
+        
         void Update()
         {
             if(_timerStopped)
@@ -22,7 +23,7 @@ namespace Miniclip.UI.Timer
 
             UpdateText();
             
-            if (_timer <= 0)
+            if (_shownTime == 0)
             {
                 TimesUp();
             }
@@ -30,8 +31,12 @@ namespace Miniclip.UI.Timer
         
         public void InitTimer(float time, Action timeFinished)
         {
+            Debug.Log("time: " + time);
             _timer = time;
             _timeFinished = timeFinished;
+            _timeText.text = ((int)time).ToString();
+            _timeText.gameObject.SetActive(true);
+
         }
         
         public void StartTimer()
@@ -57,10 +62,16 @@ namespace Miniclip.UI.Timer
 
         private void TimesUp()
         {
-            Debug.Log("Time's up!");
             StopTimer();
             _timeFinished?.Invoke();
             _timeFinished = null;
+        }
+
+        public void Reset()
+        {
+            _timeFinished = null;
+            _timerStopped = true;
+            _timeText.gameObject.SetActive(false);
         }
     }
 }

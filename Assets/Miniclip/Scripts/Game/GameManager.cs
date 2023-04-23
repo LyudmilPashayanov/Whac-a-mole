@@ -24,14 +24,13 @@ namespace Miniclip.Game
         
         private PlayfabManager _playfabManager;
         private GameplayManager _gameplayManager;
-        private GameData _gameData;
 
         public void Init(PlayfabManager playfabManager, Action gameManagerLoaded)
         {
             _playfabManager = playfabManager;
             MoleFactory moleFactory = new MoleFactory(_molePrefab.gameObject,_molesAtlas);
             _gameplayManager = new GameplayManager(_playfabManager.GameData, moleFactory);
-            _uiManager.GameplayController.Subscribe(OnUnpauseGame, OnGameLeft);
+            _uiManager.GameplayController.Subscribe(OnUnpauseGame, OnGameLeft,PauseGame);
             gameManagerLoaded?.Invoke();
         }
         
@@ -41,9 +40,9 @@ namespace Miniclip.Game
             //_gameplayManager.GetRandomMole();
             void OnStartAnimationFinished()
             {
-                
+                Debug.Log("'OnStartAnimationFinished");
+                _uiManager.GameplayController.StartTimerCountdown(_playfabManager.GameData.Timer,GameFinished);
             }
-            _uiManager.GameplayController.StartTimerCountdown(_gameData.Timer,GameFinished);
         }
 
         private void GameFinished()
@@ -53,13 +52,20 @@ namespace Miniclip.Game
             // reset and destroy everything that has to be destroyed 
             _uiManager.GameplayController.FinishGame(() =>
             {
-                _uiManager.SwitchPanel(Panel.Highscores);
+                _uiManager.SwitchPanel(Panel.HighScores);
             });
         }
 
+        private void PauseGame()
+        {
+            _uiManager.GameplayController.Pause();
+            _uiManager.GameplayController.StopTimerCountdown();
+        }
+        
         private void OnUnpauseGame()
         {
-            
+            _uiManager.GameplayController.HidePauseMenu();
+            _uiManager.GameplayController.ResumeTimerCountdown();
         }
 
         private void OnGameLeft()

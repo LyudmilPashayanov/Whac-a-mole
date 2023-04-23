@@ -9,7 +9,6 @@ namespace Miniclip.UI.Tutorial
 
         private void Start()
         {
-            _view.StartMolesAnimationLoop();
             _view.Subscribe(StartGameplay);
         }
 
@@ -22,6 +21,17 @@ namespace Miniclip.UI.Tutorial
         public bool GetTutorialAgain()
         {
             return _view.GetTutorialAgainCheck();
+        }
+
+        public override void ShowPanel(bool playAnimation = true)
+        {
+            base.ShowPanel(playAnimation);
+            _view.StartMolesAnimationLoop();
+        }
+        
+        protected override void OnViewLeft()
+        {
+            _view.Reset();
         }
     }
 }

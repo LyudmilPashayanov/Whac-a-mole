@@ -28,15 +28,22 @@ namespace Miniclip.UI.Tutorial
             _molesLoop.Append(_bombMoleSprite.DOScale(1.2f, 1f).SetLoops(4,LoopType.Yoyo));
             _molesLoop.SetLoops(-1);
         }
-
-        public void StopMolesAnimationLoop()
+        
+        public void Reset()
         {
-            _molesLoop.Kill();
+            StopMolesAnimationLoop();
         }
 
         public bool GetTutorialAgainCheck()
         {
             return !_tutorialToggle.isOn;
         }
+        
+        private void StopMolesAnimationLoop()
+        {
+            _molesLoop.Kill();
+        }
+
+  
     }
 }

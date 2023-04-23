@@ -31,6 +31,11 @@ namespace Miniclip.UI.MainMenu
             base.ShowPanel(playAnimation);
         }
 
+        protected override void OnViewLeft()
+        {
+            _view.Reset();
+        }
+
         public override void HidePanel(bool playAnimation = true)
         {
             _view.EnableTextInput(false);

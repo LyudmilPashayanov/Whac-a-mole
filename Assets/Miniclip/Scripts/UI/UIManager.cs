@@ -6,11 +6,8 @@ using Miniclip.UI.HighScore;
 using Miniclip.UI.MainMenu;
 using Miniclip.UI.Tutorial;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
-using Sequence = DG.Tweening.Sequence;
 
 namespace Miniclip.UI
 {
@@ -19,7 +16,7 @@ namespace Miniclip.UI
         MainMenu,
         Tutorial,
         Gameplay,
-        Highscores
+        HighScores
     }
     
     public class UIManager : MonoBehaviour
@@ -39,10 +36,10 @@ namespace Miniclip.UI
         public void Init(GameManager gameManager)
         {
             _gameManager = gameManager;
-            MainMenuController.Subsctribe(this);
-            TutorialController.Subsctribe(this);
-            HighScoreController.Subsctribe(this);
-            GameplayController.Subsctribe(this);
+            MainMenuController.Subscribe(this);
+            TutorialController.Subscribe(this);
+            HighScoreController.Subscribe(this);
+            GameplayController.Subscribe(this);
             
             _activePanel = MainMenuController;
         }
@@ -54,7 +51,7 @@ namespace Miniclip.UI
                 case Panel.MainMenu:
                     if (_activePanel != null)
                     {
-                        _activePanel.OnDismissComplete += ShowMainMenu;
+                        _activePanel.OnHideComplete += ShowMainMenu;
                         break;
                     }
                     ShowMainMenu();
@@ -62,7 +59,7 @@ namespace Miniclip.UI
                 case Panel.Tutorial:
                     if (_activePanel != null)
                     {
-                        _activePanel.OnDismissComplete += ShowTutorial; 
+                        _activePanel.OnHideComplete += ShowTutorial; 
                         break;
                     }
                     ShowTutorial();
@@ -70,15 +67,15 @@ namespace Miniclip.UI
                 case Panel.Gameplay:
                     if (_activePanel != null)
                     {
-                        _activePanel.OnDismissComplete += ShowGameplay;
+                        _activePanel.OnHideComplete += ShowGameplay;
                         break;
                     }
                     ShowGameplay();
                     break;
-                case Panel.Highscores:
+                case Panel.HighScores:
                     if (_activePanel != null)
                     {
-                        _activePanel.OnDismissComplete += ShowHighScores;
+                        _activePanel.OnHideComplete += ShowHighScores;
                         break;
                     }
                     ShowHighScores();
@@ -96,30 +93,30 @@ namespace Miniclip.UI
         private void ShowMainMenu()
         {
             MainMenuController.ShowPanel();
-            _activePanel.OnDismissComplete -= ShowMainMenu;
+            _activePanel.OnHideComplete -= ShowMainMenu;
             _activePanel = MainMenuController;
         }
         
         private void ShowTutorial()
         {
             TutorialController.ShowPanel();
-            _activePanel.OnDismissComplete -= ShowTutorial;
+            _activePanel.OnHideComplete -= ShowTutorial;
             _activePanel = TutorialController;
         }
         
         private void ShowGameplay()
         {
-            GameplayController.OnPresentComplete += _gameManager.StartWhacAMole;
+            GameplayController.OnShowComplete += _gameManager.StartWhacAMole;
             GameplayController.ShowPanel();
             
-            _activePanel.OnDismissComplete -= ShowGameplay;
+            _activePanel.OnHideComplete -= ShowGameplay;
             _activePanel = GameplayController;
         }
         
         private void ShowHighScores()
         {
             HighScoreController.ShowPanel();
-            _activePanel.OnDismissComplete -= ShowHighScores;
+            _activePanel.OnHideComplete -= ShowHighScores;
             _activePanel = HighScoreController;
         }
         
@@ -127,7 +124,7 @@ namespace Miniclip.UI
         {
             if (enable)
             {
-                _infoTabText.text = "Connecting to server .";
+                _infoTabText.text = "Connecting to server ...";
                 _loadingScreenTextSequence = DOTween.Sequence(); // using do tween timing as a Coroutine.
                 _loadingScreenTextSequence.Append(DOTween.To(value => value = 0, 0, 1, 2f).OnComplete(() =>
                 {

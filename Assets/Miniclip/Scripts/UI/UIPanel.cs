@@ -11,8 +11,8 @@ namespace Miniclip.UI
         [SerializeField] private CanvasGroup _canvasGroup;
         private Sequence _showAnimation;
         private Sequence _hideAnimation;
-        public event Action OnDismissComplete;
-        public event Action OnPresentComplete;
+        public event Action OnHideComplete;
+        public event Action OnShowComplete;
 
         protected void Awake()
         {
@@ -25,7 +25,7 @@ namespace Miniclip.UI
             _hideAnimation.Kill();
         }
         
-        public void Subsctribe(UIManager owner)
+        public void Subscribe(UIManager owner)
         {
             Owner = owner;
         }
@@ -84,14 +84,16 @@ namespace Miniclip.UI
 
         private void ShowCompleted()
         {
-            OnPresentComplete?.Invoke();
+            OnShowComplete?.Invoke();
         }
         
         private void HideCompleted()
         {
             gameObject.SetActive(false);
-
-            OnDismissComplete?.Invoke();
+            OnViewLeft();
+            OnHideComplete?.Invoke();
         }
+
+        protected abstract void OnViewLeft();
     }
 }

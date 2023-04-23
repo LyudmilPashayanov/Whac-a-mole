@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Miniclip.Pooler;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Miniclip.UI.HighScore
 {
@@ -62,6 +61,11 @@ namespace Miniclip.UI.HighScore
             asds.Add(asd9);asds.Add(asd9);asds.Add(asd9);asds.Add(asd9);asds.Add(asd7);asds.Add(asd7);asds.Add(asd7);asds.Add(asd7);
 
             _view.UpdateScrollView(asds);
+        }
+
+        protected override void OnViewLeft()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

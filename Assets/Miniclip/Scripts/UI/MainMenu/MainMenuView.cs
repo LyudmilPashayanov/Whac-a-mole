@@ -90,6 +90,11 @@ namespace Miniclip.UI.MainMenu
                 _titleAnim.Pause();
             }
         }
+
+        public void Reset()
+        {
+            _inputField.text = "";
+        }
     }
 }
     

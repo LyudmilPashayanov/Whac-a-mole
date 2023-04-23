@@ -9,15 +9,17 @@ namespace Miniclip.UI.Gameplay
         [SerializeField] private GameplayView _view;
         [SerializeField] private Timer.Timer _timer;
 
-        public void Subscribe(Action UnpauseGame, Action LeaveGame)
+        public void Subscribe(Action UnpauseGame, Action LeaveGame, Action PauseGame)
         {
             _view.Subscribe(() =>
             {
-                HidePauseMenu();
                 UnpauseGame?.Invoke();
             }, () =>
             {
                 LeaveGame?.Invoke();
+            }, () =>
+            {
+                PauseGame?.Invoke();
             });
         }
 
@@ -29,6 +31,17 @@ namespace Miniclip.UI.Gameplay
         public void StartTimerCountdown(int gameDataTimer, Action timerFinished)
         {
             _timer.InitTimer(gameDataTimer,timerFinished);
+            _timer.StartTimer();
+        }
+        
+        public void StopTimerCountdown()
+        {
+            _timer.StopTimer();
+        }
+        
+        public void ResumeTimerCountdown()
+        {
+            _timer.StartTimer();
         }
 
         public void Pause()
@@ -36,7 +49,7 @@ namespace Miniclip.UI.Gameplay
             _view.EnablePause(true);
         }
         
-        private void HidePauseMenu()
+        public void HidePauseMenu()
         {
             _view.EnablePause(false);
         }
@@ -47,6 +60,12 @@ namespace Miniclip.UI.Gameplay
             {
                 endTextAnimationFinish?.Invoke();
             });
+        }
+
+        protected override void OnViewLeft()
+        {
+            _view.Reset();
+            _timer.Reset();
         }
     }
 
