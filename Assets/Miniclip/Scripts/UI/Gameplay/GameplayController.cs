@@ -9,7 +9,7 @@ namespace Miniclip.UI.Gameplay
         [SerializeField] private GameplayView _view;
         [SerializeField] private Timer.Timer _timer;
 
-        public void Init(Action UnpauseGame, Action LeaveGame)
+        public void Subscribe(Action UnpauseGame, Action LeaveGame)
         {
             _view.Subscribe(() =>
             {
@@ -17,7 +17,7 @@ namespace Miniclip.UI.Gameplay
                 UnpauseGame?.Invoke();
             }, () =>
             {
-                LeaveGame();
+                LeaveGame?.Invoke();
             });
         }
 
@@ -41,7 +41,7 @@ namespace Miniclip.UI.Gameplay
             _view.EnablePause(false);
         }
 
-        public void StopGameplay(Action endTextAnimationFinish)
+        public void FinishGame(Action endTextAnimationFinish)
         {
             _view.EnableEndTextAnimation(()=>
             {

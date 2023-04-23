@@ -1689,7 +1689,7 @@ RectTransform:
   - {fileID: 1453732569}
   - {fileID: 1095338614}
   m_Father: {fileID: 1380767912}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3347,8 +3347,8 @@ RectTransform:
   m_Children:
   - {fileID: 503653036}
   - {fileID: 540436946}
-  - {fileID: 801382392}
   - {fileID: 2017278762}
+  - {fileID: 801382392}
   - {fileID: 427670442}
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -3372,10 +3372,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _infoTab: {fileID: 427670441}
   _infoTabText: {fileID: 1023604501}
-  _mainMenuController: {fileID: 4648295877447556329}
-  _tutorialController: {fileID: 540436948}
-  _highScoreController: {fileID: 930542341}
-  _gameplayController: {fileID: 801382394}
+  MainMenuController: {fileID: 4648295877447556329}
+  TutorialController: {fileID: 540436948}
+  HighScoreController: {fileID: 930542341}
+  GameplayController: {fileID: 801382394}
 --- !u!1 &1453732568
 GameObject:
   m_ObjectHideFlags: 0
@@ -4205,7 +4205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4872125358244249772, guid: 1ce5585237d7cfc40869548507815fbd, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4872125358244249772, guid: 1ce5585237d7cfc40869548507815fbd, type: 3}
       propertyPath: m_AnchorMax.x

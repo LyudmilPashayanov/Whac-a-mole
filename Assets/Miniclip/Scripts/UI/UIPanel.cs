@@ -25,7 +25,7 @@ namespace Miniclip.UI
             _hideAnimation.Kill();
         }
         
-        public void Init(UIManager owner)
+        public void Subsctribe(UIManager owner)
         {
             Owner = owner;
         }

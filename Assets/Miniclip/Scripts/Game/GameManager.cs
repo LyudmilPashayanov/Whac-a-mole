@@ -31,18 +31,19 @@ namespace Miniclip.Game
             _playfabManager = playfabManager;
             MoleFactory moleFactory = new MoleFactory(_molePrefab.gameObject,_molesAtlas);
             _gameplayManager = new GameplayManager(_playfabManager.GameData, moleFactory);
+            _uiManager.GameplayController.Subscribe(OnUnpauseGame, OnGameLeft);
             gameManagerLoaded?.Invoke();
         }
-         
+        
         public void StartWhacAMole()
         {
-            _uiManager._gameplayController.ShowStartingTimer(OnStartAnimationFinished);
+            _uiManager.GameplayController.ShowStartingTimer(OnStartAnimationFinished);
             //_gameplayManager.GetRandomMole();
             void OnStartAnimationFinished()
             {
                 
             }
-            _uiManager._gameplayController.StartTimerCountdown(_gameData.Timer,GameFinished);
+            _uiManager.GameplayController.StartTimerCountdown(_gameData.Timer,GameFinished);
         }
 
         private void GameFinished()
@@ -50,10 +51,21 @@ namespace Miniclip.Game
             // save the results to playfab
             // update the current saved data
             // reset and destroy everything that has to be destroyed 
-            _uiManager._gameplayController.StopGameplay(() =>
+            _uiManager.GameplayController.FinishGame(() =>
             {
                 _uiManager.SwitchPanel(Panel.Highscores);
             });
+        }
+
+        private void OnUnpauseGame()
+        {
+            
+        }
+
+        private void OnGameLeft()
+        {
+            //destroy and clean all spawned stuff
+            _uiManager.SwitchPanel(Panel.MainMenu);
         }
     }
 }

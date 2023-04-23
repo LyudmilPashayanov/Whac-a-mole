@@ -26,10 +26,11 @@ namespace Miniclip.UI
     {
         [SerializeField] private GameObject _infoTab;
         [SerializeField] private TMP_Text _infoTabText;
-        [SerializeField] public MainMenuController _mainMenuController;
-        [SerializeField] public TutorialController _tutorialController;
-        [SerializeField] public HighScoreController _highScoreController;
-        [SerializeField] public GameplayController _gameplayController;
+        
+        [SerializeField] public MainMenuController MainMenuController;
+        [SerializeField] public TutorialController TutorialController;
+        [SerializeField] public HighScoreController HighScoreController;
+        [SerializeField] public GameplayController GameplayController;
         
         private UIPanel _activePanel;
         private GameManager _gameManager;
@@ -38,12 +39,12 @@ namespace Miniclip.UI
         public void Init(GameManager gameManager)
         {
             _gameManager = gameManager;
-            _mainMenuController.Init(this);
-            _tutorialController.Init(this);
-            _highScoreController.Init(this);
-            _gameplayController.Init(this);
+            MainMenuController.Subsctribe(this);
+            TutorialController.Subsctribe(this);
+            HighScoreController.Subsctribe(this);
+            GameplayController.Subsctribe(this);
             
-            _activePanel = _mainMenuController;
+            _activePanel = MainMenuController;
         }
         
         public void SwitchPanel(Panel panel)  // TODO: Check if you can remove the checks for the activePanel as they are always NOT null.
@@ -94,38 +95,39 @@ namespace Miniclip.UI
 
         private void ShowMainMenu()
         {
-            _mainMenuController.ShowPanel();
+            MainMenuController.ShowPanel();
             _activePanel.OnDismissComplete -= ShowMainMenu;
-            _activePanel = _mainMenuController;
+            _activePanel = MainMenuController;
         }
         
         private void ShowTutorial()
         {
-            _tutorialController.ShowPanel();
+            TutorialController.ShowPanel();
             _activePanel.OnDismissComplete -= ShowTutorial;
-            _activePanel = _tutorialController;
+            _activePanel = TutorialController;
         }
         
         private void ShowGameplay()
         {
-            _gameplayController.OnPresentComplete += _gameManager.StartWhacAMole;
-            _gameplayController.ShowPanel();
+            GameplayController.OnPresentComplete += _gameManager.StartWhacAMole;
+            GameplayController.ShowPanel();
             
             _activePanel.OnDismissComplete -= ShowGameplay;
-            _activePanel = _gameplayController;
+            _activePanel = GameplayController;
         }
         
         private void ShowHighScores()
         {
-            _highScoreController.ShowPanel();
+            HighScoreController.ShowPanel();
             _activePanel.OnDismissComplete -= ShowHighScores;
-            _activePanel = _highScoreController;
+            _activePanel = HighScoreController;
         }
         
         public void ShowLoadingScreen(bool enable)
         {
             if (enable)
             {
+                _infoTabText.text = "Connecting to server .";
                 _loadingScreenTextSequence = DOTween.Sequence(); // using do tween timing as a Coroutine.
                 _loadingScreenTextSequence.Append(DOTween.To(value => value = 0, 0, 1, 2f).OnComplete(() =>
                 {
