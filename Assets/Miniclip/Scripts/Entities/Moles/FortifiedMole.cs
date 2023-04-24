@@ -1,3 +1,5 @@
+using Miniclip.Game;
+
 namespace Miniclip.Entities.Moles
 {
     public class FortifiedMole : Mole
@@ -8,6 +10,7 @@ namespace Miniclip.Entities.Moles
             Helmet = true;
             Sprite = "normalMole";
             Lives = 2;
+            MoleType = MoleType.Fortified;
         }
         
         public override void Hit()

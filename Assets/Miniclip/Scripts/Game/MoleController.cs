@@ -1,3 +1,4 @@
+using System;
 using Miniclip.Entities.Moles;
 using UnityEngine;
 
@@ -13,14 +14,29 @@ namespace Miniclip.Game
         {
             gameObject.SetActive(true);
             _mole = mole;
-            _mole.OnMoleDied += MoleDie;
-            _mole.OnMoleExploded += MoleExplode;
-            _mole.OnMoleHit += MoleHit;
+            SubscribeOnHitEvent(MoleHit);
+            SubscribeOnExplodeEvent(MoleExplode);
+            SubscribeOnDiedEvent(MoleDie);
             _view.SetSprite(moleSprite);
             UpdateMoleAppearance();
             _view.OnMoleClicked += _mole.Hit;
         }
 
+        public void SubscribeOnHitEvent(Action moleHit)
+        {
+            _mole.OnMoleHit += moleHit;
+        }
+        
+        public void SubscribeOnDiedEvent(Action<MoleType> moleDied)
+        {
+            _mole.OnMoleDied += moleDied;
+        }
+        
+        public void SubscribeOnExplodeEvent(Action moleExploded)
+        {
+            _mole.OnMoleExploded += moleExploded;
+        }
+        
         private void UpdateMoleAppearance()
         {
             _view.EnableHelmet(_mole.HasHelmet());
@@ -32,7 +48,7 @@ namespace Miniclip.Game
             UpdateMoleAppearance();
         }
         
-        private void MoleDie()
+        private void MoleDie(MoleType _)
         {
             if (_moleExploding)
             {

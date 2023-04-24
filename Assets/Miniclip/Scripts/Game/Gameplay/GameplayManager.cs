@@ -8,12 +8,9 @@ namespace Miniclip.Game.Gameplay
         private readonly MoleFactory _factory;
         private readonly Random _random;
 
-        private GameData _gameData;
-
-        public GameplayManager(GameData gameData, MoleFactory moleFactory)
+        public GameplayManager(MoleFactory moleFactory)
         {
             _factory = moleFactory;
-            _gameData = gameData;
             _random = new Random();
         }
         

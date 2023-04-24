@@ -6,15 +6,15 @@ namespace Miniclip.Entities
         public int PointsPerHit;
         public int ComboX2;
         public int ComboX3;
-        public int ExtraHitPoints;
+        public int ConsecutiveHitsRequired;
 
-        public GameData(int timer, int pointsPerHit, int comboX2, int comboX3, int extraHitPoints)
+        public GameData(int timer, int pointsPerHit, int comboX2, int comboX3, int consecutiveHitsRequired)
         {
             Timer = timer;
             PointsPerHit = pointsPerHit;
             ComboX2 = comboX2;
             ComboX3 = comboX3;
-            ExtraHitPoints = extraHitPoints;
+            ConsecutiveHitsRequired = consecutiveHitsRequired;
         }
     }
 }

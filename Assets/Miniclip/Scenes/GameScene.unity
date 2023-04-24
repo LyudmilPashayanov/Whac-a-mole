@@ -1722,6 +1722,8 @@ MonoBehaviour:
   - {fileID: 1806829529}
   - {fileID: 1845094233}
   - {fileID: 1259250387}
+  _scoreText: {fileID: 776548724}
+  _comboText: {fileID: 805978369}
 --- !u!114 &801382394
 MonoBehaviour:
   m_ObjectHideFlags: 0

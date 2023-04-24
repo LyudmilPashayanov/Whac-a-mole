@@ -1,4 +1,5 @@
 using System;
+using Miniclip.Game;
 using UnityEngine;
 
 namespace Miniclip.Entities.Moles
@@ -9,9 +10,9 @@ namespace Miniclip.Entities.Moles
         protected bool Bomb;
         protected string Sprite;
         protected int Lives;
-
+        protected MoleType MoleType;
         public event Action OnMoleHit;
-        public event Action OnMoleDied;
+        public event Action<MoleType> OnMoleDied;
         public event Action OnMoleExploded;
         
         public string GetSpriteName()
@@ -41,7 +42,7 @@ namespace Miniclip.Entities.Moles
         
         protected virtual void Die()
         {
-            OnMoleDied?.Invoke();
+            OnMoleDied?.Invoke(MoleType);
         }
         
         protected void BreakHelmet()

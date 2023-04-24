@@ -1,3 +1,5 @@
+using Miniclip.Game;
+
 namespace Miniclip.Entities.Moles
 {
     public class BombMole : Mole
@@ -8,6 +10,7 @@ namespace Miniclip.Entities.Moles
             Helmet = false;
             Sprite = "stupidMole";
             Lives = 1;
+            MoleType = MoleType.Bomb;
         }
 
         protected override void Die()

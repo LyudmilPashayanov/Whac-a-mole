@@ -1,4 +1,5 @@
 using System;
+using Miniclip.Game;
 using UnityEditor;
 using UnityEngine;
 
@@ -66,6 +67,12 @@ namespace Miniclip.UI.Gameplay
         {
             _view.Reset();
             _timer.Reset();
+        }
+
+        public void UpdateScore(ScoreData scoreData)
+        {
+            _view.UpdateScoreText(scoreData.Hits);
+            _view.UpdateComboText(scoreData.Combo);
         }
     }
 

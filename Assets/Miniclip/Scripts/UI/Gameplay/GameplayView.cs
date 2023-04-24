@@ -17,7 +17,9 @@ namespace Miniclip.UI.Gameplay
       [SerializeField] private Button _pauseTabMainMenuButton;
       [SerializeField] private TMP_Text _centeredText;
       [SerializeField] private RectTransform[] _spawnPoints;
-      
+      [SerializeField] private TMP_Text _scoreText;
+      [SerializeField] private TMP_Text _comboText;
+
       private Sequence _centeredTextSequence;
       
       public void Subscribe(Action continueGameplay, Action goToMainMenu, Action pauseGame)
@@ -104,6 +106,16 @@ namespace Miniclip.UI.Gameplay
          _centeredTextSequence.Kill();
          _centeredTextField.gameObject.SetActive(false);
          _centeredText.text = "";
+      }
+
+      public void UpdateComboText(int combo)
+      {
+         _comboText.text = combo.ToString();
+      }
+
+      public void UpdateScoreText(int score)
+      {
+         _scoreText.text = score.ToString();
       }
    }
 }

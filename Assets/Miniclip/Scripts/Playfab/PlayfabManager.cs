@@ -71,7 +71,7 @@ namespace Miniclip.Playfab
                         {
                             Dictionary<string,int> tempData = PlayFabSimpleJson.DeserializeObject<Dictionary<string,int>>(result.Data["gameplay_rules"]);
                             GameData = new GameData(tempData["timer"], tempData["pointsPerHit"], tempData["comboX2"],
-                                tempData["comboX3"], tempData["extraHitPoints"]);
+                                tempData["comboX3"], tempData["consecutiveHitsRequired"]);
                         }
 
                         GetPlayerData();

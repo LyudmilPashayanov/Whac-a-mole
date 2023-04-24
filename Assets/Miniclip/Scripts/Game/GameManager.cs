@@ -1,5 +1,4 @@
 using System;
-using Miniclip.Entities.Moles;
 using Miniclip.Game.Gameplay;
 using Miniclip.Playfab;
 using Miniclip.UI;
@@ -24,12 +23,14 @@ namespace Miniclip.Game
         
         private PlayfabManager _playfabManager;
         private GameplayManager _gameplayManager;
+        private ScoringManager _scoringManager;
 
         public void Init(PlayfabManager playfabManager, Action gameManagerLoaded)
         {
             _playfabManager = playfabManager;
             MoleFactory moleFactory = new MoleFactory(_molePrefab.gameObject,_molesAtlas);
-            _gameplayManager = new GameplayManager(_playfabManager.GameData, moleFactory);
+            _gameplayManager = new GameplayManager(moleFactory);
+            _scoringManager = new ScoringManager(playfabManager.GameData, UpdateScores);
             _uiManager.GameplayController.Subscribe(OnUnpauseGame, OnGameLeft, PauseGame);
             gameManagerLoaded?.Invoke();
         }
@@ -39,16 +40,28 @@ namespace Miniclip.Game
             _uiManager.GameplayController.ShowStartingTimer(OnStartAnimationFinished);
             void OnStartAnimationFinished()
             {
-                MoleController spawnedMole = _gameplayManager.GetRandomMole();
                 _uiManager.GameplayController.StartTimerCountdown(_playfabManager.GameData.Timer,GameFinished);
+                StartSpawning();
             }
+        }
+
+        private void UpdateScores(ScoreData scoreData)
+        {
+            _uiManager.GameplayController.UpdateScore(scoreData);
+        }
+        
+        private void StartSpawning()
+        {
+            MoleController spawnedMole = _gameplayManager.GetRandomMole(); // TODO: Specify what type of randoms do you want
+            // Position the Mole correctly and make it start appearing
+            spawnedMole.SubscribeOnDiedEvent(_scoringManager.CalculateScoring);
         }
 
         private void GameFinished()
         {
             // save the results to playfab
             // update the current saved data
-            // reset and destroy everything that has to be destroyed 
+            // reset and destroy everything that has to be created
             _uiManager.GameplayController.FinishGame(() =>
             {
                 _uiManager.SwitchPanel(Panel.HighScores);

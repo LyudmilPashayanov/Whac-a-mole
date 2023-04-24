@@ -1,3 +1,5 @@
+using Miniclip.Game;
+
 namespace Miniclip.Entities.Moles
 {
     public class NormalMole : Mole
@@ -8,6 +10,7 @@ namespace Miniclip.Entities.Moles
             Helmet = false;
             Sprite = "normalMole";
             Lives = 1;
+            MoleType = MoleType.Normal;
         }
     }
 }
