@@ -16,7 +16,7 @@ namespace Miniclip.Game
 
     public class MoleFactory
     {
-        private Queue<GameObject> _objectPool = new Queue<GameObject>();
+        private Queue<MoleController> _objectPool = new Queue<MoleController>();
         private GameObject _molePrefab;
         private SpriteAtlas _molesAtlas;
         
@@ -26,7 +26,7 @@ namespace Miniclip.Game
             _molesAtlas = molesAtlas;
         }
 
-        public GameObject GetMole(MoleType moleType)
+        public MoleController GetMole(MoleType moleType)
         {
             Mole mole = GetMoleData(moleType);
             
@@ -35,12 +35,18 @@ namespace Miniclip.Game
                 CreateMole(mole);
             }
 
-            GameObject moleGameObject = _objectPool.Dequeue();
-            MoleController moleController = moleGameObject.GetComponent<MoleController>();
+            MoleController moleController =  _objectPool.Dequeue();
             Sprite moleSprite = _molesAtlas.GetSprite(mole.GetSpriteName());
             moleController.SetupMole(mole, moleSprite);
             
-            return moleGameObject;
+            return moleController;
+        }
+        
+        public void ReturnMole(MoleController mole)
+        {
+            mole.gameObject.SetActive(false);
+            mole.transform.parent = null;
+            _objectPool.Enqueue(mole);
         }
         
         private Mole GetMoleData(MoleType moleType)
@@ -57,19 +63,12 @@ namespace Miniclip.Game
                     throw new ArgumentException($"Invalid mole type: {moleType}");
             }
         }
-        
-        public void ReturnMole(GameObject mole)
-        {
-            mole.SetActive(false);
-            mole.transform.parent = null;
-            _objectPool.Enqueue(mole);
-        }
 
         private void CreateMole(Mole mole)
         {
             GameObject newMole = Object.Instantiate(_molePrefab);
             newMole.name = $"{mole.GetType().DeclaringType} Mole";
-            _objectPool.Enqueue(newMole);
+            _objectPool.Enqueue(newMole.GetComponent<MoleController>());
         }
     }
 }

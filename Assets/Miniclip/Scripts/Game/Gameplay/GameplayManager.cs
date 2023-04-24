@@ -5,24 +5,23 @@ namespace Miniclip.Game.Gameplay
 {
     public class GameplayManager
     {
-        private MoleFactory _factory;
+        private readonly MoleFactory _factory;
+        private readonly Random _random;
+
         private GameData _gameData;
-        private Random _random;
 
         public GameplayManager(GameData gameData, MoleFactory moleFactory)
         {
             _factory = moleFactory;
             _gameData = gameData;
-            _random = new Random(); 
+            _random = new Random();
         }
-
-        /*
-        public Mole GetRandomMole()
+        
+        public MoleController GetRandomMole()
         {
-            int randomIndex = _random.Next(3);
+            int randomIndex = _random.Next(Enum.GetNames(typeof(MoleType)).Length);
             MoleType randomMole = (MoleType)randomIndex;
-            
-           // return _factory.CreateMole(randomMole);
-        }*/
+            return _factory.GetMole(randomMole);
+        }
     }
 }

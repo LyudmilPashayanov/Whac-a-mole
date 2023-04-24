@@ -7,6 +7,7 @@ namespace Miniclip.Entities.Moles
             Bomb = false;
             Helmet = false;
             Sprite = "normalMole";
+            Lives = 1;
         }
     }
 }

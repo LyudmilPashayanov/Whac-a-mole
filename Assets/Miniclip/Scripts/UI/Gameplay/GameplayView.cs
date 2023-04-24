@@ -8,7 +8,7 @@ namespace Miniclip.UI.Gameplay
 {
    public class GameplayView : MonoBehaviour
    {
-      private const string END_TEXT = "Time's up!";
+      private const string END_TEXT = "Time's up!"; // Could later on be a key to a localized text.
 
       [SerializeField] private RectTransform _centeredTextField;
       [SerializeField] private GameObject _pauseTab;
@@ -16,6 +16,8 @@ namespace Miniclip.UI.Gameplay
       [SerializeField] private Button _pauseTabContinueButton;
       [SerializeField] private Button _pauseTabMainMenuButton;
       [SerializeField] private TMP_Text _centeredText;
+      [SerializeField] private RectTransform[] _spawnPoints;
+      
       private Sequence _centeredTextSequence;
       
       public void Subscribe(Action continueGameplay, Action goToMainMenu, Action pauseGame)
@@ -23,8 +25,13 @@ namespace Miniclip.UI.Gameplay
          _pauseTabMainMenuButton.onClick.AddListener(()=>goToMainMenu?.Invoke());
          _pauseTabContinueButton.onClick.AddListener(()=>continueGameplay?.Invoke());
          _pauseButton.onClick.AddListener(()=>pauseGame?.Invoke());
-      }  
+      }
 
+      public RectTransform GetSpawnPoint(int index)
+      {
+         return _spawnPoints[index];
+      }
+      
       public void EnableEndTextAnimation(Action animationCompleted)
       { 
          _pauseButton.gameObject.SetActive(false);

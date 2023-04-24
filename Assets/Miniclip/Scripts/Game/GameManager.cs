@@ -1,5 +1,5 @@
 using System;
-using Miniclip.Entities;
+using Miniclip.Entities.Moles;
 using Miniclip.Game.Gameplay;
 using Miniclip.Playfab;
 using Miniclip.UI;
@@ -30,17 +30,16 @@ namespace Miniclip.Game
             _playfabManager = playfabManager;
             MoleFactory moleFactory = new MoleFactory(_molePrefab.gameObject,_molesAtlas);
             _gameplayManager = new GameplayManager(_playfabManager.GameData, moleFactory);
-            _uiManager.GameplayController.Subscribe(OnUnpauseGame, OnGameLeft,PauseGame);
+            _uiManager.GameplayController.Subscribe(OnUnpauseGame, OnGameLeft, PauseGame);
             gameManagerLoaded?.Invoke();
         }
         
         public void StartWhacAMole()
         {
             _uiManager.GameplayController.ShowStartingTimer(OnStartAnimationFinished);
-            //_gameplayManager.GetRandomMole();
             void OnStartAnimationFinished()
             {
-                Debug.Log("'OnStartAnimationFinished");
+                MoleController spawnedMole = _gameplayManager.GetRandomMole();
                 _uiManager.GameplayController.StartTimerCountdown(_playfabManager.GameData.Timer,GameFinished);
             }
         }

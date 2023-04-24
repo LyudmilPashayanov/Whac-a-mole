@@ -1,4 +1,3 @@
-using System;
 using Miniclip.Entities.Moles;
 using UnityEngine;
 
@@ -6,45 +5,54 @@ namespace Miniclip.Game
 {
     public class MoleController : MonoBehaviour
     {
-        public MoleView _view;
-        private bool _hasHelmet;
-        private bool _hasBomb;
-        public Action OnMoleDie;
+        private MoleView _view;
+        private Mole _mole;
+        private bool _moleExploding;
         
         public void SetupMole(Mole mole, Sprite moleSprite)
         {
             gameObject.SetActive(true);
-            _hasHelmet = mole.HasHelment();
-            _hasBomb = mole.HasBomb();
-            _view.EnableHelmet(_hasHelmet);
-            _view.EnableBomb(_hasBomb);
+            _mole = mole;
+            _mole.OnMoleDied += MoleDie;
+            _mole.OnMoleExploded += MoleExplode;
+            _mole.OnMoleHit += MoleHit;
             _view.SetSprite(moleSprite);
-            _view.OnMoleClicked += OnHit;
+            UpdateMoleAppearance();
+            _view.OnMoleClicked += _mole.Hit;
         }
 
-        private void OnHit()
+        private void UpdateMoleAppearance()
         {
-            if (_hasHelmet)
-            {
-                _hasHelmet = false;
-                _view.EnableHelmet(_hasHelmet);
-                return;
-            }
-            if (_hasBomb)
-            {
-                OnMoleDie();
-            }
+            _view.EnableHelmet(_mole.HasHelmet());
+            _view.EnableBomb(_mole.HasBomb());
         }
 
+        private void MoleHit()
+        {
+            UpdateMoleAppearance();
+        }
+        
         private void MoleDie()
         {
-            OnMoleDie?.Invoke();
+            if (_moleExploding)
+            {
+                return;
+            }
+             
+            ResetMole();
         }
 
+        private void MoleExplode()
+        {
+            _moleExploding = true;
+             _view.StartExplosion(ResetMole);
+        }
+        
         public void ResetMole()
         {
-            gameObject.SetActive(false);
-            OnMoleDie = null;
+            _view.OnMoleClicked -= _mole.Hit;
+            _view.DestroyMole();
+            _moleExploding = false;
             // Reset all the fields so that they can be REUSED
         }
     }

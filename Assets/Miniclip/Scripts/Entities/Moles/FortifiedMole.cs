@@ -7,6 +7,13 @@ namespace Miniclip.Entities.Moles
             Bomb = false;
             Helmet = true;
             Sprite = "normalMole";
+            Lives = 2;
+        }
+        
+        public override void Hit()
+        {
+            BreakHelmet();
+            base.Hit();
         }
     }
 }
