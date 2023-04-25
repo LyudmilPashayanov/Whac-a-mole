@@ -1,7 +1,12 @@
+using System;
 using Miniclip.Pooler;
 
-public class AttemptData : IPoolData
+namespace Miniclip.Entities
 {
-    public int score;
-    public string name;
+    [Serializable]
+    public class AttemptData : IPoolData
+    {
+        public int Score { get; set; }
+        public string Name { get; set; }
+    }
 }

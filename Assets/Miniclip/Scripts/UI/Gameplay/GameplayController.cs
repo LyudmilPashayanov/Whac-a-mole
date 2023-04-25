@@ -24,6 +24,16 @@ namespace Miniclip.UI.Gameplay
             });
         }
 
+        public RectTransform GetSpawningPosition(int spawnPointIndex)
+        {
+            return _view.GetSpawnPoint(spawnPointIndex);
+        }
+        
+        public int GetSpawningPointIndex(RectTransform spawnPoint)
+        {
+            return _view.GetSpawnPointIndex(spawnPoint);
+        }
+        
         public void ShowStartingTimer(Action startingAnimationFinished)
         {
             _view.EnableStartingTimer(startingAnimationFinished);

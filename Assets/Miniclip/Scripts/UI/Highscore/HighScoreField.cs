@@ -1,3 +1,4 @@
+using Miniclip.Entities;
 using Miniclip.Pooler;
 using TMPro;
 using UnityEngine;
@@ -13,8 +14,8 @@ namespace Miniclip.UI.HighScore
         public void UpdateField(IPoolData highScoreField)
         {
             AttemptData data = (AttemptData)highScoreField; 
-            _name.text = data.name;
-            _score.text = data.score.ToString();
+            _name.text = data.Name;
+            _score.text = data.Score.ToString();
         }
     }
 }

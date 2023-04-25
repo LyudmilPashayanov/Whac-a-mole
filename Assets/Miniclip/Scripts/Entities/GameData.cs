@@ -1,5 +1,8 @@
+using System;
+
 namespace Miniclip.Entities
 {
+    [Serializable]
     public struct GameData
     {
         public int Timer;

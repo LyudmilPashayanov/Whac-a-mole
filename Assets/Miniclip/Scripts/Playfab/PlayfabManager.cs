@@ -17,6 +17,7 @@ namespace Miniclip.Playfab
         private Action _errorOccured; // TODO: make it an event?
 
         public GameData GameData;
+        public PlayerData PlayerAttemptData = new PlayerData();
 
         public void Init(Action loadingFinished, Action errorOccured)
         {
@@ -70,10 +71,9 @@ namespace Miniclip.Playfab
                         if (result.Data.ContainsKey("gameplay_rules"))
                         {
                             Dictionary<string,int> tempData = PlayFabSimpleJson.DeserializeObject<Dictionary<string,int>>(result.Data["gameplay_rules"]);
-                            GameData = new GameData(tempData["timer"], tempData["pointsPerHit"], tempData["comboX2"],
-                                tempData["comboX3"], tempData["consecutiveHitsRequired"]);
+                            GameData = new GameData(tempData["Timer"], tempData["PointsPerHit"], tempData["ComboX2"],
+                                tempData["ComboX3"], tempData["ConsecutiveHitsRequired"]);
                         }
-
                         GetPlayerData();
                     }
                 },
@@ -90,12 +90,12 @@ namespace Miniclip.Playfab
                 PlayFabId = _playerPlayfabID
             }, result =>
             {
-
-                // Get data from the player data and save it to memory
-
+                if (result.Data.ContainsKey("attempts"))
+                {
+                    PlayerAttemptData = PlayFabSimpleJson.DeserializeObject<PlayerData>(result.Data["attempts"].Value);
+                }
                 DoneLoading();
-
-            }, OnPlayFabError);
+                }, OnPlayFabError);
         }
 
         /// <summary>
@@ -103,8 +103,18 @@ namespace Miniclip.Playfab
         /// </summary>
         private void DoneLoading()
         {
-            Debug.Log("DoneLoading");
             _loadingFinished?.Invoke(); 
+        }
+
+        public void SavePlayerAttempts(PlayerData newAttemptData)
+        { 
+            UpdateUserDataRequest request = new UpdateUserDataRequest();
+            request.Data = new Dictionary<string, string>() {
+                {"attempts", PlayFabSimpleJson.SerializeObject(newAttemptData)}};
+            
+            PlayFabClientAPI.UpdateUserData(request,
+                result => Debug.Log("Successfully updated user data"),
+                OnPlayFabError);
         }
 
         /// <summary>

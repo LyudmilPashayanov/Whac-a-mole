@@ -1,10 +1,9 @@
 using System;
 using Miniclip.Game;
-using UnityEngine;
 
 namespace Miniclip.Entities.Moles
 {
-    public abstract class Mole : MonoBehaviour
+    public abstract class Mole
     {
         protected bool Helmet;
         protected bool Bomb;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Miniclip.UI.Gameplay
       [SerializeField] private Button _pauseTabContinueButton;
       [SerializeField] private Button _pauseTabMainMenuButton;
       [SerializeField] private TMP_Text _centeredText;
-      [SerializeField] private RectTransform[] _spawnPoints;
+      [SerializeField] private List<RectTransform> _spawnPoints;
       [SerializeField] private TMP_Text _scoreText;
       [SerializeField] private TMP_Text _comboText;
 
@@ -57,7 +58,7 @@ namespace Miniclip.UI.Gameplay
          _centeredTextField.localScale = Vector3.zero;
          _centeredText.text = "3";
          _centeredTextField.gameObject.SetActive(true);
-         _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.one, 0.8f));
+         /*_centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.one, 0.8f));
          _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.zero, 0.8f).OnComplete(() =>
          {
             _centeredText.text = "2";
@@ -67,7 +68,7 @@ namespace Miniclip.UI.Gameplay
          {
             _centeredText.text = "1";
          }));
-         _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.one, 0.8f));
+         _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.one, 0.8f));*/
          _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.zero, 0.8f).OnComplete(() =>
          {
             _centeredText.text = "GO!";
@@ -116,6 +117,11 @@ namespace Miniclip.UI.Gameplay
       public void UpdateScoreText(int score)
       {
          _scoreText.text = score.ToString();
+      }
+
+      public int GetSpawnPointIndex(RectTransform spawnPoint)
+      {
+         return _spawnPoints.IndexOf(spawnPoint);
       }
    }
 }

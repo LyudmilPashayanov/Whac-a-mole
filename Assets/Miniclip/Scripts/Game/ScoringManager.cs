@@ -22,8 +22,7 @@ namespace Miniclip.Game
             _scoreData = new ScoreData();
             OnScoreUpdated += scoreUpdated;
         }
-        
-       
+
         public void CalculateScoring(MoleType moleType)
         {
             if (moleType == MoleType.Bomb)
@@ -70,6 +69,18 @@ namespace Miniclip.Game
         {
             _scoreData.HitsInARow = 0;
             _scoreData.Combo = 1;
+        }
+
+        public int GetOverallHits()
+        {
+            return _scoreData.Hits;
+        }
+
+        public void ResetManager()
+        {
+            _scoreData.HitsInARow = 0;
+            _scoreData.Combo = 1;
+            _scoreData.Hits = 0;
         }
     }
 }

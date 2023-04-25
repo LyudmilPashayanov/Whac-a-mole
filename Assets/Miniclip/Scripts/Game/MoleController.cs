@@ -6,17 +6,20 @@ namespace Miniclip.Game
 {
     public class MoleController : MonoBehaviour
     {
-        private MoleView _view;
+        [SerializeField] private MoleView _view;
+        [SerializeField] private RectTransform _rectTransform;
         private Mole _mole;
         private bool _moleExploding;
-        
+        private RectTransform _spawningPoint;
+        private event Action<RectTransform> OnMoleDespawned;
+
         public void SetupMole(Mole mole, Sprite moleSprite)
         {
             gameObject.SetActive(true);
             _mole = mole;
             SubscribeOnHitEvent(MoleHit);
             SubscribeOnExplodeEvent(MoleExplode);
-            SubscribeOnDiedEvent(MoleDie);
+            SubscribeOnDieEvent(MoleDie);
             _view.SetSprite(moleSprite);
             UpdateMoleAppearance();
             _view.OnMoleClicked += _mole.Hit;
@@ -27,7 +30,7 @@ namespace Miniclip.Game
             _mole.OnMoleHit += moleHit;
         }
         
-        public void SubscribeOnDiedEvent(Action<MoleType> moleDied)
+        public void SubscribeOnDieEvent(Action<MoleType> moleDied)
         {
             _mole.OnMoleDied += moleDied;
         }
@@ -35,6 +38,11 @@ namespace Miniclip.Game
         public void SubscribeOnExplodeEvent(Action moleExploded)
         {
             _mole.OnMoleExploded += moleExploded;
+        }
+        
+        public void SubscribeOnDespawnEvent(Action<RectTransform> moleDespawned)
+        {
+            OnMoleDespawned += moleDespawned;
         }
         
         private void UpdateMoleAppearance()
@@ -55,7 +63,7 @@ namespace Miniclip.Game
                 return;
             }
              
-            ResetMole();
+            HideMole();
         }
 
         private void MoleExplode()
@@ -64,12 +72,31 @@ namespace Miniclip.Game
              _view.StartExplosion(ResetMole);
         }
         
-        public void ResetMole()
+        private void ResetMole()
         {
             _view.OnMoleClicked -= _mole.Hit;
-            _view.DestroyMole();
             _moleExploding = false;
+            gameObject.SetActive(false);
+            OnMoleDespawned?.Invoke(_spawningPoint);
             // Reset all the fields so that they can be REUSED
+        }
+
+        public void ShowMole()
+        {
+            _view.ShowMole();
+        }
+
+        public void HideMole()
+        {
+            _view.HideMole(ResetMole);
+        }
+
+        public void SetupPosition(RectTransform spawningPosition)
+        {
+            _spawningPoint = spawningPosition;
+            transform.SetParent(spawningPosition);
+            _rectTransform.localScale = Vector3.zero;
+            _rectTransform.anchoredPosition = Vector2.zero;
         }
     }
 }
