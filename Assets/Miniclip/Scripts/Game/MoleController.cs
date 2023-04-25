@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Miniclip.Entities.Moles;
 using UnityEngine;
 
@@ -69,7 +70,36 @@ namespace Miniclip.Game
         private void MoleExplode()
         {
             _moleExploding = true;
-             _view.StartExplosion(ResetMole);
+            _view.StartExplosion(ResetMole);
+        }
+        
+        public void ShowMole(float hideAfterTime)
+        {
+            _view.ShowMole(hideAfterTime);
+        }
+
+        private void HideMole()
+        {
+            _view.HideMole();
+        }
+
+        public void PauseMole()
+        {
+            _view.PauseMole();
+        }
+        
+        public void UnpauseMole()
+        {
+            _view.UnpauseMole();
+        }
+        
+        public void SetupPosition(RectTransform spawningPosition)
+        {
+            SpawningPoint = spawningPosition;
+            transform.SetParent(spawningPosition);
+            _rectTransform.localScale = Vector3.zero;
+            _rectTransform.anchoredPosition = Vector2.zero;
+            gameObject.SetActive(true);
         }
         
         private void ResetMole()
@@ -80,25 +110,6 @@ namespace Miniclip.Game
             gameObject.SetActive(false);
             _moleExploding = false;
             // Reset all the fields so that they can be REUSED
-        }
-
-        public void ShowMole(float hideAfterTime)
-        {
-            _view.ShowMole(hideAfterTime);
-        }
-
-        public void HideMole()
-        {
-            _view.HideMole();
-        }
-
-        public void SetupPosition(RectTransform spawningPosition)
-        {
-            SpawningPoint = spawningPosition;
-            transform.SetParent(spawningPosition);
-            _rectTransform.localScale = Vector3.zero;
-            _rectTransform.anchoredPosition = Vector2.zero;
-            gameObject.SetActive(true);
         }
     }
 }

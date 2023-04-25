@@ -86,10 +86,10 @@ namespace Miniclip.UI.Gameplay
          if (enable)
          {
             _pauseTab.SetActive(true);
-            if (_centeredTextSequence.IsPlaying())
+            /*if (_centeredTextSequence.IsPlaying())
             {
                _centeredTextSequence.Pause();
-            }
+            }*/
          }
          else
          {
@@ -122,6 +122,11 @@ namespace Miniclip.UI.Gameplay
       public int GetSpawnPointIndex(RectTransform spawnPoint)
       {
          return _spawnPoints.IndexOf(spawnPoint);
+      }
+
+      public void EnablePauseButton(bool enable)
+      {
+         _pauseButton.interactable = enable;
       }
    }
 }

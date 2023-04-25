@@ -43,13 +43,12 @@ namespace Miniclip.Game
             _scoreData.HitsInARow++;
             for (int i = 0; i < _scoreData.Combo; i++)
             {
-                _scoreData.Hits++;
+                _scoreData.Hits += _gameData.PointsPerHit;
             }
 
-            if (_scoreData.HitsInARow == _gameData.ConsecutiveHitsRequired)
+            if (_scoreData.HitsInARow % _gameData.ConsecutiveHitsRequired == 0) // If you manage to make X consecutive hits you get double points!
             {
-                _scoreData.HitsInARow = 0;
-                _scoreData.Hits++;
+                _scoreData.Hits += _gameData.PointsPerHit;
             }
         }
 

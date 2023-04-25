@@ -65,8 +65,14 @@ namespace Miniclip.UI.Gameplay
             _view.EnablePause(false);
         }
 
+        public void EnablePauseButton(bool enable)
+        {
+            _view.EnablePauseButton(enable);
+        }
+        
         public void FinishGame(Action endTextAnimationFinish)
         {
+            EnablePauseButton(false);
             _view.EnableEndTextAnimation(()=>
             {
                 endTextAnimationFinish?.Invoke();

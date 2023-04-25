@@ -13,14 +13,10 @@ namespace Miniclip.Game
         [SerializeField] private RectTransform _helmet;
 
         private float _showingDuration = 0.7f;
-        private Sequence _moleAnimation;
+        private Sequence _moleShowingSequence;
+        private Sequence _moleHidingSequence;
         public event Action OnMoleClicked;
         public event Action OnMoleHidden;
-
-        private void Start()
-        {
-            _moleAnimation = DOTween.Sequence();
-        }
 
         public void EnableBomb(bool enable)
         {
@@ -46,23 +42,22 @@ namespace Miniclip.Game
 
         public void ShowMole(float hideAfterTime)
         {
-            _moleAnimation.Kill();
-            _moleAnimation = DOTween.Sequence();
-            _moleAnimation.Append(transform.DOScale(1.5f, _showingDuration));
-            _moleAnimation.Insert(0, transform.DOLocalMove(new Vector2(0, 150), _showingDuration));
-            _moleAnimation.AppendInterval(hideAfterTime).OnComplete(() =>
+            _moleShowingSequence = DOTween.Sequence();
+            _moleShowingSequence.Append(transform.DOScale(1.5f, _showingDuration));
+            _moleShowingSequence.Insert(0, transform.DOLocalMove(new Vector2(0, 150), _showingDuration));
+            _moleShowingSequence.AppendInterval(hideAfterTime);
+            _moleShowingSequence.OnComplete(() =>
             {
                 HideMole();
             });
         }
         
         public void HideMole()
-        {
-            _moleAnimation.Kill();
-            _moleAnimation = DOTween.Sequence();
-            _moleAnimation.Append(transform.DOScale(0, _showingDuration));
-            _moleAnimation.Insert(0, transform.DOLocalMove(Vector2.zero, _showingDuration));
-            _moleAnimation.OnComplete(() =>
+        {            
+            _moleHidingSequence = DOTween.Sequence();
+            _moleHidingSequence.Append(transform.DOScale(0, _showingDuration));
+            _moleHidingSequence.Insert(0, transform.DOLocalMove(Vector2.zero, _showingDuration));
+            _moleHidingSequence.OnComplete(() =>
             {
                 OnMoleHidden?.Invoke();
             });
@@ -74,6 +69,18 @@ namespace Miniclip.Game
             {
                 OnMoleClicked();
             }
+        }
+
+        public void PauseMole()
+        {
+            _moleHidingSequence.Pause();
+            _moleShowingSequence.Pause();
+        }
+        
+        public void UnpauseMole()
+        {
+            _moleHidingSequence.PlayForward();
+            _moleShowingSequence.PlayForward();
         }
     }
 }

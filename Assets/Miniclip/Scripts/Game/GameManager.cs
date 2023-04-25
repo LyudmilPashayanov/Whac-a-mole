@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Miniclip.Entities;
+using Miniclip.Entities.Moles;
 using Miniclip.Game.Gameplay;
 using Miniclip.Playfab;
 using Miniclip.UI;
@@ -29,6 +31,7 @@ namespace Miniclip.Game
         private PlayerData _playerAttemptData;
         private string _playerName;
         private bool _spawnMoles;
+        private List<MoleController> _shownMoles = new List<MoleController>();
         
         public void Init(PlayfabManager playfabManager, Action gameManagerLoaded)
         {
@@ -48,9 +51,11 @@ namespace Miniclip.Game
         public void StartWhacAMole()
         {
             _scoringManager.ResetManager();
+            _uiManager.GameplayController.EnablePauseButton(true);
             _uiManager.GameplayController.ShowStartingTimer(OnStartAnimationFinished);
             void OnStartAnimationFinished()
             {
+                _uiManager.GameplayController.StartTimerCountdown(_playfabManager.GameData.Timer,GameFinished);
                 StartSpawning();
             }
         }
@@ -63,7 +68,6 @@ namespace Miniclip.Game
         private void StartSpawning()
         {
             _spawnMoles = true;
-            _uiManager.GameplayController.StartTimerCountdown(_playfabManager.GameData.Timer,GameFinished);
             StartCoroutine(SpawnMole());
         }
 
@@ -72,11 +76,11 @@ namespace Miniclip.Game
             while (_spawnMoles)
             {
                 MoleController spawnedMole = _gameplayManager.SpawnMole(_gameplayManager.GetRandomMoleType());
+                _shownMoles.Add(spawnedMole);
                 spawnedMole.SubscribeOnDieEvent(_scoringManager.CalculateScoring);
-                spawnedMole.SubscribeOnDespawnEvent(ReturnAvailablePosition);
+                spawnedMole.SubscribeOnDespawnEvent(OnMoleDespawned);
                 PositionSpawnedMole(spawnedMole);
                 spawnedMole.ShowMole(_gameplayManager.GetMoleAliveTime());
-                
                 yield return new WaitForSeconds(_gameplayManager.GetTimeBetweenMoles());
             }
         }
@@ -92,15 +96,18 @@ namespace Miniclip.Game
             return _uiManager.GameplayController.GetSpawningPosition(spawningPositionIndex);
         }
 
-        private void ReturnAvailablePosition(MoleController despawnedMole)
+        private void OnMoleDespawned(MoleController despawnedMole)
         {
             int freedIndex = _uiManager.GameplayController.GetSpawningPointIndex(despawnedMole.SpawningPoint);
             _gameplayManager.FreeSpawnPosition(freedIndex);
+            
+            RemoveShownMole(despawnedMole);
         }
         
         private void GameFinished()
         {
             // TODO: reset and destroy everything that has to be created
+            // destory spawned moles
             _spawnMoles = false;
             SaveProgress();
             _uiManager.GameplayController.FinishGame(() =>
@@ -118,16 +125,32 @@ namespace Miniclip.Game
             _playerAttemptData.AddAttempt(newAttempt);
             _playfabManager.SavePlayerAttempts(_playerAttemptData);
         }
+
+        private void RemoveShownMole(MoleController mole)
+        {
+            _shownMoles.Remove(mole);
+        }
+        
         private void PauseGame()
         {
             _uiManager.GameplayController.Pause();
             _uiManager.GameplayController.StopTimerCountdown();
+            for (int i = 0; i < _shownMoles.Count; i++)
+            {
+                _shownMoles[i].PauseMole();
+            }
+            _spawnMoles = false;
         }
         
         private void OnUnpauseGame()
         {
             _uiManager.GameplayController.HidePauseMenu();
             _uiManager.GameplayController.ResumeTimerCountdown();
+            for (int i = 0; i < _shownMoles.Count; i++)
+            {
+                _shownMoles[i].UnpauseMole();
+            }
+            StartSpawning();
         }
 
         private void OnGameLeft()

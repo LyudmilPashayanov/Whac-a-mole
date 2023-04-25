@@ -57,6 +57,7 @@ namespace Miniclip.Game.Gameplay
         
         public int GetRandomPosition()
         {
+            //TODO: Take care if there are no more available places for spawns.
             int randomIndex = _random.Next(_availablePositions.Count);
             int returnValue = _availablePositions[randomIndex];
             _availablePositions.Remove(returnValue);
