@@ -15,6 +15,7 @@ namespace Miniclip.Game
         private float _showingDuration = 0.7f;
         private Sequence _moleAnimation;
         public event Action OnMoleClicked;
+        public event Action OnMoleHidden;
 
         private void Start()
         {
@@ -43,17 +44,19 @@ namespace Miniclip.Game
             moleDie?.Invoke();
         }
 
-        public void ShowMole()
+        public void ShowMole(float hideAfterTime)
         {
-            //spawnedMole.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, spawnedMole.GetComponent<RectTransform>().rect.height / 2);
-            
             _moleAnimation.Kill();
             _moleAnimation = DOTween.Sequence();
             _moleAnimation.Append(transform.DOScale(1.5f, _showingDuration));
-            _moleAnimation.Insert(0,transform.DOLocalMove(new Vector2(0,150), _showingDuration));
+            _moleAnimation.Insert(0, transform.DOLocalMove(new Vector2(0, 150), _showingDuration));
+            _moleAnimation.AppendInterval(hideAfterTime).OnComplete(() =>
+            {
+                HideMole();
+            });
         }
         
-        public void HideMole(Action onMoleHidden)
+        public void HideMole()
         {
             _moleAnimation.Kill();
             _moleAnimation = DOTween.Sequence();
@@ -61,7 +64,7 @@ namespace Miniclip.Game
             _moleAnimation.Insert(0, transform.DOLocalMove(Vector2.zero, _showingDuration));
             _moleAnimation.OnComplete(() =>
             {
-                onMoleHidden?.Invoke();
+                OnMoleHidden?.Invoke();
             });
         }
 

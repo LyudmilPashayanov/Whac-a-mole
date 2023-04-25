@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Miniclip.Entities;
 using Miniclip.Game.Gameplay;
 using Miniclip.Playfab;
@@ -27,16 +28,20 @@ namespace Miniclip.Game
         private ScoringManager _scoringManager;
         private PlayerData _playerAttemptData;
         private string _playerName;
+        private bool _spawnMoles;
         
         public void Init(PlayfabManager playfabManager, Action gameManagerLoaded)
         {
             _playfabManager = playfabManager;
             _playerAttemptData = playfabManager.PlayerAttemptData;
+
             _uiManager.MainMenuController.Subscribe((name)=> _playerName = name);
+            _uiManager.GameplayController.Subscribe(OnUnpauseGame, OnGameLeft, PauseGame);
+
             MoleFactory moleFactory = new MoleFactory(_molePrefab.gameObject,_molesAtlas);
             _gameplayManager = new GameplayManager(moleFactory);
             _scoringManager = new ScoringManager(playfabManager.GameData, UpdateScores);
-            _uiManager.GameplayController.Subscribe(OnUnpauseGame, OnGameLeft, PauseGame);
+            
             gameManagerLoaded?.Invoke();
         }
         
@@ -46,7 +51,6 @@ namespace Miniclip.Game
             _uiManager.GameplayController.ShowStartingTimer(OnStartAnimationFinished);
             void OnStartAnimationFinished()
             {
-                _uiManager.GameplayController.StartTimerCountdown(_playfabManager.GameData.Timer,GameFinished);
                 StartSpawning();
             }
         }
@@ -58,18 +62,27 @@ namespace Miniclip.Game
         
         private void StartSpawning()
         {
-            MoleController spawnedMole = _gameplayManager.GetRandomMole(); // TODO: Specify what type of randoms do you want
-            spawnedMole.SubscribeOnDieEvent(_scoringManager.CalculateScoring);
-            spawnedMole.SubscribeOnDespawnEvent(ReturnAvailablePosition);
-            PositionSpawnedMole(spawnedMole);
-            
-            spawnedMole.ShowMole();
-            
-            //  spawnedMole.Wait a bit
-            //    SpawnedMole start hiding
-            // start spawning next, depending on the game rules.
+            _spawnMoles = true;
+            _uiManager.GameplayController.StartTimerCountdown(_playfabManager.GameData.Timer,GameFinished);
+            StartCoroutine(SpawnMole());
         }
 
+        private IEnumerator SpawnMole()
+        {
+            while (_spawnMoles)
+            {
+                MoleController spawnedMole = _gameplayManager.SpawnMole(_gameplayManager.GetRandomMoleType());
+                spawnedMole.SubscribeOnDieEvent(_scoringManager.CalculateScoring);
+                spawnedMole.SubscribeOnDespawnEvent(ReturnAvailablePosition);
+                PositionSpawnedMole(spawnedMole);
+                spawnedMole.ShowMole(_gameplayManager.GetMoleAliveTime());
+                
+                yield return new WaitForSeconds(_gameplayManager.GetTimeBetweenMoles());
+            }
+        }
+
+     
+        
         private void PositionSpawnedMole(MoleController spawnedMole)
         {
             spawnedMole.SetupPosition(GetAvailableSpawningPosition());

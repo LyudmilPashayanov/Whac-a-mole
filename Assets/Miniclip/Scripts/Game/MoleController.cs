@@ -23,6 +23,7 @@ namespace Miniclip.Game
             _view.SetSprite(moleSprite);
             UpdateMoleAppearance();
             _view.OnMoleClicked += _mole.Hit;
+            _view.OnMoleHidden += ResetMole;
         }
 
         public void SubscribeOnHitEvent(Action moleHit)
@@ -81,14 +82,14 @@ namespace Miniclip.Game
             // Reset all the fields so that they can be REUSED
         }
 
-        public void ShowMole()
+        public void ShowMole(float hideAfterTime)
         {
-            _view.ShowMole();
+            _view.ShowMole(hideAfterTime);
         }
 
         public void HideMole()
         {
-            _view.HideMole(ResetMole);
+            _view.HideMole();
         }
 
         public void SetupPosition(RectTransform spawningPosition)
