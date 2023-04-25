@@ -37,15 +37,14 @@ namespace Miniclip.Game
 
             MoleController moleController =  _objectPool.Dequeue();
             Sprite moleSprite = _molesAtlas.GetSprite(mole.GetSpriteName());
+            moleController.SubscribeOnDespawnEvent(ReturnMole);
             moleController.SetupMole(mole, moleSprite);
             
             return moleController;
         }
         
-        public void ReturnMole(MoleController mole)
+        private void ReturnMole(MoleController mole)
         {
-            mole.gameObject.SetActive(false);
-            mole.transform.parent = null;
             _objectPool.Enqueue(mole);
         }
         

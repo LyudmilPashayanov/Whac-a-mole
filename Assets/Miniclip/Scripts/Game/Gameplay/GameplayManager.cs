@@ -57,7 +57,7 @@ namespace Miniclip.Game.Gameplay
         
         public int GetRandomPosition()
         {
-            int randomIndex = _random.Next(_availablePositions.Count-1);
+            int randomIndex = _random.Next(_availablePositions.Count);
             int returnValue = _availablePositions[randomIndex];
             _availablePositions.Remove(returnValue);
             return returnValue;

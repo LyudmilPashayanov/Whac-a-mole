@@ -80,8 +80,6 @@ namespace Miniclip.Game
                 yield return new WaitForSeconds(_gameplayManager.GetTimeBetweenMoles());
             }
         }
-
-     
         
         private void PositionSpawnedMole(MoleController spawnedMole)
         {
@@ -94,17 +92,16 @@ namespace Miniclip.Game
             return _uiManager.GameplayController.GetSpawningPosition(spawningPositionIndex);
         }
 
-        private void ReturnAvailablePosition(RectTransform freeSpawnPoint)
+        private void ReturnAvailablePosition(MoleController despawnedMole)
         {
-            int freedIndex = _uiManager.GameplayController.GetSpawningPointIndex(freeSpawnPoint);
+            int freedIndex = _uiManager.GameplayController.GetSpawningPointIndex(despawnedMole.SpawningPoint);
             _gameplayManager.FreeSpawnPosition(freedIndex);
         }
         
         private void GameFinished()
         {
-            // save the results to playfab
-            // update the current saved data
-            // reset and destroy everything that has to be created
+            // TODO: reset and destroy everything that has to be created
+            _spawnMoles = false;
             SaveProgress();
             _uiManager.GameplayController.FinishGame(() =>
             {

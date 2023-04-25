@@ -10,12 +10,11 @@ namespace Miniclip.Game
         [SerializeField] private RectTransform _rectTransform;
         private Mole _mole;
         private bool _moleExploding;
-        private RectTransform _spawningPoint;
-        private event Action<RectTransform> OnMoleDespawned;
+        public RectTransform SpawningPoint;
+        private Action<MoleController> OnMoleDespawned;
 
         public void SetupMole(Mole mole, Sprite moleSprite)
         {
-            gameObject.SetActive(true);
             _mole = mole;
             SubscribeOnHitEvent(MoleHit);
             SubscribeOnExplodeEvent(MoleExplode);
@@ -41,9 +40,9 @@ namespace Miniclip.Game
             _mole.OnMoleExploded += moleExploded;
         }
         
-        public void SubscribeOnDespawnEvent(Action<RectTransform> moleDespawned)
+        public void SubscribeOnDespawnEvent(Action<MoleController> moleDespawned)
         {
-            OnMoleDespawned += moleDespawned;
+            OnMoleDespawned = moleDespawned;
         }
         
         private void UpdateMoleAppearance()
@@ -76,9 +75,10 @@ namespace Miniclip.Game
         private void ResetMole()
         {
             _view.OnMoleClicked -= _mole.Hit;
-            _moleExploding = false;
+            _view.OnMoleHidden -= ResetMole;
+            OnMoleDespawned?.Invoke(this);
             gameObject.SetActive(false);
-            OnMoleDespawned?.Invoke(_spawningPoint);
+            _moleExploding = false;
             // Reset all the fields so that they can be REUSED
         }
 
@@ -94,10 +94,11 @@ namespace Miniclip.Game
 
         public void SetupPosition(RectTransform spawningPosition)
         {
-            _spawningPoint = spawningPosition;
+            SpawningPoint = spawningPosition;
             transform.SetParent(spawningPosition);
             _rectTransform.localScale = Vector3.zero;
             _rectTransform.anchoredPosition = Vector2.zero;
+            gameObject.SetActive(true);
         }
     }
 }

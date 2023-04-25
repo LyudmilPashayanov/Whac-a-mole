@@ -70,7 +70,6 @@ namespace Miniclip.Game
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("MOLE CLICKED");
             if (OnMoleClicked != null)
             {
                 OnMoleClicked();
