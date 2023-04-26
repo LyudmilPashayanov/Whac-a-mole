@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using UnityEngine;
 using Random = System.Random;
 
 namespace Miniclip.Game.Gameplay
@@ -117,6 +115,12 @@ namespace Miniclip.Game.Gameplay
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public void ResetManager()
+        {
+            _currentDifficulty = Difficulty.Easy;
+            _spawnedMoles = 0;
         }
     }
 }

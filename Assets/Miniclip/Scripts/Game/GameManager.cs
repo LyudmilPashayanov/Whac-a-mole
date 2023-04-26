@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Miniclip.Entities;
-using Miniclip.Entities.Moles;
 using Miniclip.Game.Gameplay;
 using Miniclip.Playfab;
 using Miniclip.UI;
@@ -65,6 +63,11 @@ namespace Miniclip.Game
             
             gameManagerLoaded?.Invoke();
         }
+                
+        private void SetName(string name)
+        {
+            _playerName = name;
+        }
         
         public void StartWhacAMole()
         {
@@ -87,6 +90,10 @@ namespace Miniclip.Game
         private void StartSpawning()
         {
             _spawningMoles = true;
+            for (int i = 0; i < _shownMoles.Count; i++)
+            {
+                _shownMoles[i].ToggleInteractable(true);
+            }
         }
 
         private void SpawnMole()
@@ -117,38 +124,23 @@ namespace Miniclip.Game
             RemoveShownMole(despawnedMole);
             despawnedMole.UnsubscribeOnDespawnEvent(OnMoleDespawned);
         }
-        
-        private void GameFinished()
+
+        private void StopSpawning()
         {
-            // TODO: reset and destroy everything that has to be created
-            // destory spawned moles
+            _spawningMoles = false;
             for (int i = 0; i < _shownMoles.Count; i++)
             {
-                _shownMoles[i].DisableInteractable();
+                _shownMoles[i].ToggleInteractable(false);
             }
-            _spawningMoles = false;
-            SaveProgress();
-            _uiManager.GameplayController.FinishGame(() =>
-            {
-                _uiManager.SwitchPanel(Panel.HighScores);
-            });
-        }
-
-        private void SaveProgress()
-        {
-            AttemptData newAttempt = new AttemptData();
-            newAttempt.Name = _playerName;
-            newAttempt.Score = _scoringManager.GetOverallHits(); 
-            
-            _playerAttemptData.AddAttempt(newAttempt);
-            _playfabManager.SavePlayerAttempts(_playerAttemptData);
         }
 
         private void RemoveShownMole(MoleController mole)
         {
             _shownMoles.Remove(mole);
         }
-        
+
+        #region Pause Logic
+
         private void PauseGame()
         {
             _uiManager.GameplayController.Pause();
@@ -157,7 +149,7 @@ namespace Miniclip.Game
             {
                 _shownMoles[i].PauseMole();
             }
-            _spawningMoles = false;
+            StopSpawning();
         }
         
         private void OnUnpauseGame()
@@ -171,15 +163,47 @@ namespace Miniclip.Game
             StartSpawning();
         }
 
+        #endregion
+
+        #region Stopping Gameplay Logic
+
+        
         private void OnGameLeft()
         {
-            //destroy and clean all spawned stuff
+            ResetField();
             _uiManager.SwitchPanel(Panel.MainMenu);
         }
-
-        private void SetName(string name)
+        
+        private void GameFinished()
         {
-            _playerName = name;
-        } 
+            ResetField();
+            StopSpawning();
+            SaveProgress();
+            _uiManager.GameplayController.FinishGame(() =>
+            {
+                _uiManager.SwitchPanel(Panel.HighScores);
+            });
+        }
+        
+        private void ResetField()
+        {
+            _gameplayManager.ResetManager();
+            List<MoleController> shallowCopy = _shownMoles.GetRange(0, _shownMoles.Count);
+            for (int i = 0; i < shallowCopy.Count; i++)
+            {
+                shallowCopy[i].ResetMole();
+            }
+        }
+        
+        private void SaveProgress()
+        {
+            AttemptData newAttempt = new AttemptData();
+            newAttempt.Name = _playerName;
+            newAttempt.Score = _scoringManager.GetOverallHits(); 
+            
+            _playerAttemptData.AddAttempt(newAttempt);
+            _playfabManager.SavePlayerAttempts(_playerAttemptData);
+        }
+        #endregion
     }
 }

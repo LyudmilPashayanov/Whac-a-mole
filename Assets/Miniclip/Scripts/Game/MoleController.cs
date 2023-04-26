@@ -23,7 +23,7 @@ namespace Miniclip.Game
             SubscribeOnDieEvent(MoleDie);
             _view.SetSprite(moleSprite);
             UpdateMoleAppearance();
-            _view.EnableInteractable(true);
+            _view.ToggleInteractable(true);
             _view.OnMoleClicked += _mole.Hit;
             _view.OnMoleHidden += ResetMole;
         }
@@ -84,37 +84,26 @@ namespace Miniclip.Game
             _view.UnpauseMole();
         }
 
-        public void DisableInteractable()
+        public void ToggleInteractable(bool toggle)
         {
-            _view.EnableInteractable(false);
+            _view.ToggleInteractable(toggle);
         }
         
-        private void ResetMole()
+        public void ResetMole()
         {
             _view.OnMoleClicked -= _mole.Hit;
             _view.OnMoleHidden -= ResetMole;
-            Debug.Log("ResetMole");
             OnMoleDespawned?.Invoke(this);
             gameObject.SetActive(false);
             _moleExploding = false;
             // Reset all the fields so that they can be REUSED
         }
         
-        public void SubscribeOnHitEvent(Action moleHit)
-        {
-            _mole.OnMoleHit += moleHit;
-        }
-        
         public void SubscribeOnDieEvent(Action<MoleType> moleDied)
         {
             _mole.OnMoleDied += moleDied;
         }
-        
-        public void SubscribeOnExplodeEvent(Action moleExploded)
-        {
-            _mole.OnMoleExploded += moleExploded;
-        }
-        
+
         public void SubscribeOnDespawnEvent(Action<MoleController> moleDespawned)
         {
             OnMoleDespawned += moleDespawned;
@@ -123,6 +112,16 @@ namespace Miniclip.Game
         public void UnsubscribeOnDespawnEvent(Action<MoleController> moleDespawned)
         {
             OnMoleDespawned -= moleDespawned;
+        }
+        
+        private void SubscribeOnHitEvent(Action moleHit)
+        {
+            _mole.OnMoleHit += moleHit;
+        }
+        
+        private void SubscribeOnExplodeEvent(Action moleExploded)
+        {
+            _mole.OnMoleExploded += moleExploded;
         }
     }
 }

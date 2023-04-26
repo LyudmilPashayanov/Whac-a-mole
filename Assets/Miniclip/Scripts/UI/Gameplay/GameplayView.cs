@@ -107,6 +107,8 @@ namespace Miniclip.UI.Gameplay
          _centeredTextSequence.Kill();
          _centeredTextField.gameObject.SetActive(false);
          _centeredText.text = "";
+         UpdateComboText(1);
+         UpdateScoreText(0);
       }
 
       public void UpdateComboText(int combo)

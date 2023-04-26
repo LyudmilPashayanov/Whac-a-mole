@@ -87,7 +87,7 @@ namespace Miniclip.Game
             _moleShowingSequence.PlayForward();
         }
 
-        public void EnableInteractable(bool enable)
+        public void ToggleInteractable(bool enable)
         {
             _moleImage.raycastTarget = enable;
         }
