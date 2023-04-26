@@ -29,11 +29,11 @@ Try to get as much points as possible and compare yourself to everyne in the wor
 ## Cool technical stuff
 With the aim to make the app as optimized and flexible as possible:
 ### Patterns:
-MVC pattern was used to handle the UI.
-SOLID principles were taken consideration and used when applicable, so that the app can reuse its code as much as possible and allow maintainability and flexability.
-Factory Pattern to create Moles with different functionalities and Pooling technique inside the factory in order to optimize the Moles appearing on the screen.
-Singleton pattern for an Audio Manager, so that you can play sounds from anywhere in the code.
-UI Pooling technique was used in order to handle the data in the high score panel. <see .....> The pooling script is done in a way to be reused on different scroll views with different styles and prefabs.
+- MVC pattern was used to handle the UI.
+- SOLID principles were taken consideration and used when applicable, so that the app can reuse its code as much as possible and allow maintainability and flexability.
+- Factory Pattern to create Moles with different functionalities and Pooling technique inside the factory in order to optimize the Moles appearing on the screen.
+- Singleton pattern for an Audio Manager, so that you can play sounds from anywhere in the code.
+- UI Pooling technique was used in order to handle the data in the high score panel (see: https://github.com/LyudmilPashayanov/Whac-a-mole/blob/0f00c30b7aba468daa12ab68c74a086ab52e6555/Assets/Miniclip/Scripts/Pooler/PoolController.cs) The pooling script is done in a way to be reused on different scroll views with different styles and prefabs.
 
 ### Playfab:
 A non-flat percisency storage system was used- Playfab. All the data of the game is stored in Playfab and in JSON format.
