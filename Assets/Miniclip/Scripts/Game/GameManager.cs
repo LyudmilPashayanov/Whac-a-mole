@@ -56,7 +56,7 @@ namespace Miniclip.Game
             _playfabManager = playfabManager;
             _playerAttemptData = playfabManager.PlayerAttemptData;
 
-            _uiManager.MainMenuController.Subscribe((name)=> _playerName = name);
+            _uiManager.MainMenuController.Subscribe(SetName);
             _uiManager.GameplayController.Subscribe(OnUnpauseGame, OnGameLeft, PauseGame);
 
             MoleFactory moleFactory = new MoleFactory(_molePrefab.gameObject,_molesAtlas);
@@ -114,8 +114,8 @@ namespace Miniclip.Game
         {
             int freedIndex = _uiManager.GameplayController.GetSpawningPointIndex(despawnedMole.SpawningPoint);
             _gameplayManager.FreeSpawnPosition(freedIndex);
-            
             RemoveShownMole(despawnedMole);
+            despawnedMole.UnsubscribeOnDespawnEvent(OnMoleDespawned);
         }
         
         private void GameFinished()
@@ -172,5 +172,10 @@ namespace Miniclip.Game
             //destroy and clean all spawned stuff
             _uiManager.SwitchPanel(Panel.MainMenu);
         }
+
+        private void SetName(string name)
+        {
+            _playerName = name;
+        } 
     }
 }

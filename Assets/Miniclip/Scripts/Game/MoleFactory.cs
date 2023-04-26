@@ -45,6 +45,7 @@ namespace Miniclip.Game
         
         private void ReturnMole(MoleController mole)
         {
+            mole.UnsubscribeOnDespawnEvent(ReturnMole);
             _objectPool.Enqueue(mole);
         }
         

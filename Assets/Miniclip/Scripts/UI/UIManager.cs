@@ -21,6 +21,8 @@ namespace Miniclip.UI
     
     public class UIManager : MonoBehaviour
     {
+        private readonly string[] _niceArray = new[] { "You are awesome!", "You are the best!", "Keep it up, you are doing great!", "Eyyy, you chose to play my game!" };
+
         [SerializeField] private GameObject _infoTab;
         [SerializeField] private TMP_Text _infoTabText;
         
@@ -32,7 +34,7 @@ namespace Miniclip.UI
         private UIPanel _activePanel;
         private GameManager _gameManager;
         private Sequence _loadingScreenTextSequence;
-        private string[] _niceArray = new[] { "You are the awesome!","Keep it up, you are doing great!","Yeyyy, you chose to play my game!" };
+        
         public void Init(GameManager gameManager)
         {
             _gameManager = gameManager;

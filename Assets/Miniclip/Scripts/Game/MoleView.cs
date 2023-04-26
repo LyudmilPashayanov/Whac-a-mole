@@ -53,7 +53,11 @@ namespace Miniclip.Game
         }
         
         public void HideMole()
-        {            
+        {
+            if (_moleShowingSequence.IsPlaying())
+            {
+                _moleShowingSequence.Kill(false);
+            }
             _moleHidingSequence = DOTween.Sequence();
             _moleHidingSequence.Append(transform.DOScale(0, _showingDuration));
             _moleHidingSequence.Insert(0, transform.DOLocalMove(Vector2.zero, _showingDuration));

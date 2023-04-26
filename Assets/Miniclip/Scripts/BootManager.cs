@@ -27,6 +27,7 @@ namespace Miniclip
         private void OnPlayfabInitiated()
         {
             _uiManager.Init(_gameManager);
+            _uiManager.HighScoreController.Init(_playfabManager.PlayerAttemptData);
             _gameManager.Init(_playfabManager, OnGameManagerInitiated);
         }
 

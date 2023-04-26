@@ -12,7 +12,7 @@ namespace Miniclip.Game
         private Mole _mole;
         private bool _moleExploding;
         public RectTransform SpawningPoint;
-        private Action<MoleController> OnMoleDespawned;
+        private event Action<MoleController> OnMoleDespawned;
 
         public void SetupMole(Mole mole, Sprite moleSprite)
         {
@@ -43,7 +43,12 @@ namespace Miniclip.Game
         
         public void SubscribeOnDespawnEvent(Action<MoleController> moleDespawned)
         {
-            OnMoleDespawned = moleDespawned;
+            OnMoleDespawned += moleDespawned;
+        }
+        
+        public void UnsubscribeOnDespawnEvent(Action<MoleController> moleDespawned)
+        {
+            OnMoleDespawned -= moleDespawned;
         }
         
         private void UpdateMoleAppearance()
@@ -106,6 +111,7 @@ namespace Miniclip.Game
         {
             _view.OnMoleClicked -= _mole.Hit;
             _view.OnMoleHidden -= ResetMole;
+            Debug.Log("ResetMole");
             OnMoleDespawned?.Invoke(this);
             gameObject.SetActive(false);
             _moleExploding = false;
