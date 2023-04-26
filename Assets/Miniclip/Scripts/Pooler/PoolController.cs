@@ -52,7 +52,7 @@ namespace Miniclip.Pooler
                 _content.DOAnchorPos(Vector2.zero, 0.1f);
                 return;
             }
-       
+            _scrollRect.StopMovement();
             _pool = list;
             // Moves the scroll content to the top.
             _poolTail = 0;
@@ -72,7 +72,7 @@ namespace Miniclip.Pooler
         /// </summary>
         /// <param name="list">The list with which the scroll view will be filled</param>
         /// <param name="prefab">A prefab with "IPoolField" attached to it, which will be shown in the scroll view.</param>
-        private void Setup(List<IPoolData> list, RectTransform prefab)
+        public void Setup(List<IPoolData> list, RectTransform prefab)
         {
             _poolHead = 0;
             _poolTail = 0;

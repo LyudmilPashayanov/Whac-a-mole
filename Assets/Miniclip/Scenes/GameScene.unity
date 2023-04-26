@@ -3943,6 +3943,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HighscoresPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 4872125358244249771, guid: 1ce5585237d7cfc40869548507815fbd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4872125358244249772, guid: 1ce5585237d7cfc40869548507815fbd, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4026,6 +4030,14 @@ PrefabInstance:
     - target: {fileID: 4872125358244249772, guid: 1ce5585237d7cfc40869548507815fbd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872125359226424474, guid: 1ce5585237d7cfc40869548507815fbd, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872125359226424474, guid: 1ce5585237d7cfc40869548507815fbd, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ce5585237d7cfc40869548507815fbd, type: 3}
