@@ -42,6 +42,7 @@ namespace Miniclip.Pooler
         {
             if (forceUpdate || list.Count < TargetVisibleItemCount + _bufferSize)
             {
+                _scrollRect.StopMovement();
                 _scrollRect.onValueChanged.RemoveAllListeners();
                 foreach (Transform child in _content)
                 {

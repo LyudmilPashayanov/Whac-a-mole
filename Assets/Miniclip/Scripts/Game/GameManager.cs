@@ -205,23 +205,10 @@ namespace Miniclip.Game
             _playerAttemptData.AddAttempt(newAttempt);
             _playfabManager.SavePlayerAttempts(_playerAttemptData);
             
-            if(IsAttemptRecord(newAttempt))
+            if(_playerAttemptData.IsAttemptRecord(newAttempt))
                 _playfabManager.UpdateLeaderboard(newAttempt);
         }
-
-        private bool IsAttemptRecord(AttemptData attempt)
-        {
-            List<AttemptData> shallowSortedData = _playerAttemptData.PlayerAttempts.GetRange(0, _playerAttemptData.PlayerAttempts.Count);
-            shallowSortedData.Sort( (a,b) => b.Score.CompareTo(a.Score));
-            int highestScore = shallowSortedData[0].Score;
-            if (highestScore <= attempt.Score)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
+        
         #endregion
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Miniclip.Entities;
 using Miniclip.Pooler;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Miniclip.UI.HighScore
@@ -76,17 +77,40 @@ namespace Miniclip.UI.HighScore
                 _worldsDataRequest?.Invoke(OnWorldsDataRetrieved);
             }
         }
-        
+
         private void OnWorldsDataRetrieved(WorldsData data)
         {
-            AttemptData currentAttempt = _playerData.PlayerAttempts.Last();
             List<AttemptData> shallowCopy = data.worldWideAttempts.GetRange(0, data.worldWideAttempts.Count);
-            shallowCopy.Add(currentAttempt);
-            
-            UpdateBoard(shallowCopy,true);
-            _view.EnableLoadingScreen(false);
+            AttemptData currentAttempt = _playerData.PlayerAttempts.Last();
+
+            if (_playerData.IsAttemptRecord(currentAttempt))
+            {
+                // Your current attempt will appear in the top 10
+                AttemptData recordData = new AttemptData();
+                for (int i = 0; i < data.worldWideAttempts.Count; i++)
+                {
+                    if (data.worldWideAttempts[i].Name == currentAttempt.Name &&
+                        data.worldWideAttempts[i].Score == currentAttempt.Score)
+                    {
+                        recordData = data.worldWideAttempts[i];
+                        break;
+                    }
+                }
+
+                data.worldWideAttempts.Remove(recordData);
+                data.worldWideAttempts.Add(recordData);
+                UpdateBoard(shallowCopy, true);
+                _view.EnableLoadingScreen(false);
+            }
+            else
+            {
+                // Your current attempt will appear at the end.
+                shallowCopy.Add(currentAttempt);
+                UpdateBoard(shallowCopy, true);
+                _view.EnableLoadingScreen(false);
+            }
         }
-        
+
         private void PlayAgain()
         {
             Owner.SwitchPanel(Panel.Gameplay);

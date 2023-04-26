@@ -12,6 +12,19 @@ namespace Miniclip.Entities
         {
             PlayerAttempts.Add(data);
         }
+        
+        public bool IsAttemptRecord(AttemptData attempt)
+        {
+            List<AttemptData> shallowSortedData = PlayerAttempts.GetRange(0, PlayerAttempts.Count);
+            shallowSortedData.Sort( (a,b) => b.Score.CompareTo(a.Score));
+            int highestScore = shallowSortedData[0].Score;
+            if (highestScore <= attempt.Score)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
     
     [Serializable]
