@@ -36,7 +36,7 @@ With the aim to make the app as optimized and flexible as possible:
 - UI Pooling technique was used in order to handle the data in the high score panel. The pooling script is done in a way to be reused on different scroll views with different styles and prefabs.
 
 ### Playfab:
-A non-flat percisency storage system was used- Playfab. All the data of the game is stored in Playfab and in JSON format.
+A non-flat percisency storage system was used- Playfab. Some of the game rules data of the game is stored in Playfab and in JSON format.
 Each player/user has its own player data, which is constantly synced with the data shown in the game/app.
 The developers can track when the player opens and how the player uses the app, from the Playfab console, within their browser.
 The developers can dynamically change the Title data of the game/app from the Playfab console, within their browser.
