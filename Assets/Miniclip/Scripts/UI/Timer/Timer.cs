@@ -38,7 +38,6 @@ namespace Miniclip.UI.Timer
         
         public void InitTimer(float time, Action timeFinished)
         {
-            Debug.Log("time: " + time);
             _timer = time;
             _timeFinished = timeFinished;
             _timeText.text = ((int)time).ToString();
