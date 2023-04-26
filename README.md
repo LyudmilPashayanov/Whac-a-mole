@@ -10,7 +10,7 @@ For the animations in the project it was used the DoTween plugin and for persite
 
 ## Dependencies
 Internet- The project uses non-flat persistent storage system- Playfab. Constant access to the internet is required, so that the database can be updated successfully.
-How to run?
+## How to run?
 You can run the app/game from:
 
 - Inside the Unity Editor with version 2021.3.23f1.
