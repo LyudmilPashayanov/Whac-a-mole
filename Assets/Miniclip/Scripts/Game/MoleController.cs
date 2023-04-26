@@ -1,6 +1,7 @@
 using System;
 using Miniclip.Audio;
 using Miniclip.Entities.Moles;
+using Miniclip.Game.Gameplay;
 using UnityEngine;
 
 namespace Miniclip.Game
@@ -29,12 +30,6 @@ namespace Miniclip.Game
             _view.OnMoleHidden += ResetMole;
         }
 
-        private void UpdateMoleAppearance()
-        {
-            _view.EnableHelmet(_mole.HasHelmet());
-            _view.EnableBomb(_mole.HasBomb());
-        }
-
         public void SetupPosition(RectTransform spawningPosition)
         {
             SpawningPoint = spawningPosition;
@@ -42,6 +37,17 @@ namespace Miniclip.Game
             _rectTransform.localScale = Vector3.zero;
             _rectTransform.anchoredPosition = Vector2.zero;
             gameObject.SetActive(true);
+        }
+        
+        public void SetShowSpeed(float showSpeed)
+        {
+            _view.SetShowSpeed(showSpeed);
+        }
+        
+        private void UpdateMoleAppearance()
+        {
+            _view.EnableHelmet(_mole.HasHelmet());
+            _view.EnableBomb(_mole.HasBomb());
         }
         
         private void MoleHit()

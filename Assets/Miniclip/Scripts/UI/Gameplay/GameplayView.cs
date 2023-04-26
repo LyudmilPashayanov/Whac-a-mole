@@ -10,6 +10,7 @@ namespace Miniclip.UI.Gameplay
    public class GameplayView : MonoBehaviour
    {
       private const string END_TEXT = "Time's up!"; // Could later on be a key to a localized text.
+      private const float STARTING_TIMER_DURATION = 0.6f;
 
       [SerializeField] private RectTransform _centeredTextField;
       [SerializeField] private GameObject _pauseTab;
@@ -21,7 +22,8 @@ namespace Miniclip.UI.Gameplay
       [SerializeField] private TMP_Text _scoreText;
       [SerializeField] private TMP_Text _comboText;
 
-      private Sequence _centeredTextSequence;
+      private Sequence _startingTimerSequence;
+      private Sequence _endTextSequence;
       
       public void Subscribe(Action continueGameplay, Action goToMainMenu, Action pauseGame)
       {
@@ -37,46 +39,48 @@ namespace Miniclip.UI.Gameplay
       
       public void EnableEndTextAnimation(Action animationCompleted)
       { 
-         _pauseButton.gameObject.SetActive(false);
-         _centeredTextSequence.Kill();
-         _centeredTextSequence = DOTween.Sequence();
          _centeredTextField.localScale = Vector3.zero;
          _centeredText.text = END_TEXT;
          _centeredTextField.gameObject.SetActive(true);
-         _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.one, 0.7f).SetEase(Ease.OutBounce));
-         _centeredTextSequence.AppendInterval(3).OnComplete(
-            () =>
+         
+         _endTextSequence = DOTween.Sequence();
+         _endTextSequence.SetAutoKill(false);
+         _endTextSequence.Append(_centeredTextField.DOScale(Vector3.one, 0.7f).SetEase(Ease.OutBounce));
+         _endTextSequence.AppendInterval(2);
+         _endTextSequence.OnComplete(() =>
             {
-               animationCompleted.Invoke();
+               animationCompleted?.Invoke();
             });
       }
 
       public void EnableStartingTimer(Action animationCompleted)
       {
-         _centeredTextSequence.Kill();
-         _centeredTextSequence = DOTween.Sequence();
+         
          _centeredTextField.localScale = Vector3.zero;
          _centeredText.text = "3";
          _centeredTextField.gameObject.SetActive(true);
-         /*_centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.one, 0.8f));
-         _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.zero, 0.8f).OnComplete(() =>
+         
+         _startingTimerSequence = DOTween.Sequence();
+         _startingTimerSequence.Append(_centeredTextField.DOScale(Vector3.one, STARTING_TIMER_DURATION));
+         _startingTimerSequence.Append(_centeredTextField.DOScale(Vector3.zero, STARTING_TIMER_DURATION).OnComplete(() =>
          {
             _centeredText.text = "2";
          }));
-         _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.one, 0.8f));
-         _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.zero, 0.8f).OnComplete(() =>
+         _startingTimerSequence.Append(_centeredTextField.DOScale(Vector3.one, STARTING_TIMER_DURATION));
+         _startingTimerSequence.Append(_centeredTextField.DOScale(Vector3.zero, STARTING_TIMER_DURATION).OnComplete(() =>
          {
             _centeredText.text = "1";
          }));
-         _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.one, 0.8f));*/
-         _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.zero, 0.8f).OnComplete(() =>
+         _startingTimerSequence.Append(_centeredTextField.DOScale(Vector3.one, STARTING_TIMER_DURATION));
+         _startingTimerSequence.Append(_centeredTextField.DOScale(Vector3.zero, STARTING_TIMER_DURATION).OnComplete(() =>
          {
             _centeredText.text = "GO!";
          }));
-         _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.one, 0.8f));
-         _centeredTextSequence.Append(_centeredTextField.DOScale(Vector3.zero, 0.8f));
-         _centeredTextSequence.OnComplete(() =>
+         _startingTimerSequence.Append(_centeredTextField.DOScale(Vector3.one, STARTING_TIMER_DURATION));
+         _startingTimerSequence.Append(_centeredTextField.DOScale(Vector3.zero, STARTING_TIMER_DURATION));
+         _startingTimerSequence.OnComplete(() =>
          {
+     
             animationCompleted.Invoke();
          });
       }
@@ -86,25 +90,19 @@ namespace Miniclip.UI.Gameplay
          if (enable)
          {
             _pauseTab.SetActive(true);
-            if (_centeredTextSequence.IsPlaying())
-            {
-               _centeredTextSequence.Pause();
-            }
+            _startingTimerSequence.Pause();
          }
          else
          {
             _pauseTab.SetActive(false);
-            if (_centeredTextSequence.IsActive())
-            {
-               _centeredTextSequence.Play();
-            }
+            _startingTimerSequence.PlayForward();
          }
       }
 
       public void Reset()
       {
          EnablePause(false);
-         _centeredTextSequence.Kill();
+         _startingTimerSequence.Kill();
          _centeredTextField.gameObject.SetActive(false);
          _centeredText.text = "";
          UpdateComboText(1);

@@ -10,6 +10,11 @@ namespace Miniclip.UI.MainMenu
         [SerializeField] private MainMenuView _view;
         private Action<string> OnNameChosen;
         private PlayerOptionsData _playerOptionsData;
+        
+        private void Start()
+        {
+            _view.Subscribe(GoToTutorial, CheckButtonActivations);
+        }
 
         public void Subscribe(Action<string> onNameChosen)
         {
@@ -37,6 +42,7 @@ namespace Miniclip.UI.MainMenu
         
         private void GoToTutorial()
         {
+            Debug.Log("GoToTutorial GoToTutorial GoToTutorialGoToTutorial");
             OnNameChosen.Invoke(_view.GetName());
             AudioManager.Instance.PlayButtonClickSound();
             Owner.SwitchPanel(Panel.Tutorial);
@@ -44,6 +50,7 @@ namespace Miniclip.UI.MainMenu
         
         private void GoToGame()
         {
+            Debug.Log("GoToGame GoToGame GoToGame GoToGame");
             OnNameChosen.Invoke(_view.GetName());
             AudioManager.Instance.PlayButtonClickSound();
             Owner.SwitchPanel(Panel.Gameplay);
@@ -53,7 +60,6 @@ namespace Miniclip.UI.MainMenu
         {
             _view.EnableTextInput(true);
             _view.StartTitleAnimation(true);
-
             if (_playerOptionsData.ShowTutorial)
             {
                 _view.SetMainButtonSettings("Tutorial", GoToTutorial);
@@ -62,8 +68,6 @@ namespace Miniclip.UI.MainMenu
             {
                 _view.SetMainButtonSettings("Start Game", GoToGame);
             }
-            _view.Subscribe(GoToTutorial, CheckButtonActivations);
-
             base.ShowPanel(playAnimation);
         }
 

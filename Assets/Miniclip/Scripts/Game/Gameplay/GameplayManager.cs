@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.IO.LowLevel.Unsafe;
 using Random = System.Random;
 
 namespace Miniclip.Game.Gameplay
@@ -35,6 +36,7 @@ namespace Miniclip.Game.Gameplay
         public MoleController SpawnMole(MoleType moleType)
         {
             MoleController mole = _factory.GetMole(moleType);
+            mole.SetShowSpeed(GetShowingSpeed());
             _spawnedMoles++;
             OnMoleSpawned?.Invoke();
             return mole;
@@ -87,16 +89,31 @@ namespace Miniclip.Game.Gameplay
             }
         }
         
+        private float GetShowingSpeed()
+        {
+            switch (_currentDifficulty)
+            {
+                case Difficulty.Easy:
+                    return 0.7f;
+                case Difficulty.Medium:
+                    return 0.6f;
+                case Difficulty.Hard:
+                    return 0.5f;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
         public float GetTimeBetweenMoles()
         {
             switch (_currentDifficulty)
             {
                 case Difficulty.Easy:
-                    return 1f;
-                case Difficulty.Medium:
                     return 0.8f;
+                case Difficulty.Medium:
+                    return 0.6f;
                 case Difficulty.Hard:
-                    return 0.5f;
+                    return 0.4f;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -107,11 +124,11 @@ namespace Miniclip.Game.Gameplay
             switch (_currentDifficulty)
             {
                 case Difficulty.Easy:
-                    return 0.9f;
+                    return 0.7f;
                 case Difficulty.Medium:
                     return 0.6f;
                 case Difficulty.Hard:
-                    return 0.5f;
+                    return 0.4f;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

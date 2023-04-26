@@ -39,7 +39,12 @@ namespace Miniclip.Game
             
             moleDie?.Invoke();
         }
-
+        
+        public void SetShowSpeed(float showSpeed)
+        {
+            _showingDuration = showSpeed;
+        }
+        
         public void ShowMole(float hideAfterTime)
         {
             _moleShowingSequence = DOTween.Sequence();

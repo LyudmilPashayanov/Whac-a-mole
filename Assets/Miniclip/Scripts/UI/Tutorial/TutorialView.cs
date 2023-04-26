@@ -48,5 +48,10 @@ namespace Miniclip.UI.Tutorial
         {
             _molesLoop.Pause();
         }
+
+        public void SetTutorialToggle(bool showTutorial)
+        {
+            _tutorialToggle.isOn = !showTutorial;
+        }
     }
 }

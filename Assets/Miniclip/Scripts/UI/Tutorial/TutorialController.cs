@@ -39,6 +39,7 @@ namespace Miniclip.UI.Tutorial
         public override void ShowPanel(bool playAnimation = true)
         {
             base.ShowPanel(playAnimation);
+            _view.SetTutorialToggle(_playerOptionsData.ShowTutorial);
             _view.StartMolesAnimationLoop();
         }
         

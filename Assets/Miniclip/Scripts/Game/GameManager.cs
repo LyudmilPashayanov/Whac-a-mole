@@ -33,7 +33,7 @@ namespace Miniclip.Game
         private float _timer = 0f;
         private float _timeBetweenMoles = 1f; // Delay in seconds
         private bool _spawningMoles = false;
-
+        private bool _gameOn;
         private void Update()
         {
             if (_spawningMoles)
@@ -70,7 +70,7 @@ namespace Miniclip.Game
             _playerName = name;
         }
         
-        public void StartWhacAMole()
+        private void StartWhacAMole()
         {
             _scoringManager.ResetManager();
             _uiManager.GameplayController.EnablePauseButton(true);
@@ -79,6 +79,7 @@ namespace Miniclip.Game
             {
                 _uiManager.GameplayController.StartTimerCountdown(_playfabManager.GameData.Timer,GameFinished);
                 _timeBetweenMoles = _gameplayManager.GetTimeBetweenMoles();
+                _gameOn=true;
                 StartSpawning();
             }
         }
@@ -156,12 +157,16 @@ namespace Miniclip.Game
         private void OnUnpauseGame()
         {
             _uiManager.GameplayController.HidePauseMenu();
-            _uiManager.GameplayController.ResumeTimerCountdown();
-            for (int i = 0; i < _shownMoles.Count; i++)
+            if (_gameOn)
             {
-                _shownMoles[i].UnpauseMole();
+                _uiManager.GameplayController.ResumeTimerCountdown();
+                for (int i = 0; i < _shownMoles.Count; i++)
+                {
+                    _shownMoles[i].UnpauseMole();
+                }
+                StartSpawning();
             }
-            StartSpawning();
+            
         }
 
         #endregion
@@ -188,6 +193,7 @@ namespace Miniclip.Game
         
         private void ResetField()
         {
+            _gameOn = false;
             _gameplayManager.ResetManager();
             List<MoleController> shallowCopy = _shownMoles.GetRange(0, _shownMoles.Count);
             for (int i = 0; i < shallowCopy.Count; i++)
