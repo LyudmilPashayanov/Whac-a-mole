@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Miniclip.Entities;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -18,6 +19,7 @@ namespace Miniclip.Playfab
 
         public GameData GameData;
         public PlayerData PlayerAttemptData = new PlayerData();
+        public WorldsData WorldsAttemptData = new WorldsData();
 
         public void Init(Action loadingFinished, Action errorOccured)
         {
@@ -116,7 +118,65 @@ namespace Miniclip.Playfab
                 result => Debug.Log("Successfully updated user data"),
                 OnPlayFabError);
         }
+        
+        public void UpdateLeaderboard(AttemptData recordAttempt)
+        {
+            UpdateDisplayName(recordAttempt.Name);
+            var playerStat = new List<StatisticUpdate>{
+                new StatisticUpdate{
+                    StatisticName = "Highscores",
+                    Value = recordAttempt.Score
+                }
+            };
+            PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest{
+                Statistics = playerStat
+            }, result => {
+                Debug.Log("Leaderboard updated successfully");
+            }, error => {
+                Debug.LogError("Leaderboard update failed: " + error.ErrorMessage);
+            });
+        }
+        
+        private void UpdateDisplayName(string newDisplayName)
+        {
+            var request = new UpdateUserTitleDisplayNameRequest
+            {
+                DisplayName = newDisplayName
+            };
+            PlayFabClientAPI.UpdateUserTitleDisplayName(request, (result)=>
+            {
+                Debug.Log("Display name updated successfully");
+            }, (error) =>
+            {
+                Debug.LogError("Error updating display name: " + error.ErrorMessage);
+            });
+        }
 
+        public void GetLeaderboard(Action<WorldsData> worldsAttemptDataRetrieved)
+        {
+            PlayFabClientAPI.GetLeaderboard(new GetLeaderboardRequest{
+                StatisticName = "Highscores",
+                StartPosition = 0,
+                MaxResultsCount = 10
+            }, result => {
+                Debug.Log("Leaderboard retrieved successfully");
+                List<AttemptData> worldData = new List<AttemptData>();
+                foreach (var player in result.Leaderboard)
+                {
+                    AttemptData data = new AttemptData();
+                    data.Name = player.DisplayName;
+                    data.Score = player.StatValue;
+                    worldData.Add(data);
+                }
+                WorldsAttemptData.worldWideAttempts = worldData;
+                worldsAttemptDataRetrieved?.Invoke(WorldsAttemptData);
+
+            }, error => {
+                Debug.LogError("Leaderboard retrieval failed: " + error.ErrorMessage);
+            });
+
+        }
+        
         /// <summary>
         /// Failed call or to the server, stops the app and prompts a restart. 
         /// </summary>

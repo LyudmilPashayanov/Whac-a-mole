@@ -24,7 +24,7 @@ namespace Miniclip.UI.MainMenu
 
         private void CheckStartButtonActivation(string text)
         {
-            if (text.Length > 0)
+            if (text.Length > 2)
             {
                 SetStartGameButtonInteractable(true);
                 if ( /* show tutorial button */true)

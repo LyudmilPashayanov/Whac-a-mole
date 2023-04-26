@@ -32,12 +32,10 @@ namespace Miniclip.UI
         [SerializeField] public GameplayController GameplayController;
         
         private UIPanel _activePanel;
-        private GameManager _gameManager;
         private Sequence _loadingScreenTextSequence;
         
-        public void Init(GameManager gameManager)
+        public void Init()
         {
-            _gameManager = gameManager;
             MainMenuController.Subscribe(this);
             TutorialController.Subscribe(this);
             HighScoreController.Subscribe(this);
@@ -108,9 +106,7 @@ namespace Miniclip.UI
         
         private void ShowGameplay()
         {
-            GameplayController.OnShowComplete += _gameManager.StartWhacAMole;
             GameplayController.ShowPanel();
-            
             _activePanel.OnHideComplete -= ShowGameplay;
             _activePanel = GameplayController;
         }
@@ -128,7 +124,7 @@ namespace Miniclip.UI
             if (enable)
             {
                 _infoTabText.text = "Connecting to server ...";
-                _loadingScreenTextSequence = DOTween.Sequence(); // using do tween timing as a Coroutine.
+                _loadingScreenTextSequence = DOTween.Sequence(); // using To tween timing as a Coroutine.
                 _loadingScreenTextSequence.Append(DOTween.To(value => value = 0, 0, 1, 2f).OnComplete(() =>
                 {
                     _infoTabText.text = "Connecting to server .";

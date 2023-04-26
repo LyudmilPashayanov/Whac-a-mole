@@ -14,6 +14,7 @@ namespace Miniclip.UI.HighScore
         [SerializeField] private Button _playAgainButton;
         [SerializeField] private Button _getLocalDataButton;
         [SerializeField] private Button _getWorldsDataButton;
+        [SerializeField] private GameObject _loadingScreen;
         private readonly Color _clickedColor = Color.gray;
         private readonly Color _normalColor = Color.white;
         
@@ -59,7 +60,11 @@ namespace Miniclip.UI.HighScore
         {
             _getWorldsDataButton.image.color = _clickedColor;
             _getLocalDataButton.image.color = _normalColor;
+        }
 
+        public void EnableLoadingScreen(bool enable)
+        {
+            _loadingScreen.gameObject.SetActive(enable);
         }
     }
 }

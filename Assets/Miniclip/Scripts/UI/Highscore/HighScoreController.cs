@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Miniclip.Entities;
@@ -11,23 +12,33 @@ namespace Miniclip.UI.HighScore
         [SerializeField] public HighScoreView _view;
         private PlayerData _playerData;
         private bool _showingLocally = false;
-        
-        public void Init(PlayerData playerData)
+        private Action<Action<WorldsData>> _worldsDataRequest; 
+
+        public void Init(PlayerData playerData, Action<Action<WorldsData>> worldsDataRequest)
         {
             _playerData = playerData;
+            _worldsDataRequest = worldsDataRequest;
             _view.Subscribe(GoToMainMenu, PlayAgain, ShowLocalHighScore, ShowWorldsHighScore);
         }
         
         public void SetupBoard()
         {
-            _showingLocally = true;
-            _view.LocalButtonClicked();
-            _view.SetupScrollView(ConvertAttemptDataToUIData(_playerData.PlayerAttempts));
+            if (_showingLocally==false)
+            {
+                _showingLocally = true;
+                _view.LocalButtonClicked();
+                _view.SetupScrollView(ConvertAttemptDataToUIData(_playerData.PlayerAttempts));
+            }
+            else
+            {
+                _view.LocalButtonClicked();
+                UpdateBoard(_playerData.PlayerAttempts,true);
+            }
         }
         
-        private void UpdateBoard(List<AttemptData> attemptData)
+        private void UpdateBoard(List<AttemptData> attemptData, bool force)
         {
-            _view.UpdateScrollView(ConvertAttemptDataToUIData(attemptData),false);
+            _view.UpdateScrollView(ConvertAttemptDataToUIData(attemptData),force);
         }
 
         private List<IPoolData> ConvertAttemptDataToUIData(List<AttemptData> attemptData)
@@ -50,7 +61,7 @@ namespace Miniclip.UI.HighScore
             {
                 _showingLocally = true;
                 _view.LocalButtonClicked();
-                UpdateBoard(_playerData.PlayerAttempts);
+                UpdateBoard(_playerData.PlayerAttempts,false);
             }
         }
 
@@ -60,8 +71,15 @@ namespace Miniclip.UI.HighScore
             {
                 _showingLocally = false;
                 _view.WorldsButtonClicked();
-                // UpdateBoard( <WORLDS DATA HERE> );
+                _view.EnableLoadingScreen(true);
+                _worldsDataRequest?.Invoke(OnWorldsDataRetrieved);
             }
+        }
+        
+        private void OnWorldsDataRetrieved(WorldsData data)
+        {
+            _view.EnableLoadingScreen(false);
+            UpdateBoard(data.worldWideAttempts,true);
         }
         
         private void PlayAgain()
@@ -73,10 +91,10 @@ namespace Miniclip.UI.HighScore
         {
             Owner.SwitchPanel(Panel.MainMenu);
         }
-        
+
         protected override void OnViewLeft()
         {
-            _showingLocally = false;
+            ShowLocalHighScore();
         }
     }
 }
