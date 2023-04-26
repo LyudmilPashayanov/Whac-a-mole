@@ -1454,11 +1454,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247d6d47da242724488734f51f38bea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScrollRect: {fileID: 4872125358862865095}
-  ViewPort: {fileID: 4872125359350768597}
-  DragDetection: {fileID: 3258223103548461316}
-  Content: {fileID: 4872125359473720813}
-  BufferSize: 2
+  _scrollRect: {fileID: 4872125358862865095}
+  _viewPort: {fileID: 4872125359350768597}
+  _dragDetection: {fileID: 3258223103548461316}
+  _content: {fileID: 4872125359473720813}
+  _bufferSize: 2
 --- !u!1 &4872125358896383521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1569,7 +1569,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
