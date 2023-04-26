@@ -1,6 +1,5 @@
 using System;
 using DG.Tweening;
-using Miniclip.Game;
 using Miniclip.UI.Gameplay;
 using Miniclip.UI.HighScore;
 using Miniclip.UI.MainMenu;

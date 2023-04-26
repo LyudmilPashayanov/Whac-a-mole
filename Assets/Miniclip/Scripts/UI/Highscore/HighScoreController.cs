@@ -23,6 +23,7 @@ namespace Miniclip.UI.HighScore
         
         public void SetupBoard()
         {
+            _view.EnableLoadingScreen(false);
             if (_showingLocally==false)
             {
                 _showingLocally = true;
@@ -78,8 +79,12 @@ namespace Miniclip.UI.HighScore
         
         private void OnWorldsDataRetrieved(WorldsData data)
         {
+            AttemptData currentAttempt = _playerData.PlayerAttempts.Last();
+            List<AttemptData> shallowCopy = data.worldWideAttempts.GetRange(0, data.worldWideAttempts.Count);
+            shallowCopy.Add(currentAttempt);
+            
+            UpdateBoard(shallowCopy,true);
             _view.EnableLoadingScreen(false);
-            UpdateBoard(data.worldWideAttempts,true);
         }
         
         private void PlayAgain()

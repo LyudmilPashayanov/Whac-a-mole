@@ -3939,6 +3939,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1380767912}
     m_Modifications:
+    - target: {fileID: 1588935605986895868, guid: 1ce5585237d7cfc40869548507815fbd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4872125358244249771, guid: 1ce5585237d7cfc40869548507815fbd, type: 3}
       propertyPath: m_Name
       value: HighscoresPanel
