@@ -130,6 +130,7 @@ namespace Miniclip.UI.HighScore
         private void OnWorldsDataRetrieved(WorldsData data)
         {
             List<AttemptData> shallowCopy = data.worldWideAttempts.GetRange(0, data.worldWideAttempts.Count);
+
             AttemptData currentAttempt = _playerData.PlayerAttempts.Last();
 
             if (_playerData.IsAttemptRecord(currentAttempt))
@@ -146,8 +147,8 @@ namespace Miniclip.UI.HighScore
                     }
                 }
 
-                data.worldWideAttempts.Remove(recordData);
-                data.worldWideAttempts.Add(recordData);
+                shallowCopy.Remove(recordData);
+                shallowCopy.Add(recordData);
                 UpdateBoard(shallowCopy, true);
                 _view.EnableLoadingScreen(false);
             }
