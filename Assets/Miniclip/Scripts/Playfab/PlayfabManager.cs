@@ -44,7 +44,7 @@ namespace Miniclip.Playfab
         };
         PlayFabClientAPI.LoginWithAndroidDeviceID(request, OnLoginSuccess, OnPlayFabError);
 #endif
-#if !UNITY_ANDROID
+#if UNITY_EDITOR
             LoginWithCustomIDRequest request = new LoginWithCustomIDRequest
             {
                 CustomId = SystemInfo.deviceUniqueIdentifier,
