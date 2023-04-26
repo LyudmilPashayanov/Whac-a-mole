@@ -11,6 +11,7 @@ namespace Miniclip.Entities.Moles
         protected int Lives;
         protected MoleType MoleType;
         public event Action OnMoleHit;
+        public event Action OnHelmetBroken;
         public event Action<MoleType> OnMoleDied;
         public event Action OnMoleExploded;
         
@@ -46,7 +47,13 @@ namespace Miniclip.Entities.Moles
         
         protected void BreakHelmet()
         {
+            if (Helmet)
+            {
+                OnHelmetBroken?.Invoke();
+            }
+            
             Helmet = false;
+            
         }
 
         protected void Explode()

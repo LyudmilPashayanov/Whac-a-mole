@@ -34,12 +34,12 @@ namespace Miniclip.Audio
             }
         }
 
-        public void PlayGoodHitSound()
+        public void PlayNormalHitSound()
         {
             _oneShotSource.PlayOneShot(_goodHitAudio);
         }
         
-        public void PlayBadHitSound()
+        public void PlayBombHitSound()
         {
             _oneShotSource.PlayOneShot(_badHitAudio);
         }

@@ -62,7 +62,7 @@ namespace Miniclip.UI.HighScore
             {
                 _showingLocally = true;
                 _view.LocalButtonClicked();
-                UpdateBoard(_playerData.PlayerAttempts,false);
+                UpdateBoard(_playerData.PlayerAttempts,true);
             }
         }
 

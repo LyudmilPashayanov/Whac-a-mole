@@ -1,4 +1,5 @@
 using System;
+using Miniclip.Audio;
 using Miniclip.Entities.Moles;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace Miniclip.Game
             SubscribeOnDieEvent(MoleDie);
             _view.SetSprite(moleSprite);
             UpdateMoleAppearance();
-            _view.ToggleInteractable(true);
+            ToggleInteractable(true);
             _view.OnMoleClicked += _mole.Hit;
             _view.OnMoleHidden += ResetMole;
         }
@@ -71,6 +72,7 @@ namespace Miniclip.Game
 
         private void HideMole()
         {
+            ToggleInteractable(false);
             _view.HideMole();
         }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Miniclip.Audio;
 using Miniclip.Entities.Moles;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -35,6 +36,10 @@ namespace Miniclip.Game
                 CreateMole(mole);
             }
 
+            mole.OnMoleHit += AudioManager.Instance.PlayNormalHitSound;
+            mole.OnHelmetBroken += AudioManager.Instance.PlayMetalHitSound;
+            mole.OnMoleExploded += AudioManager.Instance.PlayBombHitSound;
+            
             MoleController moleController =  _objectPool.Dequeue();
             Sprite moleSprite = _molesAtlas.GetSprite(mole.GetSpriteName());
             moleController.SubscribeOnDespawnEvent(ReturnMole);
