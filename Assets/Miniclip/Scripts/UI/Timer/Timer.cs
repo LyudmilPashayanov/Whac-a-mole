@@ -1,19 +1,26 @@
 using System;
-using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;
 
 namespace Miniclip.UI.Timer
 {
+    /// <summary>
+    /// This doesn't need explanations :D
+    /// </summary>
     public class Timer : MonoBehaviour
     {
+        #region Variables
+
         [SerializeField] private TMP_Text _timeText;
-        
         private float _timer;
         private Action _timeFinished;
         private bool _timerStopped = true;
         private int _shownTime;
         
+        #endregion
+
+        #region Functionality
+
         void Update()
         {
             if(_timerStopped)
@@ -73,5 +80,7 @@ namespace Miniclip.UI.Timer
             _timerStopped = true;
             _timeText.gameObject.SetActive(false);
         }
+
+        #endregion
     }
 }

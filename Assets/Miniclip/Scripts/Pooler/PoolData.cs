@@ -7,6 +7,9 @@ namespace Miniclip.Pooler
     {
     }
     
+    /// <summary>
+    /// This class serves to populate the high score panel with relevant UI data.
+    /// </summary>
     public class AttemptDataUI : PoolData
     {
         public int Score { get; set; }

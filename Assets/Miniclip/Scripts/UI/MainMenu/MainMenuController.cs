@@ -5,13 +5,23 @@ using UnityEngine;
 
 namespace Miniclip.UI.MainMenu
 {
+    /// <summary>
+    /// This class is responsible for the Main Menu Panel in Whac-A-Mole.
+    /// All the logic for the Main Menu is handled here.
+    /// </summary>
     public class MainMenuController : UIPanel
     {
+        #region Variables
+
         [SerializeField] private MainMenuView _view;
         private Action<string> OnNameChosen;
         private PlayerOptionsData _playerOptionsData;
-        
-        private void Start()
+
+        #endregion
+
+        #region Functionality
+
+            private void Start()
         {
             _view.Subscribe(GoToTutorial, CheckButtonActivations);
         }
@@ -69,11 +79,6 @@ namespace Miniclip.UI.MainMenu
             base.ShowPanel(playAnimation);
         }
 
-        protected override void OnViewLeft()
-        {
-            _view.Reset();
-        }
-
         public override void HidePanel(bool playAnimation = true)
         {
             _view.EnableTextInput(false);
@@ -87,5 +92,16 @@ namespace Miniclip.UI.MainMenu
         {
             _playerOptionsData = playerOptionsData;
         }
+
+        #endregion
+
+        #region EventHandlers
+
+        protected override void OnViewLeft()
+        {
+            _view.Reset();
+        }
+
+        #endregion
     }
 }

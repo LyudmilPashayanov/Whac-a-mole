@@ -4,10 +4,20 @@ using UnityEngine;
 
 namespace Miniclip.UI.Gameplay
 {
+    /// <summary>
+    /// This class is responsible for the Gameplay Panel in Whac-A-Mole.
+    /// All the logic for the gameplay panel is handled here.
+    /// </summary>
     public class GameplayController : UIPanel
     {
+        #region Variables
+
         [SerializeField] private GameplayView _view;
         [SerializeField] private Timer.Timer _timer;
+
+        #endregion
+
+        #region Functionality
 
         public void Subscribe(Action UnpauseGame, Action LeaveGame, Action PauseGame)
         {
@@ -89,6 +99,9 @@ namespace Miniclip.UI.Gameplay
             _view.UpdateScoreText(scoreData.Hits);
             _view.UpdateComboText(scoreData.Combo);
         }
+
+        #endregion
+        
     }
 
 }

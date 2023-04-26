@@ -4,8 +4,13 @@ using UnityEngine;
 
 namespace Miniclip.UI
 {
+    /// <summary>
+    /// Base class which marks that a controller is a UI Panel and that you can navigate to that panel.
+    /// </summary>
     public abstract class UIPanel : MonoBehaviour
     {
+        #region Variables
+
         protected UIManager Owner;
         
         [SerializeField] private CanvasGroup _canvasGroup;
@@ -14,7 +19,12 @@ namespace Miniclip.UI
         public event Action OnHideComplete;
         public event Action OnShowComplete;
 
-        protected void Awake()
+        #endregion
+
+        #region Functionality
+
+        
+ protected void Awake()
         {
             _canvasGroup.alpha = 0f;
         }
@@ -94,6 +104,12 @@ namespace Miniclip.UI
             OnHideComplete?.Invoke();
         }
 
+        #endregion
+
+        #region Event Handlers
+
         protected abstract void OnViewLeft();
+
+        #endregion
     }
 }

@@ -19,6 +19,8 @@ namespace Miniclip.Game.Gameplay
     /// </summary>
     public class GameplayManager
     {
+        #region Variables
+
         private readonly MoleFactory _factory;
         private readonly Random _random;
         
@@ -31,8 +33,12 @@ namespace Miniclip.Game.Gameplay
         private List<int> _availablePositions = new List<int>() {0,1,2,3,4,5,6};
         private int _spawnedMoles;
         private event Action OnMoleSpawned;
-        
-        public GameplayManager(MoleFactory moleFactory)
+
+        #endregion
+
+        #region Functionality
+
+           public GameplayManager(MoleFactory moleFactory)
         {
             _factory = moleFactory;
             _random = new Random();
@@ -76,10 +82,10 @@ namespace Miniclip.Game.Gameplay
         {
             switch (_spawnedMoles)
             {
-                case 15:
+                case 25:
                     _currentDifficulty = Difficulty.Medium;
                     break;
-                case 25:
+                case 50:
                     _currentDifficulty = Difficulty.Hard;
                     break;
             }
@@ -157,5 +163,8 @@ namespace Miniclip.Game.Gameplay
             _currentDifficulty = Difficulty.Easy;
             _spawnedMoles = 0;
         }
+
+        #endregion
+     
     }
 }

@@ -5,8 +5,13 @@ using UnityEngine.UI;
 
 namespace Miniclip.UI.Tutorial
 {
+    /// <summary>
+    /// Handles all UI related logic in the Tutorial Panel. 
+    /// </summary>
     public class TutorialView : MonoBehaviour
     {
+        #region Variables
+
         [SerializeField] private RectTransform _normalMoleSprite;
         [SerializeField] private RectTransform _fortifiedMoleSprite;
         [SerializeField] private RectTransform _bombMoleSprite;
@@ -14,7 +19,11 @@ namespace Miniclip.UI.Tutorial
         [SerializeField] private Button _startButton;
         
         private Sequence _molesLoop;
-        
+
+        #endregion
+
+        #region Functionality
+
         private void Start()
         {
             _molesLoop = DOTween.Sequence();
@@ -53,5 +62,7 @@ namespace Miniclip.UI.Tutorial
         {
             _tutorialToggle.isOn = !showTutorial;
         }
+
+        #endregion
     }
 }

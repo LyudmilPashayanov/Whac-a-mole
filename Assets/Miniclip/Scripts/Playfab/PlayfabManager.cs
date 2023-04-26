@@ -8,8 +8,13 @@ using PlayFab.Json;
 
 namespace Miniclip.Playfab
 {
+    /// <summary>
+    /// This class connects to the backend of PlayFab and retrieves the game and player data and updates it.
+    /// </summary>
     public class PlayfabManager
     {
+        #region Variables
+
         private readonly string _titleId = "C9050";
         private string _playerPlayfabID = "";
         
@@ -21,7 +26,12 @@ namespace Miniclip.Playfab
         public PlayerOptionsData PlayerOptionsData = new PlayerOptionsData();
         public WorldsData WorldsAttemptData = new WorldsData();
 
-        public void Init(Action loadingFinished, Action errorOccured)
+
+        #endregion
+
+        #region Functionality
+
+            public void Init(Action loadingFinished, Action errorOccured)
         {
             _loadingFinished = loadingFinished;
             _errorOccured = errorOccured;
@@ -30,7 +40,7 @@ namespace Miniclip.Playfab
         }
 
         /// <summary>
-        /// Connects to the Playfab service
+        /// Connects to the Playfab service using the Unique ID of the Device  
         /// </summary>
         private void Login()
         {
@@ -210,7 +220,11 @@ namespace Miniclip.Playfab
             });
 
         }
-        
+
+        #endregion
+
+        #region Event Handlers
+
         /// <summary>
         /// Failed call or to the server, stops the app and prompts a restart. 
         /// </summary>
@@ -222,5 +236,8 @@ namespace Miniclip.Playfab
 #endif
             _errorOccured?.Invoke();
         }
+
+        #endregion
+
     }
 }

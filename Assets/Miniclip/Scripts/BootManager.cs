@@ -5,15 +5,28 @@ using UnityEngine;
 
 namespace Miniclip
 {
+    /// <summary>
+    /// This class is the first thing that runs in the game.
+    /// It is responsible to create the classes in the needed order
+    /// and if needed inject them with one another, so that they can
+    /// hold the references they need.
+    /// </summary>
     public class BootManager : MonoBehaviour
     {
+        #region Variables
+
         [SerializeField] private UIManager _uiManager;
         [SerializeField] private GameManager _gameManager;
 
         private PlayfabManager _playfabManager;
+
+        #endregion
+
+        #region Functionality
+
         private void Start()
         {
-             _uiManager.ShowLoadingScreen(true);
+            _uiManager.ShowLoadingScreen(true);
             _playfabManager = new PlayfabManager();
             InitPlayfab();
         }
@@ -39,13 +52,16 @@ namespace Miniclip
         
         private void GameBooted()
         {
-             _uiManager.ShowLoadingScreen(false);
-             _uiManager.SwitchPanel(Panel.MainMenu);
+            _uiManager.ShowLoadingScreen(false);
+            _uiManager.SwitchPanel(Panel.MainMenu);
         }
         
         private void OnPlayfabError()
         {
             _uiManager.ShowPlayfabErrorMessage();
         }
+
+        #endregion
+       
     }
 }

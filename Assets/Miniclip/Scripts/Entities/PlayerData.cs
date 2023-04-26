@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Miniclip.Entities
 {
+    /// <summary>
+    /// This class represents all the attempts done on this device.
+    /// </summary>
     [Serializable]
     public class PlayerData
     {
@@ -27,6 +30,9 @@ namespace Miniclip.Entities
         }
     }
     
+    /// <summary>
+    /// This class holds player options. They are saved to and retrieved from PlayFab.
+    /// </summary>
     [Serializable]
     public class PlayerOptionsData
     {

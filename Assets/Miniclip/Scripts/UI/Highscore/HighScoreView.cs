@@ -7,8 +7,13 @@ using UnityEngine.UI;
 
 namespace Miniclip.UI.HighScore
 {
+    /// <summary>
+    /// Handles all UI related logic in the High Score Panel. 
+    /// </summary>
     public class HighScoreView : MonoBehaviour
     {
+        #region Variables
+
         private const string LOCAL_INFO = "In this mode you see only the attempts of \"Whac-a-mole\" played on this device. The one in green is your latest attempt.";
         private const string LOCAL_INFO_TITLE = "Device high score info:";
         private const string GLOBAL_INFO = "In this mode you see all the attempts of \"Whac-a-mole\" played worldwide. The one in green is your latest attempt.";
@@ -25,7 +30,11 @@ namespace Miniclip.UI.HighScore
         [SerializeField] private TMP_Text _infoText;
         private readonly Color _clickedColor = Color.gray;
         private readonly Color _normalColor = Color.white;
-        
+
+        #endregion
+
+        #region Functionality
+
         public void Subscribe(Action mainMenuClicked, Action playAgainClicked, Action localDataButtonClicked, Action worldsDataButtonClicked)
         {
             _mainMenuButton.onClick.AddListener(()=>
@@ -86,5 +95,8 @@ namespace Miniclip.UI.HighScore
             _infoTitle.text = GLOBAL_INFO_TITLE;
             _infoText.text = GLOBAL_INFO;
         }
+
+        #endregion
+   
     }
 }

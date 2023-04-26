@@ -7,8 +7,13 @@ using UnityEngine.UI;
 
 namespace Miniclip.UI.Gameplay
 {
+   /// <summary>
+   /// Handles all UI related logic in the Gameplay Panel. 
+   /// </summary>
    public class GameplayView : MonoBehaviour
    {
+      #region Variables
+
       private const string END_TEXT = "Time's up!"; // Could later on be a key to a localized text.
       private const float STARTING_TIMER_DURATION = 0.6f;
 
@@ -25,7 +30,11 @@ namespace Miniclip.UI.Gameplay
       private Sequence _startingTimerSequence;
       private Sequence _endTextSequence;
       
-      public void Subscribe(Action continueGameplay, Action goToMainMenu, Action pauseGame)
+      #endregion
+
+      #region Functionality
+
+       public void Subscribe(Action continueGameplay, Action goToMainMenu, Action pauseGame)
       {
          _pauseTabMainMenuButton.onClick.AddListener(()=>goToMainMenu?.Invoke());
          _pauseTabContinueButton.onClick.AddListener(()=>continueGameplay?.Invoke());
@@ -128,5 +137,8 @@ namespace Miniclip.UI.Gameplay
       {
          _pauseButton.interactable = enable;
       }
+
+      #endregion
+     
    }
 }

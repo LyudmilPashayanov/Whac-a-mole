@@ -10,6 +10,9 @@ using Random = UnityEngine.Random;
 
 namespace Miniclip.UI
 {
+    /// <summary>
+    /// All UI panels in Whac-A-Mole
+    /// </summary>
     public enum Panel
     {
         MainMenu,
@@ -18,8 +21,15 @@ namespace Miniclip.UI
         HighScores
     }
     
+    /// <summary>
+    /// This class serves as an orchestrator for the UI in the game.
+    /// Here you can access all the different UI controllers
+    /// and Navigate from one UI view to another 
+    /// </summary>
     public class UIManager : MonoBehaviour
     {
+        #region Variables
+        
         private readonly string[] _niceArray = new[] { "You are awesome!", "You are the best!", "Keep it up, you are doing great!", "Eyyy, you chose to play my game!" };
 
         [SerializeField] private GameObject _infoTab;
@@ -32,8 +42,13 @@ namespace Miniclip.UI
         
         private UIPanel _activePanel;
         private Sequence _loadingScreenTextSequence;
+
+        #endregion
+
+        #region Functionality
+
         
-        public void Init()
+     public void Init()
         {
             MainMenuController.Subscribe(this);
             TutorialController.Subscribe(this);
@@ -43,7 +58,12 @@ namespace Miniclip.UI
             _activePanel = MainMenuController;
         }
         
-        public void SwitchPanel(Panel panel)  // TODO: Check if you can remove the checks for the activePanel as they are always NOT null.
+        /// <summary>
+        /// Navigates to a different UI Panel.
+        /// </summary>
+        /// <param name="panel">The panel you want to navigate to.</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public void SwitchPanel(Panel panel)
         {
             switch (panel)
             {
@@ -118,6 +138,10 @@ namespace Miniclip.UI
             HighScoreController.SetupBoard();
         }
         
+        /// <summary>
+        /// Shows a loading screen and gives you nice positive energy if you have to wait :)
+        /// </summary>
+        /// <param name="enable"></param>
         public void ShowLoadingScreen(bool enable)
         {
             if (enable)
@@ -155,5 +179,12 @@ namespace Miniclip.UI
             _infoTabText.text = "There has been a problem with the server.\nPlease restart the game.";
             _infoTab.SetActive(true);
         }
+        
+        #endregion
+
+        #region EventHandlers
+
+        #endregion
+   
     }
 }

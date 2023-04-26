@@ -3,25 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using Miniclip.Entities;
 using Miniclip.Pooler;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Miniclip.UI.HighScore
 {
+    /// <summary>
+    /// This class is responsible for the High Score Panel in Whac-A-Mole.
+    /// All the logic for the High scores is handled here.
+    /// </summary>
     public class HighScoreController : UIPanel
     {
-        [SerializeField] public HighScoreView _view;
-        private PlayerData _playerData;
-        private bool _showingLocally = false;
-        private Action<Action<WorldsData>> _worldsDataRequest; 
+        #region Variables
 
-        public void Init(PlayerData playerData, Action<Action<WorldsData>> worldsDataRequest)
+        [SerializeField] public HighScoreView _view;
+        
+        private PlayerData _playerData;
+        
+        private bool _showingLocally = false;
+        
+        private Action<Action<WorldsData>> _worldsDataRequest;
+
+        #endregion
+
+        #region Functionality
+
+        
+      public void Init(PlayerData playerData, Action<Action<WorldsData>> worldsDataRequest)
         {
             _playerData = playerData;
             _worldsDataRequest = worldsDataRequest;
             _view.Subscribe(GoToMainMenu, PlayAgain, ShowLocalHighScore, ShowWorldsHighScore);
         }
         
+        /// <summary>
+        /// Called initially when you navigate to the view.
+        /// </summary>
         public void SetupBoard()
         {
             _view.EnableLoadingScreen(false);
@@ -40,11 +56,21 @@ namespace Miniclip.UI.HighScore
             }
         }
         
+        /// <summary>
+        /// Updates the board with the given data.
+        /// </summary>
+        /// <param name="attemptData">The data you want to update the board with</param>
+        /// <param name="force">If true: deletes all entries in the board and re-instantiates them. If false: Just re-arranges the items</param>
         private void UpdateBoard(List<AttemptData> attemptData, bool force)
         {
             _view.UpdateScrollView(ConvertAttemptDataToUIData(attemptData),force);
         }
 
+        /// <summary>
+        /// Converts the actual data class to a UI data class, which can be used in the score board.
+        /// </summary>
+        /// <param name="attemptData">The data you want to convert.</param>
+        /// <returns></returns>
         private List<PoolData> ConvertAttemptDataToUIData(List<AttemptData> attemptData)
         {
             AttemptData currentAttempt = attemptData.Last();
@@ -81,7 +107,26 @@ namespace Miniclip.UI.HighScore
                 _worldsDataRequest?.Invoke(OnWorldsDataRetrieved);
             }
         }
+        
+        private void PlayAgain()
+        {
+            Owner.SwitchPanel(Panel.Gameplay);
+        }
+        
+        private void GoToMainMenu()
+        {
+            Owner.SwitchPanel(Panel.MainMenu);
+        }
 
+        #endregion
+
+        #region EventHandlers
+
+        /// <summary>
+        /// Called when the global leaderboards are retrieved from PlayFab.
+        /// Then it shows the data retrieved in the high score panel.
+        /// </summary>
+        /// <param name="data"></param>
         private void OnWorldsDataRetrieved(WorldsData data)
         {
             List<AttemptData> shallowCopy = data.worldWideAttempts.GetRange(0, data.worldWideAttempts.Count);
@@ -114,20 +159,17 @@ namespace Miniclip.UI.HighScore
                 _view.EnableLoadingScreen(false);
             }
         }
-
-        private void PlayAgain()
-        {
-            Owner.SwitchPanel(Panel.Gameplay);
-        }
         
-        private void GoToMainMenu()
-        {
-            Owner.SwitchPanel(Panel.MainMenu);
-        }
+        #endregion
+
+        #region EventHandlers
 
         protected override void OnViewLeft()
         {
             ShowLocalHighScore();
         }
+
+        #endregion
+      
     }
 }

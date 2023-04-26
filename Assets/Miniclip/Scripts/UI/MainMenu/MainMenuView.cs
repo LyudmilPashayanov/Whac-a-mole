@@ -2,13 +2,17 @@ using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Miniclip.UI.MainMenu
 {
+    /// <summary>
+    /// Handles all UI related logic in the Main Menu. 
+    /// </summary>
     public class MainMenuView : MonoBehaviour
     {
+        #region Variables
+
         [SerializeField] private RectTransform _title;
         [SerializeField] private TMP_InputField _inputField;
         [SerializeField] private Button _tutorialButton;
@@ -17,7 +21,11 @@ namespace Miniclip.UI.MainMenu
         [SerializeField] private CanvasGroup _tutorialButtonCanvasGroup;
         
         private Tween _titleAnim;
-        
+
+        #endregion
+
+        #region Functionality
+
         private void Start()
         {
             _titleAnim = _title.DOScale(1.1f,0.5f).SetLoops(-1,LoopType.Yoyo);
@@ -90,6 +98,9 @@ namespace Miniclip.UI.MainMenu
             });
             _mainGameButtonText.text = text;
         }
+
+        #endregion
+        
     }
 }
     

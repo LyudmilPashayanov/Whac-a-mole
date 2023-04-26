@@ -10,15 +10,18 @@ using UnityEngine.U2D;
 namespace Miniclip.Game
 {
     
-    /*
-    Instantiates the GameplayManager and UIManager
-    Handles game logic related to time, score, and game over conditions
-    Handles player input and updates the score accordingly    
-    Handles game over and high score management
-    Handles game restart
-    */
+    /// <summary>
+    /// This class serves as a bridge from the <see cref="GameplayManager"/> and the <see cref="UIManager"/>.
+    /// All the logic for the game which requires the Unity Engine happens in this class.
+    /// Handles game logic related to time, score, and game over conditions
+    /// Handles player input and updates the score accordingly
+    /// Handles game over and high score management
+    /// Handles game restart
+    /// </summary>
     public class GameManager : MonoBehaviour
     {
+        #region Variables
+
         [SerializeField] private UIManager _uiManager;
         [SerializeField] private MoleController _molePrefab;
         [SerializeField] private SpriteAtlas _molesAtlas;
@@ -27,14 +30,21 @@ namespace Miniclip.Game
         private GameplayManager _gameplayManager;
         private ScoringManager _scoringManager;
         private PlayerData _playerAttemptData;
-        private string _playerName;
         private List<MoleController> _shownMoles = new List<MoleController>();
         
+        private string _playerName;
+
         private float _timer = 0f;
         private float _timeBetweenMoles = 1f; // Delay in seconds
+        
         private bool _spawningMoles = false;
         private bool _gameOn;
-        private void Update()
+
+        #endregion
+
+        #region Functionality
+
+          private void Update()
         {
             if (_spawningMoles)
             {
@@ -216,5 +226,8 @@ namespace Miniclip.Game
         }
         
         #endregion
+
+        #endregion
+      
     }
 }

@@ -2,6 +2,9 @@ using System;
 
 namespace Miniclip.Entities
 {
+    /// <summary>
+    /// Simple struct, holding some important game options. This class is retrieved from PlayFab.
+    /// </summary>
     [Serializable]
     public struct GameData
     {

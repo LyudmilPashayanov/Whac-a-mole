@@ -5,13 +5,23 @@ using UnityEngine;
 
 namespace Miniclip.UI.Tutorial
 {
+    /// <summary>
+    /// This class is responsible for the Tutorial Panel in Whac-A-Mole.
+    /// All the logic for the Tutorials is handled here.
+    /// </summary>
     public class TutorialController : UIPanel
     {
+        #region Variables
+
         [SerializeField] private TutorialView _view;
 
         private event Action<PlayerOptionsData> OnGameStarted;
         private PlayerOptionsData _playerOptionsData;
-        
+
+        #endregion
+
+        #region Functionality
+
         private void Start()
         {
             _view.Subscribe(StartGameplay);
@@ -47,5 +57,8 @@ namespace Miniclip.UI.Tutorial
         {
             _view.Reset();
         }
+
+        #endregion
+     
     }
 }

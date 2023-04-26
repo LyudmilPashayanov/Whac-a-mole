@@ -1,13 +1,16 @@
 using System;
-using Miniclip.Audio;
 using Miniclip.Entities.Moles;
-using Miniclip.Game.Gameplay;
 using UnityEngine;
 
 namespace Miniclip.Game
 {
+    /// <summary>
+    /// This class contains the logic of the Mole as a visual game object.
+    /// </summary>
     public class MoleController : MonoBehaviour
     {
+        #region Variables
+
         [SerializeField] private MoleView _view;
         [SerializeField] private RectTransform _rectTransform;
         
@@ -17,6 +20,15 @@ namespace Miniclip.Game
         private bool _moleExploding;
         private event Action<MoleController> OnMoleDespawned;
 
+        #endregion
+
+        #region Functionality
+
+         /// <summary>
+        /// This method allows us to Inject the MoleController with data and re-use already spawned game object moles.
+        /// </summary>
+        /// <param name="mole"></param>
+        /// <param name="moleSprite"></param>
         public void InitMole(Mole mole, Sprite moleSprite)
         {
             _mole = mole;
@@ -39,6 +51,10 @@ namespace Miniclip.Game
             gameObject.SetActive(true);
         }
         
+        /// <summary>
+        /// Sets the duration which the mole will stay visible on the screen before starting to hide.
+        /// </summary>
+        /// <param name="showSpeed"></param>
         public void SetShowSpeed(float showSpeed)
         {
             _view.SetShowSpeed(showSpeed);
@@ -98,6 +114,9 @@ namespace Miniclip.Game
             _view.ToggleInteractable(toggle);
         }
         
+        /// <summary>
+        /// Resets the Mole GameObjects and makes it ready for re-use
+        /// </summary>
         public void ResetMole()
         {
             _view.OnMoleClicked -= _mole.Hit;
@@ -108,7 +127,12 @@ namespace Miniclip.Game
             _moleExploding = false;
             // Reset all the fields so that they can be REUSED
         }
-        
+
+
+        #endregion
+       
+        #region Event Handlers
+
         public void SubscribeOnDieEvent(Action<MoleType> moleDied)
         {
             _mole.OnMoleDied += moleDied;
@@ -133,5 +157,8 @@ namespace Miniclip.Game
         {
             _mole.OnMoleExploded += moleExploded;
         }
+
+        #endregion
+       
     }
 }
