@@ -120,6 +120,7 @@ namespace Miniclip.UI
             HighScoreController.ShowPanel();
             _activePanel.OnHideComplete -= ShowHighScores;
             _activePanel = HighScoreController;
+            HighScoreController.ShowLocalHighScore();
         }
         
         public void ShowLoadingScreen(bool enable)

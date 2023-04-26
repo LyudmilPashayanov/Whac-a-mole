@@ -122,6 +122,10 @@ namespace Miniclip.Game
         {
             // TODO: reset and destroy everything that has to be created
             // destory spawned moles
+            for (int i = 0; i < _shownMoles.Count; i++)
+            {
+                _shownMoles[i].DisableInteractable();
+            }
             _spawningMoles = false;
             SaveProgress();
             _uiManager.GameplayController.FinishGame(() =>

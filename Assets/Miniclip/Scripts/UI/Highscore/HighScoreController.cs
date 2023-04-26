@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Miniclip.Entities;
 using Miniclip.Pooler;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Miniclip.UI.HighScore
@@ -30,9 +29,21 @@ namespace Miniclip.UI.HighScore
         
         private void UpdateBoard(List<AttemptData> attemptData)
         {
-            _view.UpdateScrollView(attemptData.ToList<IPoolData>());
+            _view.UpdateScrollView(ConvertAttemptDataToUIData(attemptData));
         }
 
+        private List<IPoolData> ConvertAttemptDataToUIData(List<AttemptData> attemptData)
+        {
+            attemptData.Sort( (a,b) => b.Score.CompareTo(a.Score));
+            List<AttemptDataUI> uiDataList = new List<AttemptDataUI>();
+            for (int i = 0; i < attemptData.Count; i++)
+            {
+                uiDataList.Add(new AttemptDataUI(attemptData[i].Score,attemptData[i].Name,i+1));
+            }
+
+            return uiDataList.ToList<IPoolData>();
+        }
+        
         private void PlayAgain()
         {
             Owner.SwitchPanel(Panel.Gameplay);

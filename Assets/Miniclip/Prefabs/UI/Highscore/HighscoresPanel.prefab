@@ -1302,6 +1302,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pool: {fileID: 698763688274525905}
   highScoreFieldPrefab: {fileID: 7322807853399100292, guid: 1811f225f41756049ac8eee623809e2b, type: 3}
+  _mainMenuButton: {fileID: 8160014991271026371}
+  _playAgainButton: {fileID: 48778503052941936}
 --- !u!114 &1227762491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2181,7 +2183,7 @@ GameObject:
   - component: {fileID: 4776209730229835148}
   - component: {fileID: 8160014991271026371}
   m_Layer: 5
-  m_Name: PlayAgainButton (1)
+  m_Name: MainMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
