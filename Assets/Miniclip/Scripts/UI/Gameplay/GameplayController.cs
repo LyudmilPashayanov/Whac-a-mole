@@ -1,6 +1,5 @@
 using System;
 using Miniclip.Game;
-using UnityEditor;
 using UnityEngine;
 
 namespace Miniclip.UI.Gameplay

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Miniclip.Entities;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -113,6 +112,10 @@ namespace Miniclip.Playfab
             _loadingFinished?.Invoke(); 
         }
 
+        /// <summary>
+        /// Saves the local attempt data of the player.
+        /// </summary>
+        /// <param name="newAttemptData"></param>
         public void SavePlayerAttempts(PlayerData newAttemptData)
         { 
             UpdateUserDataRequest request = new UpdateUserDataRequest();
@@ -120,10 +123,13 @@ namespace Miniclip.Playfab
                 {"attempts", PlayFabSimpleJson.SerializeObject(newAttemptData)}};
             
             PlayFabClientAPI.UpdateUserData(request,
-                result => Debug.Log("Successfully updated user data"),
+                result=>{},
                 OnPlayFabError);
         }
-        
+        /// <summary>
+        /// Saves the Player options. In this case if the player has seen the tutorial or not.
+        /// </summary>
+        /// <param name="optionsData"></param>
         public void SavePlayerOptions(PlayerOptionsData optionsData)
         { 
             UpdateUserDataRequest request = new UpdateUserDataRequest();
@@ -131,10 +137,13 @@ namespace Miniclip.Playfab
                 {"options", PlayFabSimpleJson.SerializeObject(optionsData)}};
             
             PlayFabClientAPI.UpdateUserData(request,
-                result => Debug.Log("Successfully updated user data"),
+                result => {},
                 OnPlayFabError);
         }
-        
+        /// <summary>
+        /// Adds your highest results to the leaderboard
+        /// </summary>
+        /// <param name="recordAttempt"></param>
         public void UpdateLeaderboard(AttemptData recordAttempt)
         {
             UpdateDisplayName(recordAttempt.Name);
@@ -147,12 +156,16 @@ namespace Miniclip.Playfab
             PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest{
                 Statistics = playerStat
             }, result => {
-                Debug.Log("Leaderboard updated successfully");
             }, error => {
+#if UNITY_EDITOR
                 Debug.LogError("Leaderboard update failed: " + error.ErrorMessage);
+#endif
             });
         }
-        
+        /// <summary>
+        /// Updates the display name of the player
+        /// </summary>
+        /// <param name="newDisplayName"></param>
         private void UpdateDisplayName(string newDisplayName)
         {
             var request = new UpdateUserTitleDisplayNameRequest
@@ -160,14 +173,18 @@ namespace Miniclip.Playfab
                 DisplayName = newDisplayName
             };
             PlayFabClientAPI.UpdateUserTitleDisplayName(request, (result)=>
+            { }, (error) =>
             {
-                Debug.Log("Display name updated successfully");
-            }, (error) =>
-            {
+#if UNITY_EDITOR
                 Debug.LogError("Error updating display name: " + error.ErrorMessage);
+#endif
             });
         }
 
+        /// <summary>
+        /// Gets the world wide leaderboard
+        /// </summary>
+        /// <param name="worldsAttemptDataRetrieved"></param>
         public void GetLeaderboard(Action<WorldsData> worldsAttemptDataRetrieved)
         {
             PlayFabClientAPI.GetLeaderboard(new GetLeaderboardRequest{
@@ -175,7 +192,6 @@ namespace Miniclip.Playfab
                 StartPosition = 0,
                 MaxResultsCount = 10
             }, result => {
-                Debug.Log("Leaderboard retrieved successfully");
                 List<AttemptData> worldData = new List<AttemptData>();
                 foreach (var player in result.Leaderboard)
                 {
@@ -188,7 +204,9 @@ namespace Miniclip.Playfab
                 worldsAttemptDataRetrieved?.Invoke(WorldsAttemptData);
 
             }, error => {
+#if UNITY_EDITOR
                 Debug.LogError("Leaderboard retrieval failed: " + error.ErrorMessage);
+#endif
             });
 
         }
@@ -199,11 +217,10 @@ namespace Miniclip.Playfab
         /// <param name="error"></param>
         private void OnPlayFabError(PlayFabError error) //TODO: Better handling could be done here for example: retrying, saving locally, etc.
         {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR
             Debug.Log("ON PLAYFAB ERROR:  " + error.ErrorMessage);
 #endif
             _errorOccured?.Invoke();
-            // Set pop up message to the player that something is wrong. For example: UIManager.SetNoConnectionError();
         }
     }
 }

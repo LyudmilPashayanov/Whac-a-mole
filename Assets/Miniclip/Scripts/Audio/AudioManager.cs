@@ -1,14 +1,15 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Miniclip.Audio
 {
+    /// <summary>
+    /// Audio manager, which is singleton, so that you can play audio from anywhere in the app you want.
+    /// </summary>
     public class AudioManager : MonoBehaviour
     {
-        static AudioManager instance;
-        public static AudioManager Instance { get { return instance; } }
+        private static AudioManager _instance;
+        public static AudioManager Instance { get { return _instance; } }
 
-        [SerializeField] AudioSource _backgroundSource; 
         [SerializeField] AudioSource _oneShotSource; 
         
         [SerializeField] AudioClip _goodHitAudio; 
@@ -19,19 +20,7 @@ namespace Miniclip.Audio
         
         void Awake()
         {
-            instance = this;
-        }
-
-        public void EnableBackgroundMusic(bool enable)
-        {
-            if (enable)
-            {
-                _backgroundSource.Play();
-            }
-            else
-            {
-                _backgroundSource.Stop();
-            }
+            _instance = this;
         }
 
         public void PlayNormalHitSound()

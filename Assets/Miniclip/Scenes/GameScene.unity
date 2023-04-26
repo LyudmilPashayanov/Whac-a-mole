@@ -665,7 +665,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 606b263dada91f7439720d67f8111a7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSource: {fileID: 660017776}
   _oneShotSource: {fileID: 1642165711}
   _goodHitAudio: {fileID: 8300000, guid: 5e646c4ca96d8934dbded32c04dcc414, type: 3}
   _metalHitAudio: {fileID: 8300000, guid: e1eeb4c238d96394a8099ad2512b2d32, type: 3}

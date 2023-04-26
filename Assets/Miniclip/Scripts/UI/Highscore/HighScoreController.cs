@@ -29,11 +29,13 @@ namespace Miniclip.UI.HighScore
             {
                 _showingLocally = true;
                 _view.LocalButtonClicked();
+                _view.SetLocalInfo();
                 _view.SetupScrollView(ConvertAttemptDataToUIData(_playerData.PlayerAttempts));
             }
             else
             {
                 _view.LocalButtonClicked();
+                _view.SetLocalInfo();
                 UpdateBoard(_playerData.PlayerAttempts,true);
             }
         }
@@ -43,7 +45,7 @@ namespace Miniclip.UI.HighScore
             _view.UpdateScrollView(ConvertAttemptDataToUIData(attemptData),force);
         }
 
-        private List<IPoolData> ConvertAttemptDataToUIData(List<AttemptData> attemptData)
+        private List<PoolData> ConvertAttemptDataToUIData(List<AttemptData> attemptData)
         {
             AttemptData currentAttempt = attemptData.Last();
             List<AttemptData> shallowSortedData = attemptData.GetRange(0, attemptData.Count);
@@ -54,7 +56,7 @@ namespace Miniclip.UI.HighScore
                 uiDataList.Add(new AttemptDataUI(shallowSortedData[i].Score,shallowSortedData[i].Name,i+1, currentAttempt == shallowSortedData[i]));
             }
 
-            return uiDataList.ToList<IPoolData>();
+            return uiDataList.ToList<PoolData>();
         }
 
         private void ShowLocalHighScore()
@@ -63,6 +65,7 @@ namespace Miniclip.UI.HighScore
             {
                 _showingLocally = true;
                 _view.LocalButtonClicked();
+                _view.SetLocalInfo();
                 UpdateBoard(_playerData.PlayerAttempts,true);
             }
         }
@@ -74,6 +77,7 @@ namespace Miniclip.UI.HighScore
                 _showingLocally = false;
                 _view.WorldsButtonClicked();
                 _view.EnableLoadingScreen(true);
+                _view.SetWorldsInfo();
                 _worldsDataRequest?.Invoke(OnWorldsDataRetrieved);
             }
         }

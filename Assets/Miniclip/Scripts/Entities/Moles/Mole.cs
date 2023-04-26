@@ -3,6 +3,9 @@ using Miniclip.Game;
 
 namespace Miniclip.Entities.Moles
 {
+    /// <summary>
+    /// Base Mole Class
+    /// </summary>
     public abstract class Mole
     {
         protected bool Helmet;

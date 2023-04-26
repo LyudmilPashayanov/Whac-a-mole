@@ -17,7 +17,7 @@ namespace Miniclip.UI.HighScore
         private Color _highlightedColor = Color.green;
         private Color _normalColor = Color.yellow;
 
-        public void UpdateField(IPoolData highScoreField)
+        public void UpdateField(PoolData highScoreField)
         {
             AttemptDataUI data = (AttemptDataUI)highScoreField; 
             _name.text = data.Name;

@@ -42,7 +42,6 @@ namespace Miniclip.UI.MainMenu
         
         private void GoToTutorial()
         {
-            Debug.Log("GoToTutorial GoToTutorial GoToTutorialGoToTutorial");
             OnNameChosen.Invoke(_view.GetName());
             AudioManager.Instance.PlayButtonClickSound();
             Owner.SwitchPanel(Panel.Tutorial);
@@ -50,7 +49,6 @@ namespace Miniclip.UI.MainMenu
         
         private void GoToGame()
         {
-            Debug.Log("GoToGame GoToGame GoToGame GoToGame");
             OnNameChosen.Invoke(_view.GetName());
             AudioManager.Instance.PlayButtonClickSound();
             Owner.SwitchPanel(Panel.Gameplay);

@@ -56,9 +56,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4912ced67bf58684b9a9f5b8b8faaa6e, type: 3}
   m_PackedSpriteNamesToIndex:
   - normalMole
-  - pngaaa.com-3726405
+  - diamondArmor
   - stupidMole
-  - pngimg.com - bomb_PNG26
+  - bomb
   m_RenderDataMap: {}
   m_Tag: molesAtlas
   m_IsVariant: 0

@@ -16,15 +16,15 @@ namespace Miniclip.Pooler
         [SerializeField] private RectTransform _viewPort;
         [SerializeField] private RectTransform _dragDetection;
         [SerializeField] private RectTransform _content;
-        
-        private float _itemHeight;
-        [FormerlySerializedAs("BufferSize")]
-        [Tooltip("How much extra items to put in the _content, so that fast scrolling doesn't show emptiness")]
         [SerializeField] private int _bufferSize;
-        private List<IPoolData> _pool;
+
+        private List<PoolData> _pool;
+
+        private float _itemHeight;
+        private float _dragDetectionAnchorPreviousY = 0;
+
         private int _poolHead;
         private int _poolTail;
-        private float _dragDetectionAnchorPreviousY = 0;
 
         /// <summary>
         /// Calculates how many items from the "_pool" list can be visible in the _content section. 
@@ -33,12 +33,35 @@ namespace Miniclip.Pooler
         int TopItemOutOfView { get { return Mathf.CeilToInt(_content.anchoredPosition.y / _itemHeight); } }
 
         /// <summary>
+        /// Creates a scroll view with content from the passed "list" parameter. The content is presented in an optimized way, via object pooling technique.
+        /// </summary>
+        /// <param name="list">The list with which the scroll view will be filled</param>
+        /// <param name="prefab">A prefab with "IPoolField" attached to it, which will be shown in the scroll view.</param>
+        public void Setup(List<PoolData> list, RectTransform prefab)
+        {
+            _poolHead = 0;
+            _poolTail = 0;
+            _pool = list;
+            _itemHeight = prefab.rect.height;
+            _scrollRect.onValueChanged.AddListener(OnDragDetectionPositionChange);
+            _dragDetection.sizeDelta = new Vector2(_dragDetection.sizeDelta.x, _pool.Count * _itemHeight);
+            for (int i = 0; i < TargetVisibleItemCount+_bufferSize; i++)
+            {
+                if (_pool.Count - 1 < i) break;
+                RectTransform item = Instantiate(prefab, _content, true);
+                item.transform.localScale = Vector3.one;
+                item.GetComponent<IPoolFields>().UpdateField(_pool[_poolTail]);
+                _poolTail++;
+            }
+        }
+        
+        /// <summary>
         /// Optimized way to update the fields in the scroll view.  
         /// </summary>
         /// <param name="list">The list with which the scroll view will be updated.</param>
         /// <param name="forceUpdate">Pass "true" if you want to forcefully update the scroll view, but heavy on performance.</param>
         /// <param name="prefab">The prefab which will be used to update the list.</param>
-        public void UpdatePooler(List<IPoolData> list,bool forceUpdate, RectTransform prefab = null)
+        public void UpdatePooler(List<PoolData> list,bool forceUpdate, RectTransform prefab = null)
         {
             if (forceUpdate || list.Count < TargetVisibleItemCount + _bufferSize)
             {
@@ -67,34 +90,10 @@ namespace Miniclip.Pooler
             }
             _content.DOAnchorPos(Vector2.zero,0.1f);
         }
-        
-        /// <summary>
-        /// Creates a scroll view with content from the passed "list" parameter. The content is presented in an optimized way, via object pooling technique.
-        /// </summary>
-        /// <param name="list">The list with which the scroll view will be filled</param>
-        /// <param name="prefab">A prefab with "IPoolField" attached to it, which will be shown in the scroll view.</param>
-        public void Setup(List<IPoolData> list, RectTransform prefab)
-        {
-            _poolHead = 0;
-            _poolTail = 0;
-            _pool = list;
-            _itemHeight = prefab.rect.height;
-            _scrollRect.onValueChanged.AddListener(OnDragDetectionPositionChange);
-            _dragDetection.sizeDelta = new Vector2(_dragDetection.sizeDelta.x, _pool.Count * _itemHeight);
-            for (int i = 0; i < TargetVisibleItemCount+_bufferSize; i++)
-            {
-                if (_pool.Count - 1 < i) break;
-                RectTransform item = Instantiate(prefab, _content, true);
-                item.transform.localScale = Vector3.one;
-                item.GetComponent<IPoolFields>().UpdateField(_pool[_poolTail]);
-                _poolTail++;
-            }
-        }
 
         /// <summary>
         /// Constantly checks when being dragged to see if needed to update the _content.
         /// </summary>
-        /// <param name="dragNormalizePos"></param>
         private void OnDragDetectionPositionChange(Vector2 dragNormalizePos)
         {
             float dragDelta = _dragDetection.anchoredPosition.y - _dragDetectionAnchorPreviousY;

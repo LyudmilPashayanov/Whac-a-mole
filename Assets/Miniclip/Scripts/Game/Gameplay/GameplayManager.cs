@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
 using Random = System.Random;
 
 namespace Miniclip.Game.Gameplay
 {
+    /// <summary>
+    /// During gameplay the difficulty changes, this enum represents the different stages of difficulty.
+    /// </summary>
     public enum Difficulty
     {
         Easy,
@@ -12,6 +14,9 @@ namespace Miniclip.Game.Gameplay
         Hard
     }
     
+    /// <summary>
+    /// C# class decoupled from the Unity engine and responsible for the logic of the game
+    /// </summary>
     public class GameplayManager
     {
         private readonly MoleFactory _factory;
@@ -26,6 +31,7 @@ namespace Miniclip.Game.Gameplay
         private List<int> _availablePositions = new List<int>() {0,1,2,3,4,5,6};
         private int _spawnedMoles;
         private event Action OnMoleSpawned;
+        
         public GameplayManager(MoleFactory moleFactory)
         {
             _factory = moleFactory;
@@ -33,6 +39,11 @@ namespace Miniclip.Game.Gameplay
             OnMoleSpawned += ModifyDifficulty;
         }
         
+        /// <summary>
+        /// Gets a Mole from the Mole Factory 
+        /// </summary>
+        /// <param name="moleType">The type of Mole, which you want to retrieve (changes during gameplay)</param>
+        /// <returns></returns>
         public MoleController SpawnMole(MoleType moleType)
         {
             MoleController mole = _factory.GetMole(moleType);
@@ -41,23 +52,13 @@ namespace Miniclip.Game.Gameplay
             OnMoleSpawned?.Invoke();
             return mole;
         }
-
-        private void ModifyDifficulty()
-        {
-            switch (_spawnedMoles)
-            {
-                case 1:
-                    _currentDifficulty = Difficulty.Medium;
-                    break;
-                case 2:
-                    _currentDifficulty = Difficulty.Hard;
-                    break;
-            }
-        }
         
+        /// <summary>
+        /// Checks which spawn position is free in order to spawn a mole there.
+        /// </summary>
+        /// <returns></returns>
         public int GetRandomPosition()
         {
-            //TODO: Take care if there are no more available places for spawns.
             int randomIndex = _random.Next(_availablePositions.Count);
             int returnValue = _availablePositions[randomIndex];
             _availablePositions.Remove(returnValue);
@@ -69,6 +70,21 @@ namespace Miniclip.Game.Gameplay
             _availablePositions.Add(index);
         }
 
+        #region In-game Difficulty Logic
+
+         private void ModifyDifficulty()
+        {
+            switch (_spawnedMoles)
+            {
+                case 15:
+                    _currentDifficulty = Difficulty.Medium;
+                    break;
+                case 25:
+                    _currentDifficulty = Difficulty.Hard;
+                    break;
+            }
+        }
+        
         public MoleType GetRandomMoleType()
         {
             int randomIndex;
@@ -134,6 +150,8 @@ namespace Miniclip.Game.Gameplay
             }
         }
 
+        #endregion
+        
         public void ResetManager()
         {
             _currentDifficulty = Difficulty.Easy;
