@@ -68,7 +68,8 @@ namespace Miniclip.Game
         private void MoleExplode()
         {
             _moleExploding = true;
-            _view.StartExplosion(ResetMole);
+            _view.EnableExplosionSprite(true);
+            HideMole();
         }
         
         public void ShowMole(float hideAfterTime)
@@ -102,6 +103,7 @@ namespace Miniclip.Game
             _view.OnMoleClicked -= _mole.Hit;
             _view.OnMoleHidden -= ResetMole;
             OnMoleDespawned?.Invoke(this);
+            _view.EnableExplosionSprite(false);
             gameObject.SetActive(false);
             _moleExploding = false;
             // Reset all the fields so that they can be REUSED

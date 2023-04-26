@@ -46,10 +46,10 @@ namespace Miniclip.Game.Gameplay
         {
             switch (_spawnedMoles)
             {
-                case 10:
+                case 1:
                     _currentDifficulty = Difficulty.Medium;
                     break;
-                case 20:
+                case 2:
                     _currentDifficulty = Difficulty.Hard;
                     break;
             }

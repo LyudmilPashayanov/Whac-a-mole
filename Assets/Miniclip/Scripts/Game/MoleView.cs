@@ -11,7 +11,8 @@ namespace Miniclip.Game
         [SerializeField] private Image _moleImage;
         [SerializeField] private RectTransform _bomb;
         [SerializeField] private RectTransform _helmet;
-
+        [SerializeField] private GameObject _explosionSprite;
+        
         private float _showingDuration = 0.7f;
         private Sequence _moleShowingSequence;
         private Sequence _moleHidingSequence;
@@ -32,14 +33,7 @@ namespace Miniclip.Game
         {
             _moleImage.sprite = sprite;
         }
-        
-        public void StartExplosion(Action moleDie)
-        {
-            // show animation for explosion
-            
-            moleDie?.Invoke();
-        }
-        
+
         public void SetShowSpeed(float showSpeed)
         {
             _showingDuration = showSpeed;
@@ -95,6 +89,11 @@ namespace Miniclip.Game
         public void ToggleInteractable(bool enable)
         {
             _moleImage.raycastTarget = enable;
+        }
+        
+        public void EnableExplosionSprite(bool enable)
+        {
+            _explosionSprite.SetActive(enable);
         }
     }
 }
