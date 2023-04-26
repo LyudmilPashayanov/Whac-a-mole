@@ -28,7 +28,7 @@ namespace Miniclip.UI.HighScore
         
         public void UpdateScrollView(List<IPoolData> attempts)
         {
-            _pool.Setup(attempts, highScoreFieldPrefab.RectTransform);
+            _pool.UpdatePooler(attempts,true, highScoreFieldPrefab.RectTransform);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Miniclip.UI.HighScore
     {
         [SerializeField] public HighScoreView _view;
         private PlayerData _playerData;
-
+        
         public void Init(PlayerData playerData)
         {
             _playerData = playerData;
@@ -34,11 +34,13 @@ namespace Miniclip.UI.HighScore
 
         private List<IPoolData> ConvertAttemptDataToUIData(List<AttemptData> attemptData)
         {
-            attemptData.Sort( (a,b) => b.Score.CompareTo(a.Score));
+            AttemptData currentAttempt = attemptData.Last();
+            List<AttemptData> sortedData = attemptData;
+            sortedData.Sort( (a,b) => b.Score.CompareTo(a.Score));
             List<AttemptDataUI> uiDataList = new List<AttemptDataUI>();
-            for (int i = 0; i < attemptData.Count; i++)
+            for (int i = 0; i < sortedData.Count; i++)
             {
-                uiDataList.Add(new AttemptDataUI(attemptData[i].Score,attemptData[i].Name,i+1));
+                uiDataList.Add(new AttemptDataUI(sortedData[i].Score,sortedData[i].Name,i+1, currentAttempt == sortedData[i]));
             }
 
             return uiDataList.ToList<IPoolData>();

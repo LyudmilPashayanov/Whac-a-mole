@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 7214660736626508184}
   - component: {fileID: 8637186914094614761}
   m_Layer: 5
-  m_Name: rankingText
+  m_Name: placementText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -276,6 +276,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: {fileID: 8463467028566170745}
   _score: {fileID: 8463467029205257988}
+  _placement: {fileID: 8637186914094614761}
+  _image: {fileID: 8463467028439654152}
   RectTransform: {fileID: 8463467028439654151}
 --- !u!114 &8463467028439654152
 MonoBehaviour:

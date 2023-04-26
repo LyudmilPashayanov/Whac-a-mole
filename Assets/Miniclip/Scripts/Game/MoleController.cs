@@ -1,5 +1,4 @@
 using System;
-using DG.Tweening;
 using Miniclip.Entities.Moles;
 using UnityEngine;
 
