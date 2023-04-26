@@ -1,5 +1,6 @@
 using System;
 using Miniclip.Audio;
+using Miniclip.Entities;
 using UnityEngine;
 
 namespace Miniclip.UI.MainMenu
@@ -8,17 +9,32 @@ namespace Miniclip.UI.MainMenu
     {
         [SerializeField] private MainMenuView _view;
         private Action<string> OnNameChosen;
-        
-        private void Start()
-        {
-            _view.Subscribe(GoToTutorial,GoToTutorial);
-        }
+        private PlayerOptionsData _playerOptionsData;
 
         public void Subscribe(Action<string> onNameChosen)
         {
             OnNameChosen = onNameChosen;
         }
 
+        private void CheckButtonActivations(string text)
+        {
+            if (text.Length > 2)
+            {
+                _view.SetMainGameButtonInteractable(true);
+                if (_playerOptionsData.ShowTutorial == false)
+                {
+                    _view.SetTutorialButtonInteractable(true);
+                    _view.ShowTutorialButton(true);
+                }
+            }
+            else
+            {
+                _view.SetTutorialButtonInteractable(false);
+                _view.ShowTutorialButton(false);
+                _view.SetMainGameButtonInteractable(false);
+            }
+        }
+        
         private void GoToTutorial()
         {
             OnNameChosen.Invoke(_view.GetName());
@@ -37,6 +53,17 @@ namespace Miniclip.UI.MainMenu
         {
             _view.EnableTextInput(true);
             _view.StartTitleAnimation(true);
+
+            if (_playerOptionsData.ShowTutorial)
+            {
+                _view.SetMainButtonSettings("Tutorial", GoToTutorial);
+            }
+            else
+            {
+                _view.SetMainButtonSettings("Start Game", GoToGame);
+            }
+            _view.Subscribe(GoToTutorial, CheckButtonActivations);
+
             base.ShowPanel(playAnimation);
         }
 
@@ -48,10 +75,15 @@ namespace Miniclip.UI.MainMenu
         public override void HidePanel(bool playAnimation = true)
         {
             _view.EnableTextInput(false);
-            _view.SetStartGameButtonInteractable(false);
+            _view.SetMainGameButtonInteractable(false);
             _view.SetTutorialButtonInteractable(false);
             _view.StartTitleAnimation(false);
             base.HidePanel(playAnimation);
+        }
+
+        public void Init(PlayerOptionsData playerOptionsData)
+        {
+            _playerOptionsData = playerOptionsData;
         }
     }
 }

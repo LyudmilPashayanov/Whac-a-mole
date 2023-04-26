@@ -19,6 +19,7 @@ namespace Miniclip.Playfab
 
         public GameData GameData;
         public PlayerData PlayerAttemptData = new PlayerData();
+        public PlayerOptionsData PlayerOptionsData = new PlayerOptionsData();
         public WorldsData WorldsAttemptData = new WorldsData();
 
         public void Init(Action loadingFinished, Action errorOccured)
@@ -92,9 +93,13 @@ namespace Miniclip.Playfab
                 PlayFabId = _playerPlayfabID
             }, result =>
             {
-                if (result.Data.ContainsKey("attempts"))
+                if (result.Data.TryGetValue("attempts", out var attempts))
                 {
-                    PlayerAttemptData = PlayFabSimpleJson.DeserializeObject<PlayerData>(result.Data["attempts"].Value);
+                    PlayerAttemptData = PlayFabSimpleJson.DeserializeObject<PlayerData>(attempts.Value);
+                }
+                if (result.Data.TryGetValue("options", out var options))
+                {
+                    PlayerOptionsData = PlayFabSimpleJson.DeserializeObject<PlayerOptionsData>(options.Value);
                 }
                 DoneLoading();
                 }, OnPlayFabError);
@@ -113,6 +118,17 @@ namespace Miniclip.Playfab
             UpdateUserDataRequest request = new UpdateUserDataRequest();
             request.Data = new Dictionary<string, string>() {
                 {"attempts", PlayFabSimpleJson.SerializeObject(newAttemptData)}};
+            
+            PlayFabClientAPI.UpdateUserData(request,
+                result => Debug.Log("Successfully updated user data"),
+                OnPlayFabError);
+        }
+        
+        public void SavePlayerOptions(PlayerOptionsData optionsData)
+        { 
+            UpdateUserDataRequest request = new UpdateUserDataRequest();
+            request.Data = new Dictionary<string, string>() {
+                {"options", PlayFabSimpleJson.SerializeObject(optionsData)}};
             
             PlayFabClientAPI.UpdateUserData(request,
                 result => Debug.Log("Successfully updated user data"),

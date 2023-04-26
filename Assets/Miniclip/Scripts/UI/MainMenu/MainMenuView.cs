@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Miniclip.UI.MainMenu
@@ -11,40 +12,24 @@ namespace Miniclip.UI.MainMenu
         [SerializeField] private RectTransform _title;
         [SerializeField] private TMP_InputField _inputField;
         [SerializeField] private Button _tutorialButton;
-        [SerializeField] private Button _startGameButton;
+        [SerializeField] private Button _mainGameButton;
+        [SerializeField] private TMP_Text _mainGameButtonText;
         [SerializeField] private CanvasGroup _tutorialButtonCanvasGroup;
         
         private Tween _titleAnim;
         
         private void Start()
         {
-            _inputField.onValueChanged.AddListener(CheckStartButtonActivation);
             _titleAnim = _title.DOScale(1.1f,0.5f).SetLoops(-1,LoopType.Yoyo);
         }
 
-        private void CheckStartButtonActivation(string text)
-        {
-            if (text.Length > 2)
-            {
-                SetStartGameButtonInteractable(true);
-                if ( /* show tutorial button */true)
-                {
-                    SetTutorialButtonInteractable(true);
-                    ShowTutorialButton(true);
-                }
-            }
-            else
-            {
-                SetTutorialButtonInteractable(false);
-                ShowTutorialButton(false);
-                SetStartGameButtonInteractable(false);
-            }
-        }
-        
-        public void Subscribe(Action tutorialButtonClicked, Action startGameButtonClicked)
+        public void Subscribe(Action tutorialButtonClicked, Action<string> inputValueChanged)
         {
             _tutorialButton.onClick.AddListener(() => tutorialButtonClicked?.Invoke());
-            _startGameButton.onClick.AddListener(() => startGameButtonClicked?.Invoke());
+            _inputField.onValueChanged.AddListener((text)=>
+            {
+                inputValueChanged?.Invoke(text);
+            });
         }
 
         public string GetName()
@@ -52,9 +37,9 @@ namespace Miniclip.UI.MainMenu
             return _inputField.text;
         }
 
-        public void SetStartGameButtonInteractable(bool interactable)
+        public void SetMainGameButtonInteractable(bool interactable)
         {
-            _startGameButton.interactable = interactable;
+            _mainGameButton.interactable = interactable;
         }
 
         public void EnableTextInput(bool enable)
@@ -67,7 +52,7 @@ namespace Miniclip.UI.MainMenu
             _tutorialButton.interactable = interactable;
         }
         
-        private void ShowTutorialButton(bool show)
+        public void ShowTutorialButton(bool show)
         {
             if (show)
             {
@@ -94,6 +79,16 @@ namespace Miniclip.UI.MainMenu
         public void Reset()
         {
             _inputField.text = "";
+        }
+
+        public void SetMainButtonSettings(string text, Action onClickFunctionality)
+        {
+            _mainGameButton.onClick.RemoveAllListeners();
+            _mainGameButton.onClick.AddListener(()=>
+            {
+                onClickFunctionality?.Invoke();
+            });
+            _mainGameButtonText.text = text;
         }
     }
 }

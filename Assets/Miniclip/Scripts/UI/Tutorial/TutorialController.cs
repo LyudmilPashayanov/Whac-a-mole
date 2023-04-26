@@ -1,4 +1,6 @@
+using System;
 using Miniclip.Audio;
+using Miniclip.Entities;
 using UnityEngine;
 
 namespace Miniclip.UI.Tutorial
@@ -7,18 +9,29 @@ namespace Miniclip.UI.Tutorial
     {
         [SerializeField] private TutorialView _view;
 
+        private event Action<PlayerOptionsData> OnGameStarted;
+        private PlayerOptionsData _playerOptionsData;
+        
         private void Start()
         {
             _view.Subscribe(StartGameplay);
         }
-
+        
+        public void Init(PlayerOptionsData playerOptionsData, Action<PlayerOptionsData> savePlayerOptions)
+        {
+            OnGameStarted += savePlayerOptions;
+            _playerOptionsData = playerOptionsData;
+        }
+        
         private void StartGameplay()
         {
             AudioManager.Instance.PlayButtonClickSound();
+            _playerOptionsData.ShowTutorial = GetTutorialAgain();
+            OnGameStarted?.Invoke(_playerOptionsData);
             Owner.SwitchPanel(Panel.Gameplay);
         }
         
-        public bool GetTutorialAgain()
+        private bool GetTutorialAgain()
         {
             return _view.GetTutorialAgainCheck();
         }

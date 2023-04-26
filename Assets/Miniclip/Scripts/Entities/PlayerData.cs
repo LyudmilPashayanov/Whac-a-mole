@@ -13,4 +13,10 @@ namespace Miniclip.Entities
             PlayerAttempts.Add(data);
         }
     }
+    
+    [Serializable]
+    public class PlayerOptionsData
+    {
+        public bool ShowTutorial = true;
+    }
 }

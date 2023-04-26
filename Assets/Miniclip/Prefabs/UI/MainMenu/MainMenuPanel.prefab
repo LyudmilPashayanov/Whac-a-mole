@@ -84,7 +84,8 @@ MonoBehaviour:
   _title: {fileID: 4648295878436543980}
   _inputField: {fileID: 4833513569536577502}
   _tutorialButton: {fileID: 4056451065188481783}
-  _startGameButton: {fileID: 4648295879303932058}
+  _mainGameButton: {fileID: 4648295879303932058}
+  _mainGameButtonText: {fileID: 4648295878971035107}
   _tutorialButtonCanvasGroup: {fileID: 8012922209061042106}
 --- !u!1 &4648295878436543979
 GameObject:
@@ -369,7 +370,7 @@ GameObject:
   - component: {fileID: 4648295879303932059}
   - component: {fileID: 4648295879303932058}
   m_Layer: 5
-  m_Name: StartGameButton
+  m_Name: MainGameButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

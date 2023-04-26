@@ -15,6 +15,15 @@ namespace Miniclip.UI.Tutorial
         
         private Sequence _molesLoop;
         
+        private void Start()
+        {
+            _molesLoop = DOTween.Sequence();
+            _molesLoop.Append(_normalMoleSprite.DOScale(1.2f, 1f).SetLoops(4,LoopType.Yoyo));
+            _molesLoop.Append(_fortifiedMoleSprite.DOScale(1.2f, 1f).SetLoops(4,LoopType.Yoyo));
+            _molesLoop.Append(_bombMoleSprite.DOScale(1.2f, 1f).SetLoops(4,LoopType.Yoyo));
+            _molesLoop.SetLoops(-1);
+        }
+
         public void Subscribe(Action StartGameplay)
         {
             _startButton.onClick.AddListener(() => StartGameplay?.Invoke());
@@ -22,11 +31,7 @@ namespace Miniclip.UI.Tutorial
         
         public void StartMolesAnimationLoop()
         {
-            _molesLoop = DOTween.Sequence();
-            _molesLoop.Append(_normalMoleSprite.DOScale(1.2f, 1f).SetLoops(4,LoopType.Yoyo));
-            _molesLoop.Append(_fortifiedMoleSprite.DOScale(1.2f, 1f).SetLoops(4,LoopType.Yoyo));
-            _molesLoop.Append(_bombMoleSprite.DOScale(1.2f, 1f).SetLoops(4,LoopType.Yoyo));
-            _molesLoop.SetLoops(-1);
+            _molesLoop.Play();
         }
         
         public void Reset()
@@ -41,9 +46,7 @@ namespace Miniclip.UI.Tutorial
         
         private void StopMolesAnimationLoop()
         {
-            _molesLoop.Kill();
+            _molesLoop.Pause();
         }
-
-  
     }
 }

@@ -86,10 +86,10 @@ namespace Miniclip.UI.Gameplay
          if (enable)
          {
             _pauseTab.SetActive(true);
-            /*if (_centeredTextSequence.IsPlaying())
+            if (_centeredTextSequence.IsPlaying())
             {
                _centeredTextSequence.Pause();
-            }*/
+            }
          }
          else
          {
