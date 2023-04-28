@@ -97,6 +97,12 @@ namespace Miniclip.UI.HighScore
         }
 
         #endregion
-   
+
+        public void EnableButtons(bool enable)
+        {
+            _mainMenuButton.interactable = enable;
+            _playAgainButton.interactable = enable;
+
+        }
     }
 }

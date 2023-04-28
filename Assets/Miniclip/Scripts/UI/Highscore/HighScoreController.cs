@@ -40,6 +40,7 @@ namespace Miniclip.UI.HighScore
         /// </summary>
         public void SetupBoard()
         {
+            _view.EnableButtons(true);
             _view.EnableLoadingScreen(false);
             if (_showingLocally==false)
             {
@@ -110,11 +111,13 @@ namespace Miniclip.UI.HighScore
         
         private void PlayAgain()
         {
+            _view.EnableButtons(false);
             Owner.SwitchPanel(Panel.Gameplay);
         }
         
         private void GoToMainMenu()
         {
+            _view.EnableButtons(false);
             Owner.SwitchPanel(Panel.MainMenu);
         }
 
