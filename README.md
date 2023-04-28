@@ -22,9 +22,8 @@ OR
 ## About the game
 In the "Whac-A-Mole" game you need to whack moles which come out from holes on the screen. There are different types of Moles: Normal Mole, Diamond Mole and Bomb Mole.
 You need to be careful not to hit the Bomb Moles, because they will explode and harm you(r score)!
-If you whack the normal and diamond Moles consecutely without whacking a bomb Mole you increase your combo meter and you receive even more points!
-Try to get as much points as possible and compare yourself to everyne in the world who played the game. 
-
+If you whack the normal and diamond Moles consecutively without whacking a bomb Mole you increase your combo meter and you receive even more points!
+Try to get as much points as possible and compare yourself to everyne in the world who played the game.
 
 ## Cool technical stuff
 With the aim to make the app as optimized and flexible as possible:
@@ -41,6 +40,12 @@ Each player/user has its own player data, which is constantly synced with the da
 The developers can track when the player opens and how the player uses the app, from the Playfab console, within their browser.
 The developers can dynamically change the Title data of the game/app from the Playfab console, within their browser.
 Every update you make to the Title data, the next time the user starts the app/game, he will see the new changes, as the app gets the data from the server.
+
+## TODO:
+As the game could be even more improved I would:
+- Add a second page in the tutorial panel, where I would explain how the scoring works.
+- I would add login, as now similar names can conflict in the global high score panel.
+- I would add more UI effects while you whack moles, so that you can see better when you are doing great or bad :).
 
 ## Early design   
 <img src="https://user-images.githubusercontent.com/41620452/234694279-2e259247-ed3a-4295-8868-947812d5c5c4.jpg" alt="My Image" width="500"/>
