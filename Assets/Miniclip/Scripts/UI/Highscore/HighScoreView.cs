@@ -96,13 +96,13 @@ namespace Miniclip.UI.HighScore
             _infoText.text = GLOBAL_INFO;
         }
 
-        #endregion
-
         public void EnableButtons(bool enable)
         {
             _mainMenuButton.interactable = enable;
             _playAgainButton.interactable = enable;
 
         }
+        
+        #endregion
     }
 }

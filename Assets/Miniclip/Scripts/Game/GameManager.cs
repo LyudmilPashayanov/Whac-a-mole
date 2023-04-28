@@ -87,7 +87,7 @@ namespace Miniclip.Game
             _uiManager.GameplayController.ShowStartingTimer(OnStartAnimationFinished);
             void OnStartAnimationFinished()
             {
-                _uiManager.GameplayController.StartTimerCountdown(5,GameFinished);
+                _uiManager.GameplayController.StartTimerCountdown(_playfabManager.GameData.Timer,GameFinished);
                 _timeBetweenMoles = _gameplayManager.GetTimeBetweenMoles();
                 _gameOn=true;
                 StartSpawning();
