@@ -17,7 +17,7 @@ You can run the app/game from:
 OR
 - Build the game on an Android device from the Unity Editor.
 OR
-- Download it from the following link: https://1drv.ms/u/s!Avm8s6sBTUmyrFUlWMtfy4QLepOR?e=Bd6LRN
+- Download it from the following link: https://1drv.ms/u/s!Avm8s6sBTUmyrFnwzkEVnA93sguE?e=P2pO9G
 
 ## About the game
 In the "Whac-A-Mole" game you need to whack moles which come out from holes on the screen. There are different types of Moles: Normal Mole, Diamond Mole and Bomb Mole.
