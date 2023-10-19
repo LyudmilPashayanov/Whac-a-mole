@@ -20,7 +20,14 @@ namespace Miniclip.Audio
         
         void Awake()
         {
-            _instance = this;
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                _instance = this;
+            }
         }
 
         public void PlayNormalHitSound()
