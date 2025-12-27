@@ -1,6 +1,6 @@
 # Whac-a-mole
-Miniclip tech assignment
-The "Whac-A-Mole" project was a technical assignment created for Miniclip NL (f.k.a. Gamebasics). Its aim is to assess my technical knowledge.
+The "Whac-A-Mole" project was created to showcase my technical skills in building a performant, LiveOps, extensible mobile game where you whack moles.
+
 
 ## Technical Description
 The project was developed using C# on the Unity Engine 2021.3.23f1 version. The app was tested and working in landscape mode on an Android device or in the Unity Editor on Windows.
